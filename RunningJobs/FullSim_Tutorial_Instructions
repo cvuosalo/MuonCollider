@@ -1,0 +1,35 @@
+Check if commands "ddsim -h" and "Marlin -h" are working. 
+Follow the steps mentioned in https://confluence.infn.it/display/muoncollider/Tutorial 
+
+For the setup to work for more than 1 event, make the following changes: 
+
+-----------
+In sim_steer_Hbb.py file, change  
+-----------
+SIM.compactFile = "/opt/ilcsoft/v02-01-pre/detector-simulation/geometries/CLIC_o3_v14_mod4/CLIC_o3_v14.xml"                                                            
+to 
+SIM.compactFile = "/opt/ilcsoft/muonc/detector-simulation/geometries/CLIC_o3_v14_mod4/CLIC_o3_v14.xml" 
+
+ 
+SIM.inputFiles = ["/data/samples/HH/mumu2H2bb750.stdhep"]                                                                                    
+to 
+SIM.inputFiles = ["/afs/hep.wisc.edu/home/slomte/trial/mumu2H2bb750.stdhep"] 
+
+ 
+You can also set number of events here: choose SIM.numberOfEvents = 10  
+
+-----------
+In reco_steer_Hbb.xml file, change:                                                                          
+-----------
+/opt/ilcsoft/v02-01-pre/detector-simulation/geometries/CLIC_o3_v14_mod4/CLIC_o3_v14.xml
+to 
+/opt/ilcsoft/muonc/detector-simulation/geometries/CLIC_o3_v14_mod4/CLIC_o3_v14.xml     
+
+
+
+
+----------------------
+The input file is stored here: /home/slomte/trial/mumu2H2bb750.stdhep on hep.wisc.edu  
+It can also be found in Signal_samples folder.
+----------------------
+BIB files stored at /scratch/data/BIB/ on login04.hep.wisc.edu
