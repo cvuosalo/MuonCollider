@@ -23,6 +23,72 @@ R__LOAD_LIBRARY(libDelphes)
 #include <TMath.h>
 #include <TLorentzVector.h>
 #include <TLatex.h>
+void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]){
+     Double_t AKTjetTheta = 2 * atan(exp(-AKTjeteta));
+     Int_t ThetaGrid;
+     Int_t PTGrid;
+     if (0 < AKTjetTheta and AKTjetTheta <= 0.3) {
+         ThetaGrid = 0;		 
+     }    
+     if (0.3 < AKTjetTheta and AKTjetTheta <= 0.6) {
+         ThetaGrid = 1;		 
+     }
+     if (0.6 < AKTjetTheta and AKTjetTheta <= 0.9) {
+         ThetaGrid = 2;		 
+     }
+     if (0.9 < AKTjetTheta and AKTjetTheta <= 1.2) {
+         ThetaGrid = 3;		 
+     }
+     if (1.2 < AKTjetTheta and AKTjetTheta <= 1.5) {
+         ThetaGrid = 4;		 
+     }
+     if (1.5 < AKTjetTheta and AKTjetTheta <= 1.8) {
+         ThetaGrid = 5;		 
+     }
+     if (1.8< AKTjetTheta and AKTjetTheta <= 2.1) {
+         ThetaGrid = 6;		 
+     }
+     if (2.1 < AKTjetTheta and AKTjetTheta <= 2.4) {
+         ThetaGrid = 7;		 
+     }
+     if (2.4 < AKTjetTheta and AKTjetTheta <= 2.7) {
+         ThetaGrid = 8;		 
+     }
+     if (2.7 < AKTjetTheta) {
+         ThetaGrid = 9;		 
+     }
+     if (0 < AKTjetPt and AKTjetPt <= 50) {
+         PTGrid = 0;
+     }
+     if (50 < AKTjetPt and AKTjetPt <= 100) {
+         PTGrid = 1;
+     }
+     if (100 < AKTjetPt and AKTjetPt <= 150) {
+         PTGrid = 2;
+     }
+     if (150 < AKTjetPt and AKTjetPt <= 200) {
+         PTGrid = 3;
+     }
+     if (200 < AKTjetPt and AKTjetPt <= 250) {
+         PTGrid = 4;
+     }
+     if (250 < AKTjetPt and AKTjetPt <= 300) {
+         PTGrid = 5;
+     }
+     if (300 < AKTjetPt and AKTjetPt <= 350) {
+         PTGrid = 6;
+     }
+     if (350 < AKTjetPt and AKTjetPt <= 400) {
+         PTGrid = 7;
+     }
+     if (400 < AKTjetPt and AKTjetPt <= 450) {
+         PTGrid = 8;
+     }
+     if (450 < AKTjetPt) {
+         PTGrid = 9;
+     }
+     AKTjetPt = AKTjetPt/JER[ThetaGrid][PTGrid];
+}
 
 void PairingDiHiggs(const char *inputFile, const char *outputFile){
      gSystem->Load("libDelphes.so");
@@ -52,21 +118,24 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 
      TH1D *AKTjetMass1 = new TH1D("AKTjetMass1", "Anti_KTjet leading jets pair invariant mass", 150 , 0, 400); 
      TH1D *AKTjetMass2 = new TH1D("AKTjetMass2", "Anti_KTjet sub-leading jets pair invariant mass", 150 , 0, 400); 
-     TH1D *GenAKTMass2 = new TH1D("GenAKTMass2", "GenAKTMass2", 100 , 0, 600); 
-     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 200 , -1, 2); 
-     TH1D *AKTGenMass2Comp = new TH1D("AKTGenMass2Comp", "AKTGenMass2Comp", 200 , -1, 2); 
-     TH1D *GenUncutMass2 = new TH1D("GenUncutMass2", "GenUncutMass2", 100 , 0, 600); 
+     TH1D *GenAKTMass2 = new TH1D("GenAKTMass2", "GenAKTMass2", 50 , 0, 600); 
+     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 50 , -1, 2); 
+     TH1D *AKTGenMass2Comp = new TH1D("AKTGenMass2Comp", "AKTGenMass2Comp", 50 , -1, 2); 
+     TH1D *GenUncutMass2 = new TH1D("GenUncutMass2", "GenUncutMass2", 50 , 0, 600); 
  
      TH1D *AKTGenPt1Comp = new TH1D("AKTGenPt1Comp", "AKTGenPt1Comp", 200 , -1, 5); 
      TH1D *AKTGenPt2Comp = new TH1D("AKTGenPt2Comp", "AKTGenPt2Comp", 200 , -1, 5); 
      TH1D *AKTGenPt3Comp = new TH1D("AKTGenPt3Comp", "AKTGenPt3Comp", 200 , -1, 5); 
      TH1D *AKTGenPt4Comp = new TH1D("AKTGenPt4Comp", "AKTGenPt4Comp", 200 , -1, 5); 
 
+     TH2D *AKTjetPT_Theta = new TH2D("AKTjetPT_Theta", "AKTjetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
+     TH2D *GenJetPT_Theta = new TH2D("GenJetPT_Theta", "GenJetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
+
      TH2D *jet1Reso_Pt = new TH2D("jet1Reso_Pt", "jet1Reso_Pt", 70, 0, 400, 70, -1, 4); 
      TH2D *jet2Reso_Pt = new TH2D("jet2Reso_Pt", "jet2Reso_Pt", 70, 0, 400, 70, -1, 4); 
      TH2D *jet3Reso_Pt = new TH2D("jet3Reso_Pt", "jet3Reso_Pt", 70, 0, 400, 70, -1, 4); 
      TH2D *jet4Reso_Pt = new TH2D("jet4Reso_Pt", "jet4Reso_Pt", 70, 0, 400, 70, -1, 4); 
-
+/*
      TH1D *badjet1eta = new TH1D("badjet1eta", "badjet1eta", 100, -3, 3); 
      TH1D *badjet2eta = new TH1D("badjet2eta", "badjet2eta", 100, -3, 3); 
      TH1D *badjet3eta = new TH1D("badjet3eta", "badjet3eta", 100, -3, 3); 
@@ -81,21 +150,21 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      TH1D *alljet2eta = new TH1D("alljet2eta", "alljet2eta", 100, -3, 3); 
      TH1D *alljet3eta = new TH1D("alljet3eta", "alljet3eta", 100, -3, 3); 
      TH1D *alljet4eta = new TH1D("alljet4eta", "alljet4eta", 100, -3, 3); 
+*/
+     TH1D *badjet1theta = new TH1D("badjet1theta", "badjet1theta", 50, 0, 3.1415); 
+     TH1D *badjet2theta = new TH1D("badjet2theta", "badjet2theta", 50, 0, 3.1315); 
+     TH1D *badjet3theta = new TH1D("badjet3theta", "badjet3theta", 50, 0, 3.1415); 
+     TH1D *badjet4theta = new TH1D("badjet4theta", "badjet4theta", 50, 0, 3.1415); 
 
-     TH1D *badjet1theta = new TH1D("badjet1theta", "badjet1theta", 100, 0, 3.1415); 
-     TH1D *badjet2theta = new TH1D("badjet2theta", "badjet2theta", 100, 0, 3.1315); 
-     TH1D *badjet3theta = new TH1D("badjet3theta", "badjet3theta", 100, 0, 3.1415); 
-     TH1D *badjet4theta = new TH1D("badjet4theta", "badjet4theta", 100, 0, 3.1415); 
+     TH1D *goodjet1theta = new TH1D("goodjet1theta", "goodjet1theta", 50, 0, 3.1415); 
+     TH1D *goodjet2theta = new TH1D("goodjet2theta", "goodjet2theta", 50, 0, 3.1415); 
+     TH1D *goodjet3theta = new TH1D("goodjet3theta", "goodjet3theta", 50, 0, 3.1415); 
+     TH1D *goodjet4theta = new TH1D("goodjet4theta", "goodjet4theta", 50, 0, 3.1415); 
 
-     TH1D *goodjet1theta = new TH1D("goodjet1theta", "goodjet1theta", 100, 0, 3.1415); 
-     TH1D *goodjet2theta = new TH1D("goodjet2theta", "goodjet2theta", 100, 0, 3.1415); 
-     TH1D *goodjet3theta = new TH1D("goodjet3theta", "goodjet3theta", 100, 0, 3.1415); 
-     TH1D *goodjet4theta = new TH1D("goodjet4theta", "goodjet4theta", 100, 0, 3.1415); 
-
-     TH1D *alljet1theta = new TH1D("alljet1theta", "alljet1theta", 100, 0, 3.1415); 
-     TH1D *alljet2theta = new TH1D("alljet2theta", "alljet2theta", 100, 0, 3.1315); 
-     TH1D *alljet3theta = new TH1D("alljet3theta", "alljet3theta", 100, 0, 3.1415); 
-     TH1D *alljet4theta = new TH1D("alljet4theta", "alljet4theta", 100, 0, 3.1415); 
+     TH1D *alljet1theta = new TH1D("alljet1theta", "alljet1theta", 50, 0, 3.1415); 
+     TH1D *alljet2theta = new TH1D("alljet2theta", "alljet2theta", 50, 0, 3.1315); 
+     TH1D *alljet3theta = new TH1D("alljet3theta", "alljet3theta", 50, 0, 3.1415); 
+     TH1D *alljet4theta = new TH1D("alljet4theta", "alljet4theta", 50, 0, 3.1415); 
 
 
 
@@ -104,15 +173,133 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      TH2D *jet3Reso_DeltaR = new TH2D("jet3Reso_DeltaR", "jet3Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
      TH2D *jet4Reso_DeltaR = new TH2D("jet4Reso_DeltaR", "jet4Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
 
-     TH1D *badjet1DeltaR = new TH1D("badjet1DeltaR", "badjet1DeltaR", 100, 0, 0.5); 
-     TH1D *badjet2DeltaR = new TH1D("badjet2DeltaR", "badjet2DeltaR", 100, 0, 0.5); 
-     TH1D *badjet3DeltaR = new TH1D("badjet3DeltaR", "badjet3DeltaR", 100, 0, 0.5); 
-     TH1D *badjet4DeltaR = new TH1D("badjet4DeltaR", "badjet4DeltaR", 100, 0, 0.5); 
+     TH1D *badjet1DeltaR = new TH1D("badjet1DeltaR", "badjet1DeltaR", 50, 0, 0.5); 
+     TH1D *badjet2DeltaR = new TH1D("badjet2DeltaR", "badjet2DeltaR", 50, 0, 0.5); 
+     TH1D *badjet3DeltaR = new TH1D("badjet3DeltaR", "badjet3DeltaR", 50, 0, 0.5); 
+     TH1D *badjet4DeltaR = new TH1D("badjet4DeltaR", "badjet4DeltaR", 50, 0, 0.5); 
      
-     TH1D *alljet1DeltaR = new TH1D("alljet1DeltaR", "alljet1DeltaR", 100, 0, 0.5); 
-     TH1D *alljet2DeltaR = new TH1D("alljet2DeltaR", "alljet2DeltaR", 100, 0, 0.5); 
-     TH1D *alljet3DeltaR = new TH1D("alljet3DeltaR", "alljet3DeltaR", 100, 0, 0.5); 
-     TH1D *alljet4DeltaR = new TH1D("alljet4DeltaR", "alljet4DeltaR", 100, 0, 0.5); 
+     TH1D *alljet1DeltaR = new TH1D("alljet1DeltaR", "alljet1DeltaR", 50, 0, 0.5); 
+     TH1D *alljet2DeltaR = new TH1D("alljet2DeltaR", "alljet2DeltaR", 50, 0, 0.5); 
+     TH1D *alljet3DeltaR = new TH1D("alljet3DeltaR", "alljet3DeltaR", 50, 0, 0.5); 
+     TH1D *alljet4DeltaR = new TH1D("alljet4DeltaR", "alljet4DeltaR", 50, 0, 0.5); 
+     
+     //Calibration histogram
+     TH1D *jetPTresponse00 = new TH1D("jetPTreponse00", "jetPTresponse00", 50, 0, 1.3);
+     TH1D *jetPTresponse01 = new TH1D("jetPTreponse01", "jetPTresponse01", 50, 0, 1.3);
+     TH1D *jetPTresponse02 = new TH1D("jetPTreponse02", "jetPTresponse02", 50, 0, 1.3);
+     TH1D *jetPTresponse03 = new TH1D("jetPTreponse03", "jetPTresponse03", 50, 0, 1.3);
+     TH1D *jetPTresponse04 = new TH1D("jetPTreponse04", "jetPTresponse04", 50, 0, 1.3);
+     TH1D *jetPTresponse05 = new TH1D("jetPTreponse05", "jetPTresponse05", 50, 0, 1.3);
+     TH1D *jetPTresponse06 = new TH1D("jetPTreponse06", "jetPTresponse06", 50, 0, 1.3);
+     TH1D *jetPTresponse07 = new TH1D("jetPTreponse07", "jetPTresponse07", 50, 0, 1.3);
+     TH1D *jetPTresponse08 = new TH1D("jetPTreponse08", "jetPTresponse08", 50, 0, 1.3);
+     TH1D *jetPTresponse09 = new TH1D("jetPTreponse09", "jetPTresponse09", 50, 0, 1.3);
+
+     TH1D *jetPTresponse10 = new TH1D("jetPTreponse10", "jetPTresponse10", 50, 0, 1.3);
+     TH1D *jetPTresponse11 = new TH1D("jetPTreponse11", "jetPTresponse11", 50, 0, 1.3);
+     TH1D *jetPTresponse12 = new TH1D("jetPTreponse12", "jetPTresponse12", 50, 0, 1.3);
+     TH1D *jetPTresponse13 = new TH1D("jetPTreponse13", "jetPTresponse13", 50, 0, 1.3);
+     TH1D *jetPTresponse14 = new TH1D("jetPTreponse14", "jetPTresponse14", 50, 0, 1.3);
+     TH1D *jetPTresponse15 = new TH1D("jetPTreponse15", "jetPTresponse15", 50, 0, 1.3);
+     TH1D *jetPTresponse16 = new TH1D("jetPTreponse16", "jetPTresponse16", 50, 0, 1.3);
+     TH1D *jetPTresponse17 = new TH1D("jetPTreponse17", "jetPTresponse17", 50, 0, 1.3);
+     TH1D *jetPTresponse18 = new TH1D("jetPTreponse18", "jetPTresponse18", 50, 0, 1.3);
+     TH1D *jetPTresponse19 = new TH1D("jetPTreponse19", "jetPTresponse19", 50, 0, 1.3);
+
+     TH1D *jetPTresponse20 = new TH1D("jetPTreponse20", "jetPTresponse20", 50, 0, 1.3);
+     TH1D *jetPTresponse21 = new TH1D("jetPTreponse21", "jetPTresponse21", 50, 0, 1.3);
+     TH1D *jetPTresponse22 = new TH1D("jetPTreponse22", "jetPTresponse22", 50, 0, 1.3);
+     TH1D *jetPTresponse23 = new TH1D("jetPTreponse23", "jetPTresponse23", 50, 0, 1.3);
+     TH1D *jetPTresponse24 = new TH1D("jetPTreponse24", "jetPTresponse24", 50, 0, 1.3);
+     TH1D *jetPTresponse25 = new TH1D("jetPTreponse25", "jetPTresponse25", 50, 0, 1.3);
+     TH1D *jetPTresponse26 = new TH1D("jetPTreponse26", "jetPTresponse26", 50, 0, 1.3);
+     TH1D *jetPTresponse27 = new TH1D("jetPTreponse27", "jetPTresponse27", 50, 0, 1.3);
+     TH1D *jetPTresponse28 = new TH1D("jetPTreponse28", "jetPTresponse28", 50, 0, 1.3);
+     TH1D *jetPTresponse29 = new TH1D("jetPTreponse29", "jetPTresponse29", 50, 0, 1.3);
+
+
+     TH1D *jetPTresponse30 = new TH1D("jetPTreponse30", "jetPTresponse30", 50, 0, 1.3);
+     TH1D *jetPTresponse31 = new TH1D("jetPTreponse31", "jetPTresponse31", 50, 0, 1.3);
+     TH1D *jetPTresponse32 = new TH1D("jetPTreponse32", "jetPTresponse32", 50, 0, 1.3);
+     TH1D *jetPTresponse33 = new TH1D("jetPTreponse33", "jetPTresponse33", 50, 0, 1.3);
+     TH1D *jetPTresponse34 = new TH1D("jetPTreponse34", "jetPTresponse34", 50, 0, 1.3);
+     TH1D *jetPTresponse35 = new TH1D("jetPTreponse35", "jetPTresponse35", 50, 0, 1.3);
+     TH1D *jetPTresponse36 = new TH1D("jetPTreponse36", "jetPTresponse36", 50, 0, 1.3);
+     TH1D *jetPTresponse37 = new TH1D("jetPTreponse37", "jetPTresponse37", 50, 0, 1.3);
+     TH1D *jetPTresponse38 = new TH1D("jetPTreponse38", "jetPTresponse38", 50, 0, 1.3);
+     TH1D *jetPTresponse39 = new TH1D("jetPTreponse39", "jetPTresponse39", 50, 0, 1.3);
+
+
+     TH1D *jetPTresponse40 = new TH1D("jetPTreponse40", "jetPTresponse40", 50, 0, 1.3);
+     TH1D *jetPTresponse41 = new TH1D("jetPTreponse41", "jetPTresponse41", 50, 0, 1.3);
+     TH1D *jetPTresponse42 = new TH1D("jetPTreponse42", "jetPTresponse42", 50, 0, 1.3);
+     TH1D *jetPTresponse43 = new TH1D("jetPTreponse43", "jetPTresponse43", 50, 0, 1.3);
+     TH1D *jetPTresponse44 = new TH1D("jetPTreponse44", "jetPTresponse44", 50, 0, 1.3);
+     TH1D *jetPTresponse45 = new TH1D("jetPTreponse45", "jetPTresponse45", 50, 0, 1.3);
+     TH1D *jetPTresponse46 = new TH1D("jetPTreponse46", "jetPTresponse46", 50, 0, 1.3);
+     TH1D *jetPTresponse47 = new TH1D("jetPTreponse47", "jetPTresponse47", 50, 0, 1.3);
+     TH1D *jetPTresponse48 = new TH1D("jetPTreponse48", "jetPTresponse48", 50, 0, 1.3);
+     TH1D *jetPTresponse49 = new TH1D("jetPTreponse49", "jetPTresponse49", 50, 0, 1.3);
+
+
+     TH1D *jetPTresponse50 = new TH1D("jetPTreponse50", "jetPTresponse50", 50, 0, 1.3);
+     TH1D *jetPTresponse51 = new TH1D("jetPTreponse51", "jetPTresponse51", 50, 0, 1.3);
+     TH1D *jetPTresponse52 = new TH1D("jetPTreponse52", "jetPTresponse52", 50, 0, 1.3);
+     TH1D *jetPTresponse53 = new TH1D("jetPTreponse53", "jetPTresponse53", 50, 0, 1.3);
+     TH1D *jetPTresponse54 = new TH1D("jetPTreponse54", "jetPTresponse54", 50, 0, 1.3);
+     TH1D *jetPTresponse55 = new TH1D("jetPTreponse55", "jetPTresponse55", 50, 0, 1.3);
+     TH1D *jetPTresponse56 = new TH1D("jetPTreponse56", "jetPTresponse56", 50, 0, 1.3);
+     TH1D *jetPTresponse57 = new TH1D("jetPTreponse57", "jetPTresponse57", 50, 0, 1.3);
+     TH1D *jetPTresponse58 = new TH1D("jetPTreponse58", "jetPTresponse58", 50, 0, 1.3);
+     TH1D *jetPTresponse59 = new TH1D("jetPTreponse59", "jetPTresponse59", 50, 0, 1.3);
+
+
+     TH1D *jetPTresponse60 = new TH1D("jetPTreponse60", "jetPTresponse60", 50, 0, 1.3);
+     TH1D *jetPTresponse61 = new TH1D("jetPTreponse61", "jetPTresponse61", 50, 0, 1.3);
+     TH1D *jetPTresponse62 = new TH1D("jetPTreponse62", "jetPTresponse62", 50, 0, 1.3);
+     TH1D *jetPTresponse63 = new TH1D("jetPTreponse63", "jetPTresponse63", 50, 0, 1.3);
+     TH1D *jetPTresponse64 = new TH1D("jetPTreponse64", "jetPTresponse64", 50, 0, 1.3);
+     TH1D *jetPTresponse65 = new TH1D("jetPTreponse65", "jetPTresponse65", 50, 0, 1.3);
+     TH1D *jetPTresponse66 = new TH1D("jetPTreponse66", "jetPTresponse66", 50, 0, 1.3);
+     TH1D *jetPTresponse67 = new TH1D("jetPTreponse67", "jetPTresponse67", 50, 0, 1.3);
+     TH1D *jetPTresponse68 = new TH1D("jetPTreponse68", "jetPTresponse68", 50, 0, 1.3);
+     TH1D *jetPTresponse69 = new TH1D("jetPTreponse69", "jetPTresponse69", 50, 0, 1.3);
+
+
+     TH1D *jetPTresponse70 = new TH1D("jetPTreponse70", "jetPTresponse70", 50, 0, 1.3);
+     TH1D *jetPTresponse71 = new TH1D("jetPTreponse71", "jetPTresponse71", 50, 0, 1.3);
+     TH1D *jetPTresponse72 = new TH1D("jetPTreponse72", "jetPTresponse72", 50, 0, 1.3);
+     TH1D *jetPTresponse73 = new TH1D("jetPTreponse73", "jetPTresponse73", 50, 0, 1.3);
+     TH1D *jetPTresponse74 = new TH1D("jetPTreponse74", "jetPTresponse74", 50, 0, 1.3);
+     TH1D *jetPTresponse75 = new TH1D("jetPTreponse75", "jetPTresponse75", 50, 0, 1.3);
+     TH1D *jetPTresponse76 = new TH1D("jetPTreponse76", "jetPTresponse76", 50, 0, 1.3);
+     TH1D *jetPTresponse77 = new TH1D("jetPTreponse77", "jetPTresponse77", 50, 0, 1.3);
+     TH1D *jetPTresponse78 = new TH1D("jetPTreponse78", "jetPTresponse78", 50, 0, 1.3);
+     TH1D *jetPTresponse79 = new TH1D("jetPTreponse79", "jetPTresponse79", 50, 0, 1.3);
+
+
+     TH1D *jetPTresponse80 = new TH1D("jetPTreponse80", "jetPTresponse80", 50, 0, 1.3);
+     TH1D *jetPTresponse81 = new TH1D("jetPTreponse81", "jetPTresponse81", 50, 0, 1.3);
+     TH1D *jetPTresponse82 = new TH1D("jetPTreponse82", "jetPTresponse82", 50, 0, 1.3);
+     TH1D *jetPTresponse83 = new TH1D("jetPTreponse83", "jetPTresponse83", 50, 0, 1.3);
+     TH1D *jetPTresponse84 = new TH1D("jetPTreponse84", "jetPTresponse84", 50, 0, 1.3);
+     TH1D *jetPTresponse85 = new TH1D("jetPTreponse85", "jetPTresponse85", 50, 0, 1.3);
+     TH1D *jetPTresponse86 = new TH1D("jetPTreponse86", "jetPTresponse86", 50, 0, 1.3);
+     TH1D *jetPTresponse87 = new TH1D("jetPTreponse87", "jetPTresponse87", 50, 0, 1.3);
+     TH1D *jetPTresponse88 = new TH1D("jetPTreponse88", "jetPTresponse88", 50, 0, 1.3);
+     TH1D *jetPTresponse89 = new TH1D("jetPTreponse89", "jetPTresponse89", 50, 0, 1.3);
+
+
+     TH1D *jetPTresponse90 = new TH1D("jetPTreponse90", "jetPTresponse90", 50, 0, 1.3);
+     TH1D *jetPTresponse91 = new TH1D("jetPTreponse91", "jetPTresponse91", 50, 0, 1.3);
+     TH1D *jetPTresponse92 = new TH1D("jetPTreponse92", "jetPTresponse92", 50, 0, 1.3);
+     TH1D *jetPTresponse93 = new TH1D("jetPTreponse93", "jetPTresponse93", 50, 0, 1.3);
+     TH1D *jetPTresponse94 = new TH1D("jetPTreponse94", "jetPTresponse94", 50, 0, 1.3);
+     TH1D *jetPTresponse95 = new TH1D("jetPTreponse95", "jetPTresponse95", 50, 0, 1.3);
+     TH1D *jetPTresponse96 = new TH1D("jetPTreponse96", "jetPTresponse96", 50, 0, 1.3);
+     TH1D *jetPTresponse97 = new TH1D("jetPTreponse97", "jetPTresponse97", 50, 0, 1.3);
+     TH1D *jetPTresponse98 = new TH1D("jetPTreponse98", "jetPTresponse98", 50, 0, 1.3);
+     TH1D *jetPTresponse99 = new TH1D("jetPTreponse99", "jetPTresponse99", 50, 0, 1.3);
 
      Double_t AKTjet1eta1;
      Double_t AKTjet1theta1;
@@ -186,17 +373,313 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      Double_t jet3DeltaR;
      Double_t jet4DeltaR;
 
+     //Calibration variable
+     Double_t AKTjetEta;
+     Double_t AKTjetPt;
+     Double_t AKTjetPhi;
+     Double_t AKTjetTheta;
+     Double_t GenJetEta;
+     Double_t GenJetPt;
+     Double_t GenJetPhi;
+     Double_t GenJetTheta;
+     Double_t JER[10][10];
+     Int_t    matchJetCnt[10][10];
+     for (Int_t ThetaEntry=0; ThetaEntry < 10; ThetaEntry++) {
+         for (Int_t PTentry=0; PTentry < 10; PTentry++) {
+	     matchJetCnt[ThetaEntry][PTentry] = 0;
+	     JER[ThetaEntry][PTentry]=0;
+         } 
+     }
+     TH1D* jetPT2darray[10][10];
+
+     jetPT2darray[0][0] = jetPTresponse00;
+     jetPT2darray[0][1] = jetPTresponse01;
+     jetPT2darray[0][2] = jetPTresponse02;
+     jetPT2darray[0][3] = jetPTresponse03;
+     jetPT2darray[0][4] = jetPTresponse04;
+     jetPT2darray[0][5] = jetPTresponse05;
+     jetPT2darray[0][6] = jetPTresponse06;
+     jetPT2darray[0][7] = jetPTresponse07;
+     jetPT2darray[0][8] = jetPTresponse08;
+     jetPT2darray[0][9] = jetPTresponse09;
+
+     jetPT2darray[1][0] = jetPTresponse10;
+     jetPT2darray[1][1] = jetPTresponse11;
+     jetPT2darray[1][2] = jetPTresponse12;
+     jetPT2darray[1][3] = jetPTresponse13;
+     jetPT2darray[1][4] = jetPTresponse14;
+     jetPT2darray[1][5] = jetPTresponse15;
+     jetPT2darray[1][6] = jetPTresponse16;
+     jetPT2darray[1][7] = jetPTresponse17;
+     jetPT2darray[1][8] = jetPTresponse18;
+     jetPT2darray[1][9] = jetPTresponse19;
+
+
+     jetPT2darray[2][0] = jetPTresponse20;
+     jetPT2darray[2][1] = jetPTresponse21;
+     jetPT2darray[2][2] = jetPTresponse22;
+     jetPT2darray[2][3] = jetPTresponse23;
+     jetPT2darray[2][4] = jetPTresponse24;
+     jetPT2darray[2][5] = jetPTresponse25;
+     jetPT2darray[2][6] = jetPTresponse26;
+     jetPT2darray[2][7] = jetPTresponse27;
+     jetPT2darray[2][8] = jetPTresponse28;
+     jetPT2darray[2][9] = jetPTresponse29;
+
+
+     jetPT2darray[3][0] = jetPTresponse30;
+     jetPT2darray[3][1] = jetPTresponse31;
+     jetPT2darray[3][2] = jetPTresponse32;
+     jetPT2darray[3][3] = jetPTresponse33;
+     jetPT2darray[3][4] = jetPTresponse34;
+     jetPT2darray[3][5] = jetPTresponse35;
+     jetPT2darray[3][6] = jetPTresponse36;
+     jetPT2darray[3][7] = jetPTresponse37;
+     jetPT2darray[3][8] = jetPTresponse38;
+     jetPT2darray[3][9] = jetPTresponse39;
+
+
+     jetPT2darray[4][0] = jetPTresponse40;
+     jetPT2darray[4][1] = jetPTresponse41;
+     jetPT2darray[4][2] = jetPTresponse42;
+     jetPT2darray[4][3] = jetPTresponse43;
+     jetPT2darray[4][4] = jetPTresponse44;
+     jetPT2darray[4][5] = jetPTresponse45;
+     jetPT2darray[4][6] = jetPTresponse46;
+     jetPT2darray[4][7] = jetPTresponse47;
+     jetPT2darray[4][8] = jetPTresponse48;
+     jetPT2darray[4][9] = jetPTresponse49;
+
+
+     jetPT2darray[5][0] = jetPTresponse50;
+     jetPT2darray[5][1] = jetPTresponse51;
+     jetPT2darray[5][2] = jetPTresponse52;
+     jetPT2darray[5][3] = jetPTresponse53;
+     jetPT2darray[5][4] = jetPTresponse54;
+     jetPT2darray[5][5] = jetPTresponse55;
+     jetPT2darray[5][6] = jetPTresponse56;
+     jetPT2darray[5][7] = jetPTresponse57;
+     jetPT2darray[5][8] = jetPTresponse58;
+     jetPT2darray[5][9] = jetPTresponse59;
+
+
+     jetPT2darray[6][0] = jetPTresponse60;
+     jetPT2darray[6][1] = jetPTresponse61;
+     jetPT2darray[6][2] = jetPTresponse62;
+     jetPT2darray[6][3] = jetPTresponse63;
+     jetPT2darray[6][4] = jetPTresponse64;
+     jetPT2darray[6][5] = jetPTresponse65;
+     jetPT2darray[6][6] = jetPTresponse66;
+     jetPT2darray[6][7] = jetPTresponse67;
+     jetPT2darray[6][8] = jetPTresponse68;
+     jetPT2darray[6][9] = jetPTresponse69;
+
+
+     jetPT2darray[7][0] = jetPTresponse70;
+     jetPT2darray[7][1] = jetPTresponse71;
+     jetPT2darray[7][2] = jetPTresponse72;
+     jetPT2darray[7][3] = jetPTresponse73;
+     jetPT2darray[7][4] = jetPTresponse74;
+     jetPT2darray[7][5] = jetPTresponse75;
+     jetPT2darray[7][6] = jetPTresponse76;
+     jetPT2darray[7][7] = jetPTresponse77;
+     jetPT2darray[7][8] = jetPTresponse78;
+     jetPT2darray[7][9] = jetPTresponse79;
+
+
+     jetPT2darray[8][0] = jetPTresponse80;
+     jetPT2darray[8][1] = jetPTresponse81;
+     jetPT2darray[8][2] = jetPTresponse82;
+     jetPT2darray[8][3] = jetPTresponse83;
+     jetPT2darray[8][4] = jetPTresponse84;
+     jetPT2darray[8][5] = jetPTresponse85;
+     jetPT2darray[8][6] = jetPTresponse86;
+     jetPT2darray[8][7] = jetPTresponse87;
+     jetPT2darray[8][8] = jetPTresponse88;
+     jetPT2darray[8][9] = jetPTresponse89;
+
+
+     jetPT2darray[9][0] = jetPTresponse90;
+     jetPT2darray[9][1] = jetPTresponse91;
+     jetPT2darray[9][2] = jetPTresponse92;
+     jetPT2darray[9][3] = jetPTresponse93;
+     jetPT2darray[9][4] = jetPTresponse94;
+     jetPT2darray[9][5] = jetPTresponse95;
+     jetPT2darray[9][6] = jetPTresponse96;
+     jetPT2darray[9][7] = jetPTresponse97;
+     jetPT2darray[9][8] = jetPTresponse98;
+     jetPT2darray[9][9] = jetPTresponse99;
+
+
+     jetPT2darray[0][0] = jetPTresponse00;
+     jetPT2darray[0][1] = jetPTresponse01;
+     jetPT2darray[0][2] = jetPTresponse02;
+     jetPT2darray[0][3] = jetPTresponse03;
+     jetPT2darray[0][4] = jetPTresponse04;
+     jetPT2darray[0][5] = jetPTresponse05;
+     jetPT2darray[0][6] = jetPTresponse06;
+     jetPT2darray[0][7] = jetPTresponse07;
+     jetPT2darray[0][8] = jetPTresponse08;
+     jetPT2darray[0][9] = jetPTresponse09;
+
+
+     Double_t JERtmp;
+     Double_t DeltaPhi;
+     Double_t DeltaR;
+     Int_t PTGrid;
+     Int_t ThetaGrid;
      cout << "Running Pairing up Algo..." << endl;
+//Calculate JER
+     for(Long64_t entry=0; entry < nEntries; entry++){
+	 tree_sig->GetEntry(entry);
+         AKTjet_size->GetBranch()->GetEntry(entry);
+	 GenJet_size->GetBranch()->GetEntry(entry);
+
+	 Int_t nAKTjet = AKTjet_size->GetValue();
+	 Int_t nGenJet = GenJet_size->GetValue();
+
+	 AKTjet_eta->GetBranch()->GetEntry(entry);
+	 AKTjet_phi->GetBranch()->GetEntry(entry);
+	 AKTjet_pt->GetBranch()->GetEntry(entry);
+	 AKTjet_mass->GetBranch()->GetEntry(entry);
+
+	 GenJet_eta->GetBranch()->GetEntry(entry);
+	 GenJet_pt->GetBranch()->GetEntry(entry);
+	 GenJet_mass->GetBranch()->GetEntry(entry);
+
+	 TLorentzVector a;
+	 TLorentzVector a1;
+	 TLorentzVector a2;
+	 a1.SetPtEtaPhiM(1,2,3,4);
+	 a2.SetPtEtaPhiM(1,3,4,4);
+         a = a1+a2;
+         cout << a.Pt() << endl;
+	 if (nAKTjet >= 4) {
+             //Truth matching for all and calculate Jet energy response
+	     for (Int_t aktentry=0; aktentry < nAKTjet; aktentry++) {
+                 AKTjetEta = AKTjet_eta->GetValue(aktentry);
+                 AKTjetPhi = AKTjet_phi->GetValue(aktentry);
+	         AKTjetPt = AKTjet_pt->GetValue(aktentry);
+	         AKTjetTheta = 2 * atan(exp(-AKTjetEta));
+		 DeltaR = 100;
+		 for (Int_t genentry=0; genentry < nGenJet; genentry++) {
+		     GenJetEta = GenJet_eta->GetValue(genentry);
+                     GenJetPhi = GenJet_phi->GetValue(genentry);
+	             GenJetPt = GenJet_pt->GetValue(genentry);
+	             GenJetTheta = 2 * atan(exp(-GenJetEta));
+		     DeltaPhi = TMath::Abs(AKTjetPhi-GenJetPhi);
+		     if (DeltaPhi > TMath::Pi()) {
+		         DeltaPhi -= TMath::TwoPi();
+		     }
+		     Float_t DeltaRtmp = TMath::Sqrt(pow((AKTjetEta-GenJetEta),2)+pow(DeltaPhi,2));
+		     if (DeltaRtmp < DeltaR) {
+		        DeltaR = DeltaRtmp;
+			JERtmp = AKTjetPt/GenJetPt;
+		     }
+		 }
+
+		 if (DeltaR < 0.5) {
+  		     if (0 < AKTjetTheta and AKTjetTheta <= 0.3) {
+		         ThetaGrid = 0;		 
+		     }    
+		     if (0.3 < AKTjetTheta and AKTjetTheta <= 0.6) {
+		         ThetaGrid = 1;		 
+		     }
+		     if (0.6 < AKTjetTheta and AKTjetTheta <= 0.9) {
+		         ThetaGrid = 2;		 
+		     }
+		     if (0.9 < AKTjetTheta and AKTjetTheta <= 1.2) {
+		         ThetaGrid = 3;		 
+		     }
+		     if (1.2 < AKTjetTheta and AKTjetTheta <= 1.5) {
+		         ThetaGrid = 4;		 
+		     }
+		     if (1.5 < AKTjetTheta and AKTjetTheta <= 1.8) {
+		         ThetaGrid = 5;		 
+		     }
+		     if (1.8< AKTjetTheta and AKTjetTheta <= 2.1) {
+		         ThetaGrid = 6;		 
+		     }
+		     if (2.1 < AKTjetTheta and AKTjetTheta <= 2.4) {
+		         ThetaGrid = 7;		 
+		     }
+		     if (2.4 < AKTjetTheta and AKTjetTheta <= 2.7) {
+		         ThetaGrid = 8;		 
+		     }
+		     if (2.7 < AKTjetTheta) {
+		         ThetaGrid = 9;		 
+		     }
+		     if (0 < AKTjetPt and AKTjetPt <= 50) {
+		         PTGrid = 0;
+		     }
+		     if (50 < AKTjetPt and AKTjetPt <= 100) {
+		         PTGrid = 1;
+		     }
+		     if (100 < AKTjetPt and AKTjetPt <= 150) {
+		         PTGrid = 2;
+		     }
+		     if (150 < AKTjetPt and AKTjetPt <= 200) {
+		         PTGrid = 3;
+		     }
+		     if (200 < AKTjetPt and AKTjetPt <= 250) {
+		         PTGrid = 4;
+		     }
+		     if (250 < AKTjetPt and AKTjetPt <= 300) {
+		         PTGrid = 5;
+		     }
+		     if (300 < AKTjetPt and AKTjetPt <= 350) {
+		         PTGrid = 6;
+		     }
+		     if (350 < AKTjetPt and AKTjetPt <= 400) {
+		         PTGrid = 7;
+		     }
+		     if (400 < AKTjetPt and AKTjetPt <= 450) {
+		         PTGrid = 8;
+		     }
+		     if (450 < AKTjetPt) {
+		         PTGrid = 9;
+		     }
+		     matchJetCnt[ThetaGrid][PTGrid]+=1;
+                     JER[ThetaGrid][PTGrid] = (JER[ThetaGrid][PTGrid] * (matchJetCnt[ThetaGrid][PTGrid]-1)+JERtmp)/matchJetCnt[ThetaGrid][PTGrid];
+		     jetPT2darray[ThetaGrid][PTGrid]->Fill(JERtmp);
+		 } else {
+		     //cout << DeltaR << endl;
+		 }
+	     }
+	 }
+     }
+     TCanvas *mycanvas = new TCanvas("mycanvas","My Canvas",800,600);
+//Calibration result
+     cout << "Jet Energy Calibration gives following Jet Energy Response:" << endl;
+     for (Int_t PTentry=9; PTentry >=0; PTentry-=1) {
+         for (Int_t ThetaEntry=0; ThetaEntry < 10; ThetaEntry++) {
+	     if (matchJetCnt[ThetaEntry][PTentry] == 0){
+	         JER[ThetaEntry][PTentry] = 1.0000;
+	     }
+             jetPT2darray[ThetaEntry][PTentry]->GetXaxis()->SetTitle("Jet P_{T} Response");
+             jetPT2darray[ThetaEntry][PTentry]->Draw();
+	     mycanvas->SaveAs(TString::Format("jetPTresponse_%d%d.png",ThetaEntry,PTentry));
+             jetPT2darray[ThetaEntry][PTentry]->Write();
+         } 
+     }
+     for (Int_t PTentry=9; PTentry >=0; PTentry-=1) {
+         for (Int_t ThetaEntry=0; ThetaEntry < 10; ThetaEntry++) {
+	     cout << floorf(JER[ThetaEntry][PTentry]*10000)/10000<< ", ";
+         } 
+	 cout << endl;
+     }
+
 //run over event entries
      for(Long64_t entry=0; entry < nEntries; entry++){
 	 tree_sig->GetEntry(entry);
 	 tree_output->GetEntry(entry);
          AKTjet_size->GetBranch()->GetEntry(entry);
+	 GenJet_size->GetBranch()->GetEntry(entry);
 
 	 Int_t nAKTjet = AKTjet_size->GetValue();
 	 Int_t nGenJet = GenJet_size->GetValue();
 
-	 AKTjet_phi->GetBranch()->GetEntry(entry);
+	 AKTjet_eta->GetBranch()->GetEntry(entry);
 	 AKTjet_phi->GetBranch()->GetEntry(entry);
 	 AKTjet_pt->GetBranch()->GetEntry(entry);
 	 AKTjet_mass->GetBranch()->GetEntry(entry);
@@ -225,7 +708,21 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
          Double_t AKTjetpair[nAKTjet*(nAKTjet-1)/2][6];
 
          AKTjetpaircnt = 0;
+	 
 	 if (nAKTjet >= 4) {
+             for (Int_t aktentry=0; aktentry < nAKTjet; aktentry++) {
+                 AKTjetEta = AKTjet_eta->GetValue(aktentry);
+	         AKTjetPt = AKTjet_pt->GetValue(aktentry);
+                 AKTjetTheta = 2 * atan(exp(-AKTjetEta));
+	         AKTjetPT_Theta->Fill(AKTjetTheta, AKTjetPt);
+		 JetEnergyFix(AKTjetEta, AKTjetPt, JER);
+	     }
+             for (Int_t genentry=0; genentry < nGenJet; genentry++) {
+                 GenJetEta = GenJet_eta->GetValue(genentry);
+	         GenJetPt = GenJet_pt->GetValue(genentry);
+	         GenJetTheta = 2 * atan(exp(-GenJetEta));
+	         GenJetPT_Theta->Fill(GenJetTheta, GenJetPt);
+	     }
              //Pairing up leading anti-KT jet pair
 	     for (Int_t akt1entry=0; akt1entry < nAKTjet; akt1entry++){
 	         for (Int_t akt2entry=akt1entry+1; akt2entry < nAKTjet; akt2entry++){
@@ -233,10 +730,12 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 		     AKTjet1eta1 = AKTjet_eta->GetValue(akt1entry);
          	     AKTjet1phi1 = AKTjet_phi->GetValue(akt1entry);
          	     AKTjet1pt1 = AKTjet_pt->GetValue(akt1entry);
+		     JetEnergyFix(AKTjet1eta1, AKTjet1pt1, JER);
          	     AKTjet1mass1 = AKTjet_mass->GetValue(akt1entry);
                      AKTjet1eta2 = AKTjet_eta->GetValue(akt2entry);
          	     AKTjet1phi2 = AKTjet_phi->GetValue(akt2entry);
          	     AKTjet1pt2 = AKTjet_pt->GetValue(akt2entry);
+		     JetEnergyFix(AKTjet1eta2, AKTjet1pt2, JER);
          	     AKTjet1mass2 = AKTjet_mass->GetValue(akt2entry);
 		     AKTjetpairmass = 0;
 
@@ -259,10 +758,12 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 			             AKTjet2eta1 = AKTjet_eta->GetValue(akt1entry2);
          	                     AKTjet2phi1 = AKTjet_phi->GetValue(akt1entry2);
          	                     AKTjet2pt1 = AKTjet_pt->GetValue(akt1entry2);
+		                     JetEnergyFix(AKTjet2eta1, AKTjet2pt1, JER);
          	                     AKTjet2mass1 = AKTjet_mass->GetValue(akt1entry2);
                                      AKTjet2eta2 = AKTjet_eta->GetValue(akt2entry2);
          	                     AKTjet2phi2 = AKTjet_phi->GetValue(akt2entry2);
          	                     AKTjet2pt2 = AKTjet_pt->GetValue(akt2entry2);
+		                     JetEnergyFix(AKTjet2eta2, AKTjet2pt2, JER);
          	                     AKTjet2mass2 = AKTjet_mass->GetValue(akt2entry2);
 		                     AKTjetpairmass = 0;
 
@@ -307,19 +808,23 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 	     AKTjet1eta1 = AKTjet_eta->GetValue(pair1jet1entry);
              AKTjet1phi1 = AKTjet_phi->GetValue(pair1jet1entry);
              AKTjet1pt1 = AKTjet_pt->GetValue(pair1jet1entry);
+             JetEnergyFix(AKTjet1eta1, AKTjet1pt1, JER);
              AKTjet1mass1 = AKTjet_mass->GetValue(pair1jet1entry);
              AKTjet1eta2 = AKTjet_eta->GetValue(pair1jet2entry);
              AKTjet1phi2 = AKTjet_phi->GetValue(pair1jet2entry);
              AKTjet1pt2 = AKTjet_pt->GetValue(pair1jet2entry);
+             JetEnergyFix(AKTjet1eta2, AKTjet1pt2, JER);
              AKTjet1mass2 = AKTjet_mass->GetValue(pair1jet2entry);
 
              AKTjet2eta1 = AKTjet_eta->GetValue(pair2jet1entry);
              AKTjet2phi1 = AKTjet_phi->GetValue(pair2jet1entry);
              AKTjet2pt1 = AKTjet_pt->GetValue(pair2jet1entry);
+             JetEnergyFix(AKTjet2eta1, AKTjet2pt1, JER);
              AKTjet2mass1 = AKTjet_mass->GetValue(pair2jet1entry);
              AKTjet2eta2 = AKTjet_eta->GetValue(pair2jet2entry);
              AKTjet2phi2 = AKTjet_phi->GetValue(pair2jet2entry);
              AKTjet2pt2 = AKTjet_pt->GetValue(pair2jet2entry);
+             JetEnergyFix(AKTjet2eta2, AKTjet2pt2, JER);
              AKTjet2mass2 = AKTjet_mass->GetValue(pair2jet2entry);
 
 	     bool AKT1jet1flag = false;
@@ -524,30 +1029,8 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 	         AKT2jet2edgeflag = false;
 	     }
              */
-	     if (AKTeta[0]>-1.25 and AKTeta[0]<1.25){
-	         AKT1jet1edgeflag = true;
-	     } else {
-	         AKT1jet1edgeflag = false;
-	     }
-
-	     if (AKTeta[1]>-1.25 and AKTeta[1]<1.25){
-	         AKT1jet2edgeflag = true;
-	     } else {
-	         AKT1jet2edgeflag = false;
-	     }
-
-	     if (AKTeta[2]>-1.25 and AKTeta[2]<1.25){
-	         AKT2jet1edgeflag = true;
-	     } else {
-	         AKT2jet1edgeflag = false;
-	     }
-
-	     if (AKTeta[3]>-1.25 and AKTeta[3]<1.25){
-	         AKT2jet2edgeflag = true;
-	     } else {
-	         AKT2jet2edgeflag = false;
-	     }
-             if (AKT1jet1flag==true and AKT1jet2flag==true and AKT2jet1flag==true and AKT2jet2flag==true){
+	     
+             //if (AKT1jet1flag==true and AKT1jet2flag==true and AKT2jet1flag==true and AKT2jet2flag==true){
 	         AKTGenPt1Comp->Fill(AKTGenPt1diff);
 		 AKTGenPt2Comp->Fill(AKTGenPt2diff);
 		 AKTGenPt3Comp->Fill(AKTGenPt3diff);
@@ -560,49 +1043,51 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 		 alljet2theta->Fill(AKTjet1theta2);
 		 alljet3theta->Fill(AKTjet2theta1);
 		 alljet4theta->Fill(AKTjet2theta2);
+		 /*
                  alljet1eta->Fill(AKTeta[0]);
 		 alljet2eta->Fill(AKTeta[1]);
 		 alljet3eta->Fill(AKTeta[2]);
 		 alljet4eta->Fill(AKTeta[3]);
+		 */
 		 if (abs(AKTGenPt1diff)>0.2) {
 		     jet1Reso_Pt->Fill(Genpt[0], AKTGenPt1diff);
                      jet1Reso_DeltaR->Fill(deltaR[0], AKTGenPt1diff);
 		     badjet1DeltaR->Fill(deltaR[0]);
-		     badjet1eta->Fill(AKTeta[0]);
+		     //badjet1eta->Fill(AKTeta[0]);
 		     badjet1theta->Fill(AKTjet1theta1);
 		 } else {
 		     goodjet1theta->Fill(AKTjet1theta1);
-		     goodjet1eta->Fill(AKTeta[0]);
+		     //goodjet1eta->Fill(AKTeta[0]);
 		 }
                  if (abs(AKTGenPt2diff)>0.2) {
 		     jet2Reso_Pt->Fill(Genpt[1], AKTGenPt2diff);
 		     jet2Reso_DeltaR->Fill(deltaR[1], AKTGenPt2diff);
 		     badjet2DeltaR->Fill(deltaR[1]);
-		     badjet2eta->Fill(AKTeta[1]);
+		     //badjet2eta->Fill(AKTeta[1]);
 		     badjet2theta->Fill(AKTjet1theta2);
 		 } else {
 		     goodjet2theta->Fill(AKTjet1theta2);
-		     goodjet2eta->Fill(AKTeta[1]);
+		     //goodjet2eta->Fill(AKTeta[1]);
 		 }
                  if (abs(AKTGenPt3diff)>0.2) {
 		     jet3Reso_Pt->Fill(Genpt[2], AKTGenPt3diff);
 		     jet3Reso_DeltaR->Fill(deltaR[2], AKTGenPt3diff);
 		     badjet3DeltaR->Fill(deltaR[2]);
-		     badjet3eta->Fill(AKTeta[2]);
+		     //badjet3eta->Fill(AKTeta[2]);
 		     badjet3theta->Fill(AKTjet2theta1);
 		 } else {
 		     goodjet3theta->Fill(AKTjet2theta1);
-		     goodjet3eta->Fill(AKTeta[2]);
+		     //goodjet3eta->Fill(AKTeta[2]);
 		 }
                  if (abs(AKTGenPt4diff)>0.2) {
 		     jet4Reso_Pt->Fill(Genpt[3], AKTGenPt4diff);
 		     jet4Reso_DeltaR->Fill(deltaR[3], AKTGenPt4diff);
 		     badjet4DeltaR->Fill(deltaR[3]);
-		     badjet4eta->Fill(AKTeta[3]);
+		     //badjet4eta->Fill(AKTeta[3]);
 		     badjet4theta->Fill(AKTjet2theta2);
 		 } else {
 		     goodjet4theta->Fill(AKTjet2theta2);
-		     goodjet4eta->Fill(AKTeta[3]);
+		     //goodjet4eta->Fill(AKTeta[3]);
 		 }
 
 
@@ -615,14 +1100,15 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 	                 AKTGenMass2Comp->Fill(AKTGenMass2diff);
 		     //}
 	         }
-	     } 
+	     //} 
              //AKTjetMass1->Fill(AKTjetpair1Mass);
              //AKTjetMass2->Fill(AKTjetpair2Mass);
 
          }
 	 //GenUncutMass2->Fill(GenJetMass);
      }
-//Fitting and plotting
+
+ //Fitting and plotting
      TF1 *jetpair1fit = new TF1("jetpair1fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)",25,600);
      TF1 *jetpair2fit = new TF1("jetpair2fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)+expo(5)",25,600);
      TF1 *fSignal = new TF1("fSignal","gaus+gaus(3)",20,600);
@@ -650,7 +1136,6 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      jetpair1fit->SetParLimits(3,0,60);
      jetpair1fit->SetParLimits(4,5,40);
 	     
-     TCanvas *mycanvas = new TCanvas("mycanvas","My Canvas",800,600);
      cout <<endl<< "Run gaussian fit for the leading anti-KT jet pair..."<<endl;
      AKTjetMass1->Fit("jetpair1fit","R");
      jetpair1fit->GetParameters(param);
@@ -721,6 +1206,19 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      AKTGenPt4Comp->Draw();
      mycanvas->SaveAs("AKTGenPt4Comp.png");
       
+     //Calibration plot
+     GenJetPT_Theta->GetXaxis()->SetTitle("#theta");
+     GenJetPT_Theta->GetYaxis()->SetTitle("P_{T} [GeV]");
+     GenJetPT_Theta->SetMarkerColor(kBlue);
+     //GenJetPT_Theta->SetMarkerStyle(kCircle);
+     GenJetPT_Theta->SetLineColor(kBlue);
+     GenJetPT_Theta->Draw();
+     AKTjetPT_Theta->SetMarkerColor(kRed);
+     //AKTjetPT_Theta->SetMarkerStyle(kPlus);
+     AKTjetPT_Theta->SetLineColor(kRed);
+     AKTjetPT_Theta->Draw("same");
+     mycanvas->SaveAs("Calibration.png");
+
      jet1Reso_Pt->GetXaxis()->SetTitle("P_{T} [GeV]");
      jet1Reso_Pt->GetYaxis()->SetTitle("Resolution (P_{T})");
      jet1Reso_Pt->Draw();//"COLZ");
@@ -760,7 +1258,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      jet4Reso_DeltaR->GetYaxis()->SetTitle("Resolution (P_{T})");     
      jet4Reso_DeltaR->Draw();//"COLZ");
      mycanvas->SaveAs("jet4Reso_DeltaR.png");
-
+/*
      alljet1eta->Draw();
      alljet1eta->SetLineColor(kRed);
      alljet1eta->GetXaxis()->SetTitle("#eta");
@@ -836,6 +1334,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      mycanvas->SaveAs("AKTjet4eta.png");
      jet4etaRatio->Draw("HIST");
      mycanvas->SaveAs("jet4etaRatio.png");
+*/
 /*
      badjet1eta->GetXaxis()->SetTitle("#eta");
      badjet1eta->GetYaxis()->SetTitle("Events");
@@ -1032,6 +1531,9 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      AKTGenPt3Comp->Write();
      AKTGenPt4Comp->Write();
     
+     AKTjetPT_Theta->Write();
+     GenJetPT_Theta->Write();
+
      jet1Reso_Pt->Write();
      jet2Reso_Pt->Write();
      jet3Reso_Pt->Write();
@@ -1050,12 +1552,12 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      alljet2DeltaR->Write();
      alljet3DeltaR->Write();
      alljet4DeltaR->Write();
-
+/*
      badjet1eta->Write();
      badjet2eta->Write();
      badjet3eta->Write();
      badjet4eta->Write();
-
+*/
      badjet1theta->Write();
      badjet2theta->Write();
      badjet3theta->Write();
@@ -1076,5 +1578,4 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      output->Close();
      file_sig->Close();
 }
-
 
