@@ -5,13 +5,25 @@ https://www.hep.wisc.edu/cms/comp/accountSetup.html#grid_cert
 
 If you don't have a grid certificate and are not joining CMS, you can join the GLOW Virtual Organization. Email help@hep.wisc.edu and ask for instructions.
 
-Start with the files "mucoljob.sh" and "ilcsoft.sh", found in this directory. You may need to revise them for your task.
+Start with the scripts "mucoljob.sh" and "ilcsoft.sh", found in this directory. You may need to revise them for your task. 
 
 Log into one the of login nodes: ssh login.hep.wisc.edu
 Set up your files in /nfs_scratch in a directory under your user name. For example, my user name is "cvuosalo",
 so I created my own directory under /nfs_scratch with "mkdir /nfs_scratch/cvuosalo".
 
-Create a job submission directory (any name you choose) and put the scripts "mucoljob.sh" and "ilcsoft.sh" in it.
+Create a job submission directory (any name you choose) and put the scripts "mucoljob.sh" and "ilcsoft.sh" in it. Make sure
+both scripts are executable:
+
+chmod a+x mucoljob.sh ilcsoft.sh
+ls -l mucoljob.sh ilcsoft.sh
+
+Example output from ls -l:
+
+-rwxrwxr-x 1 cvuosalo cvuosalo 375 Apr  1 11:22 ilcsoft.sh
+-rwxrwxr-x 1 cvuosalo cvuosalo 133 Mar 17 21:48 mucoljob.sh
+
+Note that executable files have x's in their permissions (-rwxrwxr-x). Files that run programs must be executable.
+
 
 Create a voms proxy: voms-proxy-init -rfc  -valid 144:00
 
