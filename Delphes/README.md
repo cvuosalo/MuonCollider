@@ -111,4 +111,5 @@ Then we could call the event display macro:
 ```bash
 pushd /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6; cmsenv;popd
 cd Delphes
-root -l examples/EventDisplay.C'("cards/delphes_card_MuonColliderDet.tcl","<your_output_file>.root","ParticlePropagator","ChargedHadronTrackingEfficiency","MuonTrackingEfficiency","Ecal,Hcal")''
+root -l examples/EventDisplay.C'("cards/delphes_card_MuonColliderDet.tcl","<your_output_file>.root","ParticlePropagator","ChargedHadronTrackingEfficiency","MuonTrackingEfficiency","Ecal,Hcal")'
+```
