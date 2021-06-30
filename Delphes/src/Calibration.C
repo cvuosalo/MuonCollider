@@ -90,11 +90,8 @@ void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]){
      AKTjetPt = AKTjetPt/JER[ThetaGrid][PTGrid];
 }
 
-void PairingDiHiggs(const char *inputFile, const char *outputFile){
+void Calibration(const char *inputFile, const char *outputFile){
      gSystem->Load("libDelphes.so");
-     //TChain chain("Delphes");
-     //chain.Add(inputFile);
-     //ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
      TFile *file_sig = new TFile(inputFile);
      TFile *output = new TFile(outputFile, "recreate");
      TTree *tree_sig = (TTree*)file_sig->Get("Delphes");
@@ -124,16 +121,8 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 
      TH1D *AKTjetMass1 = new TH1D("AKTjetMass1", "Anti_KTjet leading jets pair invariant mass", 150 , 0, 400); 
      TH1D *AKTjetMass2 = new TH1D("AKTjetMass2", "Anti_KTjet sub-leading jets pair invariant mass", 150 , 0, 400); 
-     TH1D *GenAKTMass2 = new TH1D("GenAKTMass2", "GenAKTMass2", 50 , 0, 600); 
-     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 50 , -1, 2); 
-     TH1D *AKTGenMass2Comp = new TH1D("AKTGenMass2Comp", "AKTGenMass2Comp", 50 , -1, 2); 
-     TH1D *GenUncutMass2 = new TH1D("GenUncutMass2", "GenUncutMass2", 50 , 0, 600); 
- 
-     TH1D *AKTGenPt1Comp = new TH1D("AKTGenPt1Comp", "AKTGenPt1Comp", 200 , -1, 5); 
-     TH1D *AKTGenPt2Comp = new TH1D("AKTGenPt2Comp", "AKTGenPt2Comp", 200 , -1, 5); 
-     TH1D *AKTGenPt3Comp = new TH1D("AKTGenPt3Comp", "AKTGenPt3Comp", 200 , -1, 5); 
-     TH1D *AKTGenPt4Comp = new TH1D("AKTGenPt4Comp", "AKTGenPt4Comp", 200 , -1, 5); 
 
+     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 50 , -1, 2); 
      TH2D *AKTjetPT_Theta = new TH2D("AKTjetPT_Theta", "AKTjetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
      TH2D *GenJetPT_Theta = new TH2D("GenJetPT_Theta", "GenJetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
 
@@ -141,22 +130,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      TH2D *jet2Reso_Pt = new TH2D("jet2Reso_Pt", "jet2Reso_Pt", 70, 0, 400, 70, -1, 4); 
      TH2D *jet3Reso_Pt = new TH2D("jet3Reso_Pt", "jet3Reso_Pt", 70, 0, 400, 70, -1, 4); 
      TH2D *jet4Reso_Pt = new TH2D("jet4Reso_Pt", "jet4Reso_Pt", 70, 0, 400, 70, -1, 4); 
-/*
-     TH1D *badjet1eta = new TH1D("badjet1eta", "badjet1eta", 100, -3, 3); 
-     TH1D *badjet2eta = new TH1D("badjet2eta", "badjet2eta", 100, -3, 3); 
-     TH1D *badjet3eta = new TH1D("badjet3eta", "badjet3eta", 100, -3, 3); 
-     TH1D *badjet4eta = new TH1D("badjet4eta", "badjet4eta", 100, -3, 3); 
 
-     TH1D *goodjet1eta = new TH1D("goodjet1eta", "goodjet1eta", 100, -3, 3); 
-     TH1D *goodjet2eta = new TH1D("goodjet2eta", "goodjet2eta", 100, -3, 3); 
-     TH1D *goodjet3eta = new TH1D("goodjet3eta", "goodjet3eta", 100, -3, 3); 
-     TH1D *goodjet4eta = new TH1D("goodjet4eta", "goodjet4eta", 100, -3, 3); 
-
-     TH1D *alljet1eta = new TH1D("alljet1eta", "alljet1eta", 100, -3, 3); 
-     TH1D *alljet2eta = new TH1D("alljet2eta", "alljet2eta", 100, -3, 3); 
-     TH1D *alljet3eta = new TH1D("alljet3eta", "alljet3eta", 100, -3, 3); 
-     TH1D *alljet4eta = new TH1D("alljet4eta", "alljet4eta", 100, -3, 3); 
-*/
      TH1D *badjet1theta = new TH1D("badjet1theta", "badjet1theta", 50, 0, 3.1415); 
      TH1D *badjet2theta = new TH1D("badjet2theta", "badjet2theta", 50, 0, 3.1315); 
      TH1D *badjet3theta = new TH1D("badjet3theta", "badjet3theta", 50, 0, 3.1415); 
@@ -613,9 +587,9 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      Double_t JER[10][10];
      Double_t MuonwJER[10][10];
      Double_t MuonwoJER[10][10];
-     Double_t    matchJetCnt[10][10];
-     Double_t    matchJetMuonwCnt[10][10];
-     Double_t    matchJetMuonwoCnt[10][10];
+     Double_t matchJetCnt[10][10];
+     Double_t matchJetMuonwCnt[10][10];
+     Double_t matchJetMuonwoCnt[10][10];
      for (Int_t ThetaEntry=0; ThetaEntry < 10; ThetaEntry++) {
          for (Int_t PTentry=0; PTentry < 10; PTentry++) {
 	     matchJetCnt[ThetaEntry][PTentry] = 0;
@@ -626,7 +600,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 	     MuonwoJER[ThetaEntry][PTentry]=0;
          } 
      }
-     TH1D* jetPT2darray[10][10];
+     TH1D* jetPT2darray[10][10][3];
      bool MuonTagging = false;
 
      jetPT2darray[0][0][0] = jetPTresponse00;
@@ -991,7 +965,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 	 GenParticlePt->GetBranch()->GetEntry(entry);
 	 GenParticleSize->GetBranch()->GetEntry(entry);
 	 Int_t nParticle = GenParticleSize->GetValue();
-	 if (nAKTjet >= 4) {
+	 //if (nAKTjet >= 4) {
              //Truth matching for all and calculate Jet energy response
 	     for (Int_t aktentry=0; aktentry < nAKTjet; aktentry++) {
                  AKTjetEta = AKTjet_eta->GetValue(aktentry);
@@ -1112,7 +1086,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 		     //cout << DeltaR << endl;
 		 }
 	     }
-	 }
+	 //}
      }
      TCanvas *mycanvas = new TCanvas("mycanvas","My Canvas",800,600);
 //Calibration result
@@ -1555,10 +1529,6 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
              */
 	     
              //if (AKT1jet1flag==true and AKT1jet2flag==true and AKT2jet1flag==true and AKT2jet2flag==true){
-	         AKTGenPt1Comp->Fill(AKTGenPt1diff);
-		 AKTGenPt2Comp->Fill(AKTGenPt2diff);
-		 AKTGenPt3Comp->Fill(AKTGenPt3diff);
-		 AKTGenPt4Comp->Fill(AKTGenPt4diff);
 		 alljet1DeltaR->Fill(deltaR[0]);
 		 alljet2DeltaR->Fill(deltaR[1]);
 		 alljet3DeltaR->Fill(deltaR[2]);
@@ -1567,51 +1537,37 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 		 alljet2theta->Fill(AKTjet1theta2);
 		 alljet3theta->Fill(AKTjet2theta1);
 		 alljet4theta->Fill(AKTjet2theta2);
-		 /*
-                 alljet1eta->Fill(AKTeta[0]);
-		 alljet2eta->Fill(AKTeta[1]);
-		 alljet3eta->Fill(AKTeta[2]);
-		 alljet4eta->Fill(AKTeta[3]);
-		 */
 		 if (abs(AKTGenPt1diff)>0.2) {
 		     jet1Reso_Pt->Fill(Genpt[0], AKTGenPt1diff);
                      jet1Reso_DeltaR->Fill(deltaR[0], AKTGenPt1diff);
 		     badjet1DeltaR->Fill(deltaR[0]);
-		     //badjet1eta->Fill(AKTeta[0]);
 		     badjet1theta->Fill(AKTjet1theta1);
 		 } else {
 		     goodjet1theta->Fill(AKTjet1theta1);
-		     //goodjet1eta->Fill(AKTeta[0]);
 		 }
                  if (abs(AKTGenPt2diff)>0.2) {
 		     jet2Reso_Pt->Fill(Genpt[1], AKTGenPt2diff);
 		     jet2Reso_DeltaR->Fill(deltaR[1], AKTGenPt2diff);
 		     badjet2DeltaR->Fill(deltaR[1]);
-		     //badjet2eta->Fill(AKTeta[1]);
 		     badjet2theta->Fill(AKTjet1theta2);
 		 } else {
 		     goodjet2theta->Fill(AKTjet1theta2);
-		     //goodjet2eta->Fill(AKTeta[1]);
 		 }
                  if (abs(AKTGenPt3diff)>0.2) {
 		     jet3Reso_Pt->Fill(Genpt[2], AKTGenPt3diff);
 		     jet3Reso_DeltaR->Fill(deltaR[2], AKTGenPt3diff);
 		     badjet3DeltaR->Fill(deltaR[2]);
-		     //badjet3eta->Fill(AKTeta[2]);
 		     badjet3theta->Fill(AKTjet2theta1);
 		 } else {
 		     goodjet3theta->Fill(AKTjet2theta1);
-		     //goodjet3eta->Fill(AKTeta[2]);
 		 }
                  if (abs(AKTGenPt4diff)>0.2) {
 		     jet4Reso_Pt->Fill(Genpt[3], AKTGenPt4diff);
 		     jet4Reso_DeltaR->Fill(deltaR[3], AKTGenPt4diff);
 		     badjet4DeltaR->Fill(deltaR[3]);
-		     //badjet4eta->Fill(AKTeta[3]);
 		     badjet4theta->Fill(AKTjet2theta2);
 		 } else {
 		     goodjet4theta->Fill(AKTjet2theta2);
-		     //goodjet4eta->Fill(AKTeta[3]);
 		 }
 
 
@@ -1619,9 +1575,6 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 		     //if (AKT1jet1edgeflag==true and AKT1jet2edgeflag==true and AKT2jet1edgeflag==true and AKT2jet2edgeflag==true) {
 		         AKTjetMass1->Fill(AKTjetpair1Mass);
                          AKTjetMass2->Fill(AKTjetpair2Mass);
-		         //GenAKTMass2->Fill(GenJetMass);
-	                 AKTGenMass1Comp->Fill(AKTGenMass1diff);
-	                 AKTGenMass2Comp->Fill(AKTGenMass2diff);
 		     //}
 	         }
 	     //} 
@@ -1633,6 +1586,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      }
 
  //Fitting and plotting
+/*
      TF1 *jetpair1fit = new TF1("jetpair1fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)",25,600);
      TF1 *jetpair2fit = new TF1("jetpair2fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)+expo(5)",25,600);
      TF1 *fSignal = new TF1("fSignal","gaus+gaus(3)",20,600);
@@ -1655,8 +1609,8 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      jetpair1fit->SetParLimits(0,50,350);
      jetpair1fit->SetParLimits(1,100,140);
      jetpair1fit->SetParLimits(2,5,30);
-     /*jetpair1fit->SetParLimits(6,0,8);
-     jetpair1fit->SetParLimits(7,-1.5,-0.0001);*/
+     //jetpair1fit->SetParLimits(6,0,8);
+     //jetpair1fit->SetParLimits(7,-1.5,-0.0001);
      jetpair1fit->SetParLimits(3,0,60);
      jetpair1fit->SetParLimits(4,5,40);
 	     
@@ -1729,7 +1683,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      AKTGenPt4Comp->GetYaxis()->SetTitle("Events");
      AKTGenPt4Comp->Draw();
      mycanvas->SaveAs("AKTGenPt4Comp.png");
-      
+ */     
      //Calibration plot
      GenJetPT_Theta->GetXaxis()->SetTitle("#theta");
      GenJetPT_Theta->GetYaxis()->SetTitle("P_{T} [GeV]");
@@ -1782,104 +1736,6 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      jet4Reso_DeltaR->GetYaxis()->SetTitle("Resolution (P_{T})");     
      jet4Reso_DeltaR->Draw();//"COLZ");
      mycanvas->SaveAs("jet4Reso_DeltaR.png");
-/*
-     alljet1eta->Draw();
-     alljet1eta->SetLineColor(kRed);
-     alljet1eta->GetXaxis()->SetTitle("#eta");
-     alljet1eta->GetYaxis()->SetTitle("Events");   
-     badjet1eta->SetStats(0);
-     badjet1eta->Draw("same");
-     badjet1eta->SetLineColor(kBlue+1);
-     TH1D *jet1etaRatio = (TH1D*)badjet1eta->Clone("jet1etaRatio");
-     jet1etaRatio->SetLineColor(kBlack);
-     jet1etaRatio->Sumw2();
-     jet1etaRatio->SetStats(0);
-     jet1etaRatio->Divide(alljet1eta);
-     jet1etaRatio->Scale(100);
-     goodjet1eta->Draw("same");
-     goodjet1eta->SetLineColor(kGreen);
-     mycanvas->SaveAs("AKTjet1eta.png");
-     jet1etaRatio->Draw("HIST");
-     mycanvas->SaveAs("jet1etaRatio.png");
- 
-     alljet2eta->Draw();
-     alljet2eta->SetLineColor(kRed);
-     alljet2eta->GetXaxis()->SetTitle("#eta");
-     alljet2eta->GetYaxis()->SetTitle("Events");   
-     badjet2eta->SetStats(0);
-     badjet2eta->Draw("same");
-     badjet2eta->SetLineColor(kBlue+1);
-     TH1D *jet2etaRatio = (TH1D*)badjet2eta->Clone("jet2etaRatio");
-     jet2etaRatio->SetLineColor(kBlack);
-     jet2etaRatio->Sumw2();
-     jet2etaRatio->SetStats(0);
-     jet2etaRatio->Divide(alljet2eta);
-     jet2etaRatio->Scale(100);
-     goodjet2eta->Draw("same");
-     goodjet2eta->SetLineColor(kGreen);
-     mycanvas->SaveAs("AKTjet2eta.png");
-     jet2etaRatio->Draw("HIST");
-     mycanvas->SaveAs("jet2etaRatio.png");
- 
-     alljet3eta->Draw();
-     alljet3eta->SetLineColor(kRed);
-     alljet3eta->GetXaxis()->SetTitle("#eta");
-     alljet3eta->GetYaxis()->SetTitle("Events");   
-     badjet3eta->SetStats(0);
-     badjet3eta->Draw("same");
-     badjet3eta->SetLineColor(kBlue+1);
-     TH1D *jet3etaRatio = (TH1D*)badjet3eta->Clone("jet3etaRatio");
-     jet3etaRatio->SetLineColor(kBlack);
-     jet3etaRatio->Sumw2();
-     jet3etaRatio->SetStats(0);
-     jet3etaRatio->Divide(alljet3eta);
-     jet3etaRatio->Scale(100);
-     goodjet3eta->Draw("same");
-     goodjet3eta->SetLineColor(kGreen);
-     mycanvas->SaveAs("AKTjet3eta.png");
-     jet3etaRatio->Draw("HIST");
-     mycanvas->SaveAs("jet3etaRatio.png");
- 
-     alljet4eta->Draw();
-     alljet4eta->SetLineColor(kRed);
-     alljet4eta->GetXaxis()->SetTitle("#eta");
-     alljet4eta->GetYaxis()->SetTitle("Events");   
-     badjet4eta->SetStats(0);
-     badjet4eta->Draw("same");
-     badjet4eta->SetLineColor(kBlue+1);
-     TH1D *jet4etaRatio = (TH1D*)badjet4eta->Clone("jet4etaRatio");
-     jet4etaRatio->SetLineColor(kBlack);
-     jet4etaRatio->Sumw2();
-     jet4etaRatio->SetStats(0);
-     jet4etaRatio->Divide(alljet4eta);
-     jet4etaRatio->Scale(100);
-     goodjet4eta->Draw("same");
-     goodjet4eta->SetLineColor(kGreen);
-     mycanvas->SaveAs("AKTjet4eta.png");
-     jet4etaRatio->Draw("HIST");
-     mycanvas->SaveAs("jet4etaRatio.png");
-*/
-/*
-     badjet1eta->GetXaxis()->SetTitle("#eta");
-     badjet1eta->GetYaxis()->SetTitle("Events");
-     badjet1eta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet1eta.png");
- 
-     badjet2eta->GetXaxis()->SetTitle("#eta");
-     badjet2eta->GetYaxis()->SetTitle("Events");
-     badjet2eta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet2eta.png");
- 
-     badjet3eta->GetXaxis()->SetTitle("#eta");
-     badjet3eta->GetYaxis()->SetTitle("Events");
-     badjet3eta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet3eta.png");
- 
-     badjet4eta->GetXaxis()->SetTitle("#eta");
-     badjet4eta->GetYaxis()->SetTitle("Events");
-     badjet4eta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet4eta.png");
-*/
 /* 
      badjet1theta->GetXaxis()->SetTitle("#theta");
      badjet1theta->GetYaxis()->SetTitle("Events");
@@ -2046,14 +1902,6 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 
      AKTjetMass1->Write();
      AKTjetMass2->Write();
-     //GenAKTMass2->Write();
-     AKTGenMass1Comp->Write();
-     AKTGenMass2Comp->Write();
-     //GenUncutMass2->Write();
-     AKTGenPt1Comp->Write();
-     AKTGenPt2Comp->Write();
-     AKTGenPt3Comp->Write();
-     AKTGenPt4Comp->Write();
     
      AKTjetPT_Theta->Write();
      GenJetPT_Theta->Write();
@@ -2076,12 +1924,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
      alljet2DeltaR->Write();
      alljet3DeltaR->Write();
      alljet4DeltaR->Write();
-/*
-     badjet1eta->Write();
-     badjet2eta->Write();
-     badjet3eta->Write();
-     badjet4eta->Write();
-*/
+
      badjet1theta->Write();
      badjet2theta->Write();
      badjet3theta->Write();
