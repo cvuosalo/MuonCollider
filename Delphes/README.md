@@ -10,7 +10,7 @@ tar xvf MG5_aMC_v2.7.2.tar.gz
 cd MG5_aMC_v2_7_2
 ./bin/mg5_aMC
 ```
-
+Do not recommend to upgrade here when it ask you to do so, as old version is less buggy.
 ```MG5
 install pythia8
 exit
@@ -28,7 +28,7 @@ generate mu+ mu- > vm vm~ h h
 output mucol-hpair_sig
 launch
 ```
-Then you will see a menu for MG5, type 1 to open up the pythia8 for format transformation to .hepmc
+Then you will see a menu for MG5, type 1 to open up the pythia8 for format transformation to .hepmc, then type enter to next step--setting parameters:
 ```MG5
 set mh 125.0
 set wh 0.004
@@ -37,12 +37,8 @@ set ebeam2 1500.
 set nevents 1000
 set iseed 1823211
 ```
-The process will take about 5-60 min, suggest working on vncserver or add following command to ssh config:
-```config
-    ServerAliveInterval 240
-    ServerAliveCountMax 2
-```
-Don't forget to gunzip the .hepmc.tar.gz for preparation for delphes simulation:
+The process is expected to take about 5-60 min. 
+After generate the evetns, don't forget to gunzip the .hepmc.tar.gz for preparation for delphes simulation:
 ```bash 
 cd <your output directory>/Events/run_01/
 gunzip tag_1_pythia8_events.hepmc.gz
@@ -97,6 +93,14 @@ Then you are ready to run simulation for your events!
 ```bash
 ./DelphesHepMC cards/delphes_card_MuonColliderDet.tcl <name for output root file>.root ~/MG5_aMC_v2_7_2/<your output directory>/Events/run_01/tag_1_pythia8_events.hepmc
 ```
+Here you could also send your simulation job with nohup command to avoid failing by losing connection
+```bash
+    nohup ./DelphesHepMC cards/delphes_card_MuonColliderDet.tcl nfs_scratch/<your user name>/<name for output root file>.root ~/MG5_aMC_v2_7_2/<your output directory>/Events/run_01/tag_1_pythia8_events.hepmc >& job.log &
+```
+To check:
+```bash
+    ps -fu your_username
+```
 ## Event Display
 Firstly compile the display library
 ```bash
@@ -107,4 +111,4 @@ Then we could call the event display macro:
 ```bash
 pushd /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6; cmsenv;popd
 cd Delphes
-root -l examples/EventDisplay.C\(\"cards/delphes_card_MuonColliderDet.tcl\"\,\"delphes_dhiggs_sig.root\"\)
+root -l examples/EventDisplay.C'("cards/delphes_card_MuonColliderDet.tcl","<your_output_file>.root","ParticlePropagator","ChargedHadronTrackingEfficiency","MuonTrackingEfficiency","Ecal,Hcal")''
