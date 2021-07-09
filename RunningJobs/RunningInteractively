@@ -1,4 +1,8 @@
-To run the muon collider simulation interactively, log into mucol01. If you can't log in, email help@hep.wisc.edu and ask for access to mucol01.
+There are two options for running the muon collider software interactively.
+
+The furst option is to use the machine mucol01:
+
+Log into mucol01. If you can't log in, email help@hep.wisc.edu and ask for access to mucol01.
 
 ssh mucol01
 mkdir /scratch/`whoami`
@@ -9,3 +13,32 @@ Then follow the instructions here starting with "Test":
 https://confluence.infn.it/display/muoncollider/Installation#Installation-Simulation
 
 Note the last step takes a long time for the full display to show.
+
+
+===================================================================
+The second option is to use a login node:
+
+Start with the scripts "mucoljobinter.sh" and "ilcsoft.sh", found in this directory. You may need to revise them for your task. 
+
+Log into one the of login nodes: ssh login.hep.wisc.edu
+Set up your files in /nfs_scratch in a directory under your user name. For example, my user name is "cvuosalo",
+so I created my own directory under /nfs_scratch with "mkdir /nfs_scratch/cvuosalo".
+
+Create a job submission directory (any name you choose) and put the scripts "mucoljobinter.sh" and "ilcsoft.sh" in it. Make sure
+both scripts are executable:
+
+chmod a+x mucoljobinter.sh ilcsoft.sh
+ls -l mucoljobinter.sh ilcsoft.sh
+
+Example output from ls -l:
+
+-rwxrwxr-x 1 cvuosalo cvuosalo 375 Apr  1 11:22 ilcsoft.sh
+-rwxrwxr-x 1 cvuosalo cvuosalo 133 Mar 17 21:48 mucoljobinter.sh
+
+Note that executable files have x's in their permissions (-rwxrwxr-x). Files that run programs must be executable.
+
+Then run the mucoljobinter.sh script:
+./mucoljobinter.sh
+
+It will run for a while and leave a directory that starts with "jobHome". This directory will have the output of the job.
+
