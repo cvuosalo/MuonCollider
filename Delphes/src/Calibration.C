@@ -1,4 +1,4 @@
-//usage: root -l PairingDiHiggs.C\(\"inputfile.root\"\,\"outputfile.root\"\)
+//usage: root -l Calibration.C\(\"ttbar.root\"\,\"ttbar_cali.root\"\)
 #ifdef __CLING__
 R__LOAD_LIBRARY(libDelphes)
 #include "classes/DelphesClasses.h"
@@ -27,7 +27,7 @@ void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]){
      Double_t AKTjetTheta = 2 * atan(exp(-AKTjeteta));
      Int_t ThetaGrid;
      Int_t PTGrid;
-     if (0 < AKTjetTheta and AKTjetTheta <= 0.3) {
+     if (0 <= AKTjetTheta and AKTjetTheta <= 0.3) {
          ThetaGrid = 0;		 
      }    
      if (0.3 < AKTjetTheta and AKTjetTheta <= 0.6) {
@@ -57,7 +57,7 @@ void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]){
      if (2.7 < AKTjetTheta) {
          ThetaGrid = 9;		 
      }
-     if (0 < AKTjetPt and AKTjetPt <= 50) {
+     if (0 <= AKTjetPt and AKTjetPt <= 50) {
          PTGrid = 0;
      }
      if (50 < AKTjetPt and AKTjetPt <= 100) {
@@ -117,6 +117,11 @@ void Calibration(const char *inputFile, const char *outputFile){
      TLeaf *GenParticlePt = tree_sig->GetLeaf("Particle.PT");
      TLeaf *GenParticleSize = tree_sig->GetLeaf("Particle_size");
 
+     TLeaf *MuonEta = tree_sig->GetLeaf("Muon.Eta");
+     TLeaf *MuonPhi = tree_sig->GetLeaf("Muon.Phi");
+     TLeaf *MuonPt = tree_sig->GetLeaf("Muon.PT");
+     TLeaf *MuonSize = tree_sig->GetLeaf("Muon_size");
+
      Int_t nEntries = tree_sig->GetEntries();
 
      TH1D *AKTjetMass1 = new TH1D("AKTjetMass1", "Anti_KTjet leading jets pair invariant mass", 150 , 0, 400); 
@@ -162,335 +167,340 @@ void Calibration(const char *inputFile, const char *outputFile){
      TH1D *alljet4DeltaR = new TH1D("alljet4DeltaR", "alljet4DeltaR", 50, 0, 0.5); 
      
      //Calibration histogram
-     TH1D *jetPTresponse00 = new TH1D("jetPTreponse00", "jetPTresponse00", 50, 0, 1.3);
-     TH1D *jetPTresponse01 = new TH1D("jetPTreponse01", "jetPTresponse01", 50, 0, 1.3);
-     TH1D *jetPTresponse02 = new TH1D("jetPTreponse02", "jetPTresponse02", 50, 0, 1.3);
-     TH1D *jetPTresponse03 = new TH1D("jetPTreponse03", "jetPTresponse03", 50, 0, 1.3);
-     TH1D *jetPTresponse04 = new TH1D("jetPTreponse04", "jetPTresponse04", 50, 0, 1.3);
-     TH1D *jetPTresponse05 = new TH1D("jetPTreponse05", "jetPTresponse05", 50, 0, 1.3);
-     TH1D *jetPTresponse06 = new TH1D("jetPTreponse06", "jetPTresponse06", 50, 0, 1.3);
-     TH1D *jetPTresponse07 = new TH1D("jetPTreponse07", "jetPTresponse07", 50, 0, 1.3);
-     TH1D *jetPTresponse08 = new TH1D("jetPTreponse08", "jetPTresponse08", 50, 0, 1.3);
-     TH1D *jetPTresponse09 = new TH1D("jetPTreponse09", "jetPTresponse09", 50, 0, 1.3);
-
-     TH1D *jetPTresponse10 = new TH1D("jetPTreponse10", "jetPTresponse10", 50, 0, 1.3);
-     TH1D *jetPTresponse11 = new TH1D("jetPTreponse11", "jetPTresponse11", 50, 0, 1.3);
-     TH1D *jetPTresponse12 = new TH1D("jetPTreponse12", "jetPTresponse12", 50, 0, 1.3);
-     TH1D *jetPTresponse13 = new TH1D("jetPTreponse13", "jetPTresponse13", 50, 0, 1.3);
-     TH1D *jetPTresponse14 = new TH1D("jetPTreponse14", "jetPTresponse14", 50, 0, 1.3);
-     TH1D *jetPTresponse15 = new TH1D("jetPTreponse15", "jetPTresponse15", 50, 0, 1.3);
-     TH1D *jetPTresponse16 = new TH1D("jetPTreponse16", "jetPTresponse16", 50, 0, 1.3);
-     TH1D *jetPTresponse17 = new TH1D("jetPTreponse17", "jetPTresponse17", 50, 0, 1.3);
-     TH1D *jetPTresponse18 = new TH1D("jetPTreponse18", "jetPTresponse18", 50, 0, 1.3);
-     TH1D *jetPTresponse19 = new TH1D("jetPTreponse19", "jetPTresponse19", 50, 0, 1.3);
-
-     TH1D *jetPTresponse20 = new TH1D("jetPTreponse20", "jetPTresponse20", 50, 0, 1.3);
-     TH1D *jetPTresponse21 = new TH1D("jetPTreponse21", "jetPTresponse21", 50, 0, 1.3);
-     TH1D *jetPTresponse22 = new TH1D("jetPTreponse22", "jetPTresponse22", 50, 0, 1.3);
-     TH1D *jetPTresponse23 = new TH1D("jetPTreponse23", "jetPTresponse23", 50, 0, 1.3);
-     TH1D *jetPTresponse24 = new TH1D("jetPTreponse24", "jetPTresponse24", 50, 0, 1.3);
-     TH1D *jetPTresponse25 = new TH1D("jetPTreponse25", "jetPTresponse25", 50, 0, 1.3);
-     TH1D *jetPTresponse26 = new TH1D("jetPTreponse26", "jetPTresponse26", 50, 0, 1.3);
-     TH1D *jetPTresponse27 = new TH1D("jetPTreponse27", "jetPTresponse27", 50, 0, 1.3);
-     TH1D *jetPTresponse28 = new TH1D("jetPTreponse28", "jetPTresponse28", 50, 0, 1.3);
-     TH1D *jetPTresponse29 = new TH1D("jetPTreponse29", "jetPTresponse29", 50, 0, 1.3);
-
-     TH1D *jetPTresponse30 = new TH1D("jetPTreponse30", "jetPTresponse30", 50, 0, 1.3);
-     TH1D *jetPTresponse31 = new TH1D("jetPTreponse31", "jetPTresponse31", 50, 0, 1.3);
-     TH1D *jetPTresponse32 = new TH1D("jetPTreponse32", "jetPTresponse32", 50, 0, 1.3);
-     TH1D *jetPTresponse33 = new TH1D("jetPTreponse33", "jetPTresponse33", 50, 0, 1.3);
-     TH1D *jetPTresponse34 = new TH1D("jetPTreponse34", "jetPTresponse34", 50, 0, 1.3);
-     TH1D *jetPTresponse35 = new TH1D("jetPTreponse35", "jetPTresponse35", 50, 0, 1.3);
-     TH1D *jetPTresponse36 = new TH1D("jetPTreponse36", "jetPTresponse36", 50, 0, 1.3);
-     TH1D *jetPTresponse37 = new TH1D("jetPTreponse37", "jetPTresponse37", 50, 0, 1.3);
-     TH1D *jetPTresponse38 = new TH1D("jetPTreponse38", "jetPTresponse38", 50, 0, 1.3);
-     TH1D *jetPTresponse39 = new TH1D("jetPTreponse39", "jetPTresponse39", 50, 0, 1.3);
-
-     TH1D *jetPTresponse40 = new TH1D("jetPTreponse40", "jetPTresponse40", 50, 0, 1.3);
-     TH1D *jetPTresponse41 = new TH1D("jetPTreponse41", "jetPTresponse41", 50, 0, 1.3);
-     TH1D *jetPTresponse42 = new TH1D("jetPTreponse42", "jetPTresponse42", 50, 0, 1.3);
-     TH1D *jetPTresponse43 = new TH1D("jetPTreponse43", "jetPTresponse43", 50, 0, 1.3);
-     TH1D *jetPTresponse44 = new TH1D("jetPTreponse44", "jetPTresponse44", 50, 0, 1.3);
-     TH1D *jetPTresponse45 = new TH1D("jetPTreponse45", "jetPTresponse45", 50, 0, 1.3);
-     TH1D *jetPTresponse46 = new TH1D("jetPTreponse46", "jetPTresponse46", 50, 0, 1.3);
-     TH1D *jetPTresponse47 = new TH1D("jetPTreponse47", "jetPTresponse47", 50, 0, 1.3);
-     TH1D *jetPTresponse48 = new TH1D("jetPTreponse48", "jetPTresponse48", 50, 0, 1.3);
-     TH1D *jetPTresponse49 = new TH1D("jetPTreponse49", "jetPTresponse49", 50, 0, 1.3);
-
-     TH1D *jetPTresponse50 = new TH1D("jetPTreponse50", "jetPTresponse50", 50, 0, 1.3);
-     TH1D *jetPTresponse51 = new TH1D("jetPTreponse51", "jetPTresponse51", 50, 0, 1.3);
-     TH1D *jetPTresponse52 = new TH1D("jetPTreponse52", "jetPTresponse52", 50, 0, 1.3);
-     TH1D *jetPTresponse53 = new TH1D("jetPTreponse53", "jetPTresponse53", 50, 0, 1.3);
-     TH1D *jetPTresponse54 = new TH1D("jetPTreponse54", "jetPTresponse54", 50, 0, 1.3);
-     TH1D *jetPTresponse55 = new TH1D("jetPTreponse55", "jetPTresponse55", 50, 0, 1.3);
-     TH1D *jetPTresponse56 = new TH1D("jetPTreponse56", "jetPTresponse56", 50, 0, 1.3);
-     TH1D *jetPTresponse57 = new TH1D("jetPTreponse57", "jetPTresponse57", 50, 0, 1.3);
-     TH1D *jetPTresponse58 = new TH1D("jetPTreponse58", "jetPTresponse58", 50, 0, 1.3);
-     TH1D *jetPTresponse59 = new TH1D("jetPTreponse59", "jetPTresponse59", 50, 0, 1.3);
-
-     TH1D *jetPTresponse60 = new TH1D("jetPTreponse60", "jetPTresponse60", 50, 0, 1.3);
-     TH1D *jetPTresponse61 = new TH1D("jetPTreponse61", "jetPTresponse61", 50, 0, 1.3);
-     TH1D *jetPTresponse62 = new TH1D("jetPTreponse62", "jetPTresponse62", 50, 0, 1.3);
-     TH1D *jetPTresponse63 = new TH1D("jetPTreponse63", "jetPTresponse63", 50, 0, 1.3);
-     TH1D *jetPTresponse64 = new TH1D("jetPTreponse64", "jetPTresponse64", 50, 0, 1.3);
-     TH1D *jetPTresponse65 = new TH1D("jetPTreponse65", "jetPTresponse65", 50, 0, 1.3);
-     TH1D *jetPTresponse66 = new TH1D("jetPTreponse66", "jetPTresponse66", 50, 0, 1.3);
-     TH1D *jetPTresponse67 = new TH1D("jetPTreponse67", "jetPTresponse67", 50, 0, 1.3);
-     TH1D *jetPTresponse68 = new TH1D("jetPTreponse68", "jetPTresponse68", 50, 0, 1.3);
-     TH1D *jetPTresponse69 = new TH1D("jetPTreponse69", "jetPTresponse69", 50, 0, 1.3);
-
-     TH1D *jetPTresponse70 = new TH1D("jetPTreponse70", "jetPTresponse70", 50, 0, 1.3);
-     TH1D *jetPTresponse71 = new TH1D("jetPTreponse71", "jetPTresponse71", 50, 0, 1.3);
-     TH1D *jetPTresponse72 = new TH1D("jetPTreponse72", "jetPTresponse72", 50, 0, 1.3);
-     TH1D *jetPTresponse73 = new TH1D("jetPTreponse73", "jetPTresponse73", 50, 0, 1.3);
-     TH1D *jetPTresponse74 = new TH1D("jetPTreponse74", "jetPTresponse74", 50, 0, 1.3);
-     TH1D *jetPTresponse75 = new TH1D("jetPTreponse75", "jetPTresponse75", 50, 0, 1.3);
-     TH1D *jetPTresponse76 = new TH1D("jetPTreponse76", "jetPTresponse76", 50, 0, 1.3);
-     TH1D *jetPTresponse77 = new TH1D("jetPTreponse77", "jetPTresponse77", 50, 0, 1.3);
-     TH1D *jetPTresponse78 = new TH1D("jetPTreponse78", "jetPTresponse78", 50, 0, 1.3);
-     TH1D *jetPTresponse79 = new TH1D("jetPTreponse79", "jetPTresponse79", 50, 0, 1.3);
-
-     TH1D *jetPTresponse80 = new TH1D("jetPTreponse80", "jetPTresponse80", 50, 0, 1.3);
-     TH1D *jetPTresponse81 = new TH1D("jetPTreponse81", "jetPTresponse81", 50, 0, 1.3);
-     TH1D *jetPTresponse82 = new TH1D("jetPTreponse82", "jetPTresponse82", 50, 0, 1.3);
-     TH1D *jetPTresponse83 = new TH1D("jetPTreponse83", "jetPTresponse83", 50, 0, 1.3);
-     TH1D *jetPTresponse84 = new TH1D("jetPTreponse84", "jetPTresponse84", 50, 0, 1.3);
-     TH1D *jetPTresponse85 = new TH1D("jetPTreponse85", "jetPTresponse85", 50, 0, 1.3);
-     TH1D *jetPTresponse86 = new TH1D("jetPTreponse86", "jetPTresponse86", 50, 0, 1.3);
-     TH1D *jetPTresponse87 = new TH1D("jetPTreponse87", "jetPTresponse87", 50, 0, 1.3);
-     TH1D *jetPTresponse88 = new TH1D("jetPTreponse88", "jetPTresponse88", 50, 0, 1.3);
-     TH1D *jetPTresponse89 = new TH1D("jetPTreponse89", "jetPTresponse89", 50, 0, 1.3);
-
-     TH1D *jetPTresponse90 = new TH1D("jetPTreponse90", "jetPTresponse90", 50, 0, 1.3);
-     TH1D *jetPTresponse91 = new TH1D("jetPTreponse91", "jetPTresponse91", 50, 0, 1.3);
-     TH1D *jetPTresponse92 = new TH1D("jetPTreponse92", "jetPTresponse92", 50, 0, 1.3);
-     TH1D *jetPTresponse93 = new TH1D("jetPTreponse93", "jetPTresponse93", 50, 0, 1.3);
-     TH1D *jetPTresponse94 = new TH1D("jetPTreponse94", "jetPTresponse94", 50, 0, 1.3);
-     TH1D *jetPTresponse95 = new TH1D("jetPTreponse95", "jetPTresponse95", 50, 0, 1.3);
-     TH1D *jetPTresponse96 = new TH1D("jetPTreponse96", "jetPTresponse96", 50, 0, 1.3);
-     TH1D *jetPTresponse97 = new TH1D("jetPTreponse97", "jetPTresponse97", 50, 0, 1.3);
-     TH1D *jetPTresponse98 = new TH1D("jetPTreponse98", "jetPTresponse98", 50, 0, 1.3);
-     TH1D *jetPTresponse99 = new TH1D("jetPTreponse99", "jetPTresponse99", 50, 0, 1.3);
-
-     TH1D *MuonwjetPTresponse00 = new TH1D("MuonwjetPTreponse00", "MuonwjetPTresponse00", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse01 = new TH1D("MuonwjetPTreponse01", "MuonwjetPTresponse01", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse02 = new TH1D("MuonwjetPTreponse02", "MuonwjetPTresponse02", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse03 = new TH1D("MuonwjetPTreponse03", "MuonwjetPTresponse03", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse04 = new TH1D("MuonwjetPTreponse04", "MuonwjetPTresponse04", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse05 = new TH1D("MuonwjetPTreponse05", "MuonwjetPTresponse05", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse06 = new TH1D("MuonwjetPTreponse06", "MuonwjetPTresponse06", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse07 = new TH1D("MuonwjetPTreponse07", "MuonwjetPTresponse07", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse08 = new TH1D("MuonwjetPTreponse08", "MuonwjetPTresponse08", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse09 = new TH1D("MuonwjetPTreponse09", "MuonwjetPTresponse09", 50, 0, 1.3);
      
-     TH1D *MuonwjetPTresponse10 = new TH1D("MuonwjetPTreponse10", "MuonwjetPTresponse10", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse11 = new TH1D("MuonwjetPTreponse11", "MuonwjetPTresponse11", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse12 = new TH1D("MuonwjetPTreponse12", "MuonwjetPTresponse12", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse13 = new TH1D("MuonwjetPTreponse13", "MuonwjetPTresponse13", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse14 = new TH1D("MuonwjetPTreponse14", "MuonwjetPTresponse14", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse15 = new TH1D("MuonwjetPTreponse15", "MuonwjetPTresponse15", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse16 = new TH1D("MuonwjetPTreponse16", "MuonwjetPTresponse16", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse17 = new TH1D("MuonwjetPTreponse17", "MuonwjetPTresponse17", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse18 = new TH1D("MuonwjetPTreponse18", "MuonwjetPTresponse18", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse19 = new TH1D("MuonwjetPTreponse19", "MuonwjetPTresponse19", 50, 0, 1.3);
 
-     TH1D *MuonwjetPTresponse20 = new TH1D("MuonwjetPTreponse20", "MuonwjetPTresponse20", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse21 = new TH1D("MuonwjetPTreponse21", "MuonwjetPTresponse21", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse22 = new TH1D("MuonwjetPTreponse22", "MuonwjetPTresponse22", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse23 = new TH1D("MuonwjetPTreponse23", "MuonwjetPTresponse23", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse24 = new TH1D("MuonwjetPTreponse24", "MuonwjetPTresponse24", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse25 = new TH1D("MuonwjetPTreponse25", "MuonwjetPTresponse25", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse26 = new TH1D("MuonwjetPTreponse26", "MuonwjetPTresponse26", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse27 = new TH1D("MuonwjetPTreponse27", "MuonwjetPTresponse27", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse28 = new TH1D("MuonwjetPTreponse28", "MuonwjetPTresponse28", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse29 = new TH1D("MuonwjetPTreponse29", "MuonwjetPTresponse29", 50, 0, 1.3);
+     TH1D *jetPTresponse = new TH1D("jetPTreponse", "jetPTresponse", 50, 0, 2);
+     TH1D *MuonwjetPTresponse = new TH1D("MuonwjetPTreponse", "MuonwjetPTresponse", 50, 0, 2);
 
-     TH1D *MuonwjetPTresponse30 = new TH1D("MuonwjetPTreponse30", "MuonwjetPTresponse30", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse31 = new TH1D("MuonwjetPTreponse31", "MuonwjetPTresponse31", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse32 = new TH1D("MuonwjetPTreponse32", "MuonwjetPTresponse32", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse33 = new TH1D("MuonwjetPTreponse33", "MuonwjetPTresponse33", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse34 = new TH1D("MuonwjetPTreponse34", "MuonwjetPTresponse34", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse35 = new TH1D("MuonwjetPTreponse35", "MuonwjetPTresponse35", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse36 = new TH1D("MuonwjetPTreponse36", "MuonwjetPTresponse36", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse37 = new TH1D("MuonwjetPTreponse37", "MuonwjetPTresponse37", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse38 = new TH1D("MuonwjetPTreponse38", "MuonwjetPTresponse38", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse39 = new TH1D("MuonwjetPTreponse39", "MuonwjetPTresponse39", 50, 0, 1.3);
+     TH1D *jetPTresponse00 = new TH1D("jetPTreponse00", "jetPTresponse00", 50, 0, 3.3);
+     TH1D *jetPTresponse01 = new TH1D("jetPTreponse01", "jetPTresponse01", 50, 0, 3.3);
+     TH1D *jetPTresponse02 = new TH1D("jetPTreponse02", "jetPTresponse02", 50, 0, 3.3);
+     TH1D *jetPTresponse03 = new TH1D("jetPTreponse03", "jetPTresponse03", 50, 0, 3.3);
+     TH1D *jetPTresponse04 = new TH1D("jetPTreponse04", "jetPTresponse04", 50, 0, 3.3);
+     TH1D *jetPTresponse05 = new TH1D("jetPTreponse05", "jetPTresponse05", 50, 0, 3.3);
+     TH1D *jetPTresponse06 = new TH1D("jetPTreponse06", "jetPTresponse06", 50, 0, 3.3);
+     TH1D *jetPTresponse07 = new TH1D("jetPTreponse07", "jetPTresponse07", 50, 0, 3.3);
+     TH1D *jetPTresponse08 = new TH1D("jetPTreponse08", "jetPTresponse08", 50, 0, 3.3);
+     TH1D *jetPTresponse09 = new TH1D("jetPTreponse09", "jetPTresponse09", 50, 0, 3.3);
 
-     TH1D *MuonwjetPTresponse40 = new TH1D("MuonwjetPTreponse40", "MuonwjetPTresponse40", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse41 = new TH1D("MuonwjetPTreponse41", "MuonwjetPTresponse41", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse42 = new TH1D("MuonwjetPTreponse42", "MuonwjetPTresponse42", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse43 = new TH1D("MuonwjetPTreponse43", "MuonwjetPTresponse43", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse44 = new TH1D("MuonwjetPTreponse44", "MuonwjetPTresponse44", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse45 = new TH1D("MuonwjetPTreponse45", "MuonwjetPTresponse45", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse46 = new TH1D("MuonwjetPTreponse46", "MuonwjetPTresponse46", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse47 = new TH1D("MuonwjetPTreponse47", "MuonwjetPTresponse47", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse48 = new TH1D("MuonwjetPTreponse48", "MuonwjetPTresponse48", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse49 = new TH1D("MuonwjetPTreponse49", "MuonwjetPTresponse49", 50, 0, 1.3);
+     TH1D *jetPTresponse10 = new TH1D("jetPTreponse10", "jetPTresponse10", 50, 0, 3.3);
+     TH1D *jetPTresponse11 = new TH1D("jetPTreponse11", "jetPTresponse11", 50, 0, 3.3);
+     TH1D *jetPTresponse12 = new TH1D("jetPTreponse12", "jetPTresponse12", 50, 0, 3.3);
+     TH1D *jetPTresponse13 = new TH1D("jetPTreponse13", "jetPTresponse13", 50, 0, 3.3);
+     TH1D *jetPTresponse14 = new TH1D("jetPTreponse14", "jetPTresponse14", 50, 0, 3.3);
+     TH1D *jetPTresponse15 = new TH1D("jetPTreponse15", "jetPTresponse15", 50, 0, 3.3);
+     TH1D *jetPTresponse16 = new TH1D("jetPTreponse16", "jetPTresponse16", 50, 0, 3.3);
+     TH1D *jetPTresponse17 = new TH1D("jetPTreponse17", "jetPTresponse17", 50, 0, 3.3);
+     TH1D *jetPTresponse18 = new TH1D("jetPTreponse18", "jetPTresponse18", 50, 0, 3.3);
+     TH1D *jetPTresponse19 = new TH1D("jetPTreponse19", "jetPTresponse19", 50, 0, 3.3);
 
-     TH1D *MuonwjetPTresponse50 = new TH1D("MuonwjetPTreponse50", "MuonwjetPTresponse50", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse51 = new TH1D("MuonwjetPTreponse51", "MuonwjetPTresponse51", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse52 = new TH1D("MuonwjetPTreponse52", "MuonwjetPTresponse52", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse53 = new TH1D("MuonwjetPTreponse53", "MuonwjetPTresponse53", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse54 = new TH1D("MuonwjetPTreponse54", "MuonwjetPTresponse54", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse55 = new TH1D("MuonwjetPTreponse55", "MuonwjetPTresponse55", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse56 = new TH1D("MuonwjetPTreponse56", "MuonwjetPTresponse56", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse57 = new TH1D("MuonwjetPTreponse57", "MuonwjetPTresponse57", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse58 = new TH1D("MuonwjetPTreponse58", "MuonwjetPTresponse58", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse59 = new TH1D("MuonwjetPTreponse59", "MuonwjetPTresponse59", 50, 0, 1.3);
+     TH1D *jetPTresponse20 = new TH1D("jetPTreponse20", "jetPTresponse20", 50, 0, 3.3);
+     TH1D *jetPTresponse21 = new TH1D("jetPTreponse21", "jetPTresponse21", 50, 0, 3.3);
+     TH1D *jetPTresponse22 = new TH1D("jetPTreponse22", "jetPTresponse22", 50, 0, 3.3);
+     TH1D *jetPTresponse23 = new TH1D("jetPTreponse23", "jetPTresponse23", 50, 0, 3.3);
+     TH1D *jetPTresponse24 = new TH1D("jetPTreponse24", "jetPTresponse24", 50, 0, 3.3);
+     TH1D *jetPTresponse25 = new TH1D("jetPTreponse25", "jetPTresponse25", 50, 0, 3.3);
+     TH1D *jetPTresponse26 = new TH1D("jetPTreponse26", "jetPTresponse26", 50, 0, 3.3);
+     TH1D *jetPTresponse27 = new TH1D("jetPTreponse27", "jetPTresponse27", 50, 0, 3.3);
+     TH1D *jetPTresponse28 = new TH1D("jetPTreponse28", "jetPTresponse28", 50, 0, 3.3);
+     TH1D *jetPTresponse29 = new TH1D("jetPTreponse29", "jetPTresponse29", 50, 0, 3.3);
 
-     TH1D *MuonwjetPTresponse60 = new TH1D("MuonwjetPTreponse60", "MuonwjetPTresponse60", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse61 = new TH1D("MuonwjetPTreponse61", "MuonwjetPTresponse61", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse62 = new TH1D("MuonwjetPTreponse62", "MuonwjetPTresponse62", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse63 = new TH1D("MuonwjetPTreponse63", "MuonwjetPTresponse63", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse64 = new TH1D("MuonwjetPTreponse64", "MuonwjetPTresponse64", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse65 = new TH1D("MuonwjetPTreponse65", "MuonwjetPTresponse65", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse66 = new TH1D("MuonwjetPTreponse66", "MuonwjetPTresponse66", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse67 = new TH1D("MuonwjetPTreponse67", "MuonwjetPTresponse67", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse68 = new TH1D("MuonwjetPTreponse68", "MuonwjetPTresponse68", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse69 = new TH1D("MuonwjetPTreponse69", "MuonwjetPTresponse69", 50, 0, 1.3);
+     TH1D *jetPTresponse30 = new TH1D("jetPTreponse30", "jetPTresponse30", 50, 0, 3.3);
+     TH1D *jetPTresponse31 = new TH1D("jetPTreponse31", "jetPTresponse31", 50, 0, 3.3);
+     TH1D *jetPTresponse32 = new TH1D("jetPTreponse32", "jetPTresponse32", 50, 0, 3.3);
+     TH1D *jetPTresponse33 = new TH1D("jetPTreponse33", "jetPTresponse33", 50, 0, 3.3);
+     TH1D *jetPTresponse34 = new TH1D("jetPTreponse34", "jetPTresponse34", 50, 0, 3.3);
+     TH1D *jetPTresponse35 = new TH1D("jetPTreponse35", "jetPTresponse35", 50, 0, 3.3);
+     TH1D *jetPTresponse36 = new TH1D("jetPTreponse36", "jetPTresponse36", 50, 0, 3.3);
+     TH1D *jetPTresponse37 = new TH1D("jetPTreponse37", "jetPTresponse37", 50, 0, 3.3);
+     TH1D *jetPTresponse38 = new TH1D("jetPTreponse38", "jetPTresponse38", 50, 0, 3.3);
+     TH1D *jetPTresponse39 = new TH1D("jetPTreponse39", "jetPTresponse39", 50, 0, 3.3);
 
-     TH1D *MuonwjetPTresponse70 = new TH1D("MuonwjetPTreponse70", "MuonwjetPTresponse70", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse71 = new TH1D("MuonwjetPTreponse71", "MuonwjetPTresponse71", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse72 = new TH1D("MuonwjetPTreponse72", "MuonwjetPTresponse72", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse73 = new TH1D("MuonwjetPTreponse73", "MuonwjetPTresponse73", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse74 = new TH1D("MuonwjetPTreponse74", "MuonwjetPTresponse74", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse75 = new TH1D("MuonwjetPTreponse75", "MuonwjetPTresponse75", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse76 = new TH1D("MuonwjetPTreponse76", "MuonwjetPTresponse76", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse77 = new TH1D("MuonwjetPTreponse77", "MuonwjetPTresponse77", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse78 = new TH1D("MuonwjetPTreponse78", "MuonwjetPTresponse78", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse79 = new TH1D("MuonwjetPTreponse79", "MuonwjetPTresponse79", 50, 0, 1.3);
+     TH1D *jetPTresponse40 = new TH1D("jetPTreponse40", "jetPTresponse40", 50, 0, 3.3);
+     TH1D *jetPTresponse41 = new TH1D("jetPTreponse41", "jetPTresponse41", 50, 0, 3.3);
+     TH1D *jetPTresponse42 = new TH1D("jetPTreponse42", "jetPTresponse42", 50, 0, 3.3);
+     TH1D *jetPTresponse43 = new TH1D("jetPTreponse43", "jetPTresponse43", 50, 0, 3.3);
+     TH1D *jetPTresponse44 = new TH1D("jetPTreponse44", "jetPTresponse44", 50, 0, 3.3);
+     TH1D *jetPTresponse45 = new TH1D("jetPTreponse45", "jetPTresponse45", 50, 0, 3.3);
+     TH1D *jetPTresponse46 = new TH1D("jetPTreponse46", "jetPTresponse46", 50, 0, 3.3);
+     TH1D *jetPTresponse47 = new TH1D("jetPTreponse47", "jetPTresponse47", 50, 0, 3.3);
+     TH1D *jetPTresponse48 = new TH1D("jetPTreponse48", "jetPTresponse48", 50, 0, 3.3);
+     TH1D *jetPTresponse49 = new TH1D("jetPTreponse49", "jetPTresponse49", 50, 0, 3.3);
 
-     TH1D *MuonwjetPTresponse80 = new TH1D("MuonwjetPTreponse80", "MuonwjetPTresponse80", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse81 = new TH1D("MuonwjetPTreponse81", "MuonwjetPTresponse81", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse82 = new TH1D("MuonwjetPTreponse82", "MuonwjetPTresponse82", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse83 = new TH1D("MuonwjetPTreponse83", "MuonwjetPTresponse83", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse84 = new TH1D("MuonwjetPTreponse84", "MuonwjetPTresponse84", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse85 = new TH1D("MuonwjetPTreponse85", "MuonwjetPTresponse85", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse86 = new TH1D("MuonwjetPTreponse86", "MuonwjetPTresponse86", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse87 = new TH1D("MuonwjetPTreponse87", "MuonwjetPTresponse87", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse88 = new TH1D("MuonwjetPTreponse88", "MuonwjetPTresponse88", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse89 = new TH1D("MuonwjetPTreponse89", "MuonwjetPTresponse89", 50, 0, 1.3);
+     TH1D *jetPTresponse50 = new TH1D("jetPTreponse50", "jetPTresponse50", 50, 0, 3.3);
+     TH1D *jetPTresponse51 = new TH1D("jetPTreponse51", "jetPTresponse51", 50, 0, 3.3);
+     TH1D *jetPTresponse52 = new TH1D("jetPTreponse52", "jetPTresponse52", 50, 0, 3.3);
+     TH1D *jetPTresponse53 = new TH1D("jetPTreponse53", "jetPTresponse53", 50, 0, 3.3);
+     TH1D *jetPTresponse54 = new TH1D("jetPTreponse54", "jetPTresponse54", 50, 0, 3.3);
+     TH1D *jetPTresponse55 = new TH1D("jetPTreponse55", "jetPTresponse55", 50, 0, 3.3);
+     TH1D *jetPTresponse56 = new TH1D("jetPTreponse56", "jetPTresponse56", 50, 0, 3.3);
+     TH1D *jetPTresponse57 = new TH1D("jetPTreponse57", "jetPTresponse57", 50, 0, 3.3);
+     TH1D *jetPTresponse58 = new TH1D("jetPTreponse58", "jetPTresponse58", 50, 0, 3.3);
+     TH1D *jetPTresponse59 = new TH1D("jetPTreponse59", "jetPTresponse59", 50, 0, 3.3);
 
-     TH1D *MuonwjetPTresponse90 = new TH1D("MuonwjetPTreponse90", "MuonwjetPTresponse90", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse91 = new TH1D("MuonwjetPTreponse91", "MuonwjetPTresponse91", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse92 = new TH1D("MuonwjetPTreponse92", "MuonwjetPTresponse92", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse93 = new TH1D("MuonwjetPTreponse93", "MuonwjetPTresponse93", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse94 = new TH1D("MuonwjetPTreponse94", "MuonwjetPTresponse94", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse95 = new TH1D("MuonwjetPTreponse95", "MuonwjetPTresponse95", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse96 = new TH1D("MuonwjetPTreponse96", "MuonwjetPTresponse96", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse97 = new TH1D("MuonwjetPTreponse97", "MuonwjetPTresponse97", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse98 = new TH1D("MuonwjetPTreponse98", "MuonwjetPTresponse98", 50, 0, 1.3);
-     TH1D *MuonwjetPTresponse99 = new TH1D("MuonwjetPTreponse99", "MuonwjetPTresponse99", 50, 0, 1.3);
+     TH1D *jetPTresponse60 = new TH1D("jetPTreponse60", "jetPTresponse60", 50, 0, 3.3);
+     TH1D *jetPTresponse61 = new TH1D("jetPTreponse61", "jetPTresponse61", 50, 0, 3.3);
+     TH1D *jetPTresponse62 = new TH1D("jetPTreponse62", "jetPTresponse62", 50, 0, 3.3);
+     TH1D *jetPTresponse63 = new TH1D("jetPTreponse63", "jetPTresponse63", 50, 0, 3.3);
+     TH1D *jetPTresponse64 = new TH1D("jetPTreponse64", "jetPTresponse64", 50, 0, 3.3);
+     TH1D *jetPTresponse65 = new TH1D("jetPTreponse65", "jetPTresponse65", 50, 0, 3.3);
+     TH1D *jetPTresponse66 = new TH1D("jetPTreponse66", "jetPTresponse66", 50, 0, 3.3);
+     TH1D *jetPTresponse67 = new TH1D("jetPTreponse67", "jetPTresponse67", 50, 0, 3.3);
+     TH1D *jetPTresponse68 = new TH1D("jetPTreponse68", "jetPTresponse68", 50, 0, 3.3);
+     TH1D *jetPTresponse69 = new TH1D("jetPTreponse69", "jetPTresponse69", 50, 0, 3.3);
+
+     TH1D *jetPTresponse70 = new TH1D("jetPTreponse70", "jetPTresponse70", 50, 0, 3.3);
+     TH1D *jetPTresponse71 = new TH1D("jetPTreponse71", "jetPTresponse71", 50, 0, 3.3);
+     TH1D *jetPTresponse72 = new TH1D("jetPTreponse72", "jetPTresponse72", 50, 0, 3.3);
+     TH1D *jetPTresponse73 = new TH1D("jetPTreponse73", "jetPTresponse73", 50, 0, 3.3);
+     TH1D *jetPTresponse74 = new TH1D("jetPTreponse74", "jetPTresponse74", 50, 0, 3.3);
+     TH1D *jetPTresponse75 = new TH1D("jetPTreponse75", "jetPTresponse75", 50, 0, 3.3);
+     TH1D *jetPTresponse76 = new TH1D("jetPTreponse76", "jetPTresponse76", 50, 0, 3.3);
+     TH1D *jetPTresponse77 = new TH1D("jetPTreponse77", "jetPTresponse77", 50, 0, 3.3);
+     TH1D *jetPTresponse78 = new TH1D("jetPTreponse78", "jetPTresponse78", 50, 0, 3.3);
+     TH1D *jetPTresponse79 = new TH1D("jetPTreponse79", "jetPTresponse79", 50, 0, 3.3);
+
+     TH1D *jetPTresponse80 = new TH1D("jetPTreponse80", "jetPTresponse80", 50, 0, 3.3);
+     TH1D *jetPTresponse81 = new TH1D("jetPTreponse81", "jetPTresponse81", 50, 0, 3.3);
+     TH1D *jetPTresponse82 = new TH1D("jetPTreponse82", "jetPTresponse82", 50, 0, 3.3);
+     TH1D *jetPTresponse83 = new TH1D("jetPTreponse83", "jetPTresponse83", 50, 0, 3.3);
+     TH1D *jetPTresponse84 = new TH1D("jetPTreponse84", "jetPTresponse84", 50, 0, 3.3);
+     TH1D *jetPTresponse85 = new TH1D("jetPTreponse85", "jetPTresponse85", 50, 0, 3.3);
+     TH1D *jetPTresponse86 = new TH1D("jetPTreponse86", "jetPTresponse86", 50, 0, 3.3);
+     TH1D *jetPTresponse87 = new TH1D("jetPTreponse87", "jetPTresponse87", 50, 0, 3.3);
+     TH1D *jetPTresponse88 = new TH1D("jetPTreponse88", "jetPTresponse88", 50, 0, 3.3);
+     TH1D *jetPTresponse89 = new TH1D("jetPTreponse89", "jetPTresponse89", 50, 0, 3.3);
+
+     TH1D *jetPTresponse90 = new TH1D("jetPTreponse90", "jetPTresponse90", 50, 0, 3.3);
+     TH1D *jetPTresponse91 = new TH1D("jetPTreponse91", "jetPTresponse91", 50, 0, 3.3);
+     TH1D *jetPTresponse92 = new TH1D("jetPTreponse92", "jetPTresponse92", 50, 0, 3.3);
+     TH1D *jetPTresponse93 = new TH1D("jetPTreponse93", "jetPTresponse93", 50, 0, 3.3);
+     TH1D *jetPTresponse94 = new TH1D("jetPTreponse94", "jetPTresponse94", 50, 0, 3.3);
+     TH1D *jetPTresponse95 = new TH1D("jetPTreponse95", "jetPTresponse95", 50, 0, 3.3);
+     TH1D *jetPTresponse96 = new TH1D("jetPTreponse96", "jetPTresponse96", 50, 0, 3.3);
+     TH1D *jetPTresponse97 = new TH1D("jetPTreponse97", "jetPTresponse97", 50, 0, 3.3);
+     TH1D *jetPTresponse98 = new TH1D("jetPTreponse98", "jetPTresponse98", 50, 0, 3.3);
+     TH1D *jetPTresponse99 = new TH1D("jetPTreponse99", "jetPTresponse99", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse00 = new TH1D("MuonwjetPTreponse00", "MuonwjetPTresponse00", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse01 = new TH1D("MuonwjetPTreponse01", "MuonwjetPTresponse01", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse02 = new TH1D("MuonwjetPTreponse02", "MuonwjetPTresponse02", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse03 = new TH1D("MuonwjetPTreponse03", "MuonwjetPTresponse03", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse04 = new TH1D("MuonwjetPTreponse04", "MuonwjetPTresponse04", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse05 = new TH1D("MuonwjetPTreponse05", "MuonwjetPTresponse05", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse06 = new TH1D("MuonwjetPTreponse06", "MuonwjetPTresponse06", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse07 = new TH1D("MuonwjetPTreponse07", "MuonwjetPTresponse07", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse08 = new TH1D("MuonwjetPTreponse08", "MuonwjetPTresponse08", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse09 = new TH1D("MuonwjetPTreponse09", "MuonwjetPTresponse09", 50, 0, 3.3);
+     
+     TH1D *MuonwjetPTresponse10 = new TH1D("MuonwjetPTreponse10", "MuonwjetPTresponse10", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse11 = new TH1D("MuonwjetPTreponse11", "MuonwjetPTresponse11", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse12 = new TH1D("MuonwjetPTreponse12", "MuonwjetPTresponse12", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse13 = new TH1D("MuonwjetPTreponse13", "MuonwjetPTresponse13", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse14 = new TH1D("MuonwjetPTreponse14", "MuonwjetPTresponse14", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse15 = new TH1D("MuonwjetPTreponse15", "MuonwjetPTresponse15", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse16 = new TH1D("MuonwjetPTreponse16", "MuonwjetPTresponse16", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse17 = new TH1D("MuonwjetPTreponse17", "MuonwjetPTresponse17", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse18 = new TH1D("MuonwjetPTreponse18", "MuonwjetPTresponse18", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse19 = new TH1D("MuonwjetPTreponse19", "MuonwjetPTresponse19", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse20 = new TH1D("MuonwjetPTreponse20", "MuonwjetPTresponse20", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse21 = new TH1D("MuonwjetPTreponse21", "MuonwjetPTresponse21", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse22 = new TH1D("MuonwjetPTreponse22", "MuonwjetPTresponse22", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse23 = new TH1D("MuonwjetPTreponse23", "MuonwjetPTresponse23", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse24 = new TH1D("MuonwjetPTreponse24", "MuonwjetPTresponse24", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse25 = new TH1D("MuonwjetPTreponse25", "MuonwjetPTresponse25", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse26 = new TH1D("MuonwjetPTreponse26", "MuonwjetPTresponse26", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse27 = new TH1D("MuonwjetPTreponse27", "MuonwjetPTresponse27", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse28 = new TH1D("MuonwjetPTreponse28", "MuonwjetPTresponse28", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse29 = new TH1D("MuonwjetPTreponse29", "MuonwjetPTresponse29", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse30 = new TH1D("MuonwjetPTreponse30", "MuonwjetPTresponse30", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse31 = new TH1D("MuonwjetPTreponse31", "MuonwjetPTresponse31", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse32 = new TH1D("MuonwjetPTreponse32", "MuonwjetPTresponse32", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse33 = new TH1D("MuonwjetPTreponse33", "MuonwjetPTresponse33", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse34 = new TH1D("MuonwjetPTreponse34", "MuonwjetPTresponse34", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse35 = new TH1D("MuonwjetPTreponse35", "MuonwjetPTresponse35", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse36 = new TH1D("MuonwjetPTreponse36", "MuonwjetPTresponse36", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse37 = new TH1D("MuonwjetPTreponse37", "MuonwjetPTresponse37", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse38 = new TH1D("MuonwjetPTreponse38", "MuonwjetPTresponse38", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse39 = new TH1D("MuonwjetPTreponse39", "MuonwjetPTresponse39", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse40 = new TH1D("MuonwjetPTreponse40", "MuonwjetPTresponse40", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse41 = new TH1D("MuonwjetPTreponse41", "MuonwjetPTresponse41", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse42 = new TH1D("MuonwjetPTreponse42", "MuonwjetPTresponse42", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse43 = new TH1D("MuonwjetPTreponse43", "MuonwjetPTresponse43", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse44 = new TH1D("MuonwjetPTreponse44", "MuonwjetPTresponse44", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse45 = new TH1D("MuonwjetPTreponse45", "MuonwjetPTresponse45", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse46 = new TH1D("MuonwjetPTreponse46", "MuonwjetPTresponse46", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse47 = new TH1D("MuonwjetPTreponse47", "MuonwjetPTresponse47", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse48 = new TH1D("MuonwjetPTreponse48", "MuonwjetPTresponse48", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse49 = new TH1D("MuonwjetPTreponse49", "MuonwjetPTresponse49", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse50 = new TH1D("MuonwjetPTreponse50", "MuonwjetPTresponse50", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse51 = new TH1D("MuonwjetPTreponse51", "MuonwjetPTresponse51", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse52 = new TH1D("MuonwjetPTreponse52", "MuonwjetPTresponse52", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse53 = new TH1D("MuonwjetPTreponse53", "MuonwjetPTresponse53", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse54 = new TH1D("MuonwjetPTreponse54", "MuonwjetPTresponse54", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse55 = new TH1D("MuonwjetPTreponse55", "MuonwjetPTresponse55", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse56 = new TH1D("MuonwjetPTreponse56", "MuonwjetPTresponse56", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse57 = new TH1D("MuonwjetPTreponse57", "MuonwjetPTresponse57", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse58 = new TH1D("MuonwjetPTreponse58", "MuonwjetPTresponse58", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse59 = new TH1D("MuonwjetPTreponse59", "MuonwjetPTresponse59", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse60 = new TH1D("MuonwjetPTreponse60", "MuonwjetPTresponse60", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse61 = new TH1D("MuonwjetPTreponse61", "MuonwjetPTresponse61", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse62 = new TH1D("MuonwjetPTreponse62", "MuonwjetPTresponse62", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse63 = new TH1D("MuonwjetPTreponse63", "MuonwjetPTresponse63", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse64 = new TH1D("MuonwjetPTreponse64", "MuonwjetPTresponse64", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse65 = new TH1D("MuonwjetPTreponse65", "MuonwjetPTresponse65", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse66 = new TH1D("MuonwjetPTreponse66", "MuonwjetPTresponse66", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse67 = new TH1D("MuonwjetPTreponse67", "MuonwjetPTresponse67", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse68 = new TH1D("MuonwjetPTreponse68", "MuonwjetPTresponse68", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse69 = new TH1D("MuonwjetPTreponse69", "MuonwjetPTresponse69", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse70 = new TH1D("MuonwjetPTreponse70", "MuonwjetPTresponse70", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse71 = new TH1D("MuonwjetPTreponse71", "MuonwjetPTresponse71", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse72 = new TH1D("MuonwjetPTreponse72", "MuonwjetPTresponse72", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse73 = new TH1D("MuonwjetPTreponse73", "MuonwjetPTresponse73", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse74 = new TH1D("MuonwjetPTreponse74", "MuonwjetPTresponse74", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse75 = new TH1D("MuonwjetPTreponse75", "MuonwjetPTresponse75", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse76 = new TH1D("MuonwjetPTreponse76", "MuonwjetPTresponse76", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse77 = new TH1D("MuonwjetPTreponse77", "MuonwjetPTresponse77", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse78 = new TH1D("MuonwjetPTreponse78", "MuonwjetPTresponse78", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse79 = new TH1D("MuonwjetPTreponse79", "MuonwjetPTresponse79", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse80 = new TH1D("MuonwjetPTreponse80", "MuonwjetPTresponse80", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse81 = new TH1D("MuonwjetPTreponse81", "MuonwjetPTresponse81", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse82 = new TH1D("MuonwjetPTreponse82", "MuonwjetPTresponse82", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse83 = new TH1D("MuonwjetPTreponse83", "MuonwjetPTresponse83", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse84 = new TH1D("MuonwjetPTreponse84", "MuonwjetPTresponse84", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse85 = new TH1D("MuonwjetPTreponse85", "MuonwjetPTresponse85", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse86 = new TH1D("MuonwjetPTreponse86", "MuonwjetPTresponse86", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse87 = new TH1D("MuonwjetPTreponse87", "MuonwjetPTresponse87", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse88 = new TH1D("MuonwjetPTreponse88", "MuonwjetPTresponse88", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse89 = new TH1D("MuonwjetPTreponse89", "MuonwjetPTresponse89", 50, 0, 3.3);
+
+     TH1D *MuonwjetPTresponse90 = new TH1D("MuonwjetPTreponse90", "MuonwjetPTresponse90", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse91 = new TH1D("MuonwjetPTreponse91", "MuonwjetPTresponse91", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse92 = new TH1D("MuonwjetPTreponse92", "MuonwjetPTresponse92", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse93 = new TH1D("MuonwjetPTreponse93", "MuonwjetPTresponse93", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse94 = new TH1D("MuonwjetPTreponse94", "MuonwjetPTresponse94", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse95 = new TH1D("MuonwjetPTreponse95", "MuonwjetPTresponse95", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse96 = new TH1D("MuonwjetPTreponse96", "MuonwjetPTresponse96", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse97 = new TH1D("MuonwjetPTreponse97", "MuonwjetPTresponse97", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse98 = new TH1D("MuonwjetPTreponse98", "MuonwjetPTresponse98", 50, 0, 3.3);
+     TH1D *MuonwjetPTresponse99 = new TH1D("MuonwjetPTreponse99", "MuonwjetPTresponse99", 50, 0, 3.3);
    
-     TH1D *MuonwojetPTresponse00 = new TH1D("MuonwojetPTreponse00", "MuonwojetPTresponse00", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse01 = new TH1D("MuonwojetPTreponse01", "MuonwojetPTresponse01", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse02 = new TH1D("MuonwojetPTreponse02", "MuonwojetPTresponse02", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse03 = new TH1D("MuonwojetPTreponse03", "MuonwojetPTresponse03", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse04 = new TH1D("MuonwojetPTreponse04", "MuonwojetPTresponse04", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse05 = new TH1D("MuonwojetPTreponse05", "MuonwojetPTresponse05", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse06 = new TH1D("MuonwojetPTreponse06", "MuonwojetPTresponse06", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse07 = new TH1D("MuonwojetPTreponse07", "MuonwojetPTresponse07", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse08 = new TH1D("MuonwojetPTreponse08", "MuonwojetPTresponse08", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse09 = new TH1D("MuonwojetPTreponse09", "MuonwojetPTresponse09", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse00 = new TH1D("MuonwojetPTreponse00", "MuonwojetPTresponse00", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse01 = new TH1D("MuonwojetPTreponse01", "MuonwojetPTresponse01", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse02 = new TH1D("MuonwojetPTreponse02", "MuonwojetPTresponse02", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse03 = new TH1D("MuonwojetPTreponse03", "MuonwojetPTresponse03", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse04 = new TH1D("MuonwojetPTreponse04", "MuonwojetPTresponse04", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse05 = new TH1D("MuonwojetPTreponse05", "MuonwojetPTresponse05", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse06 = new TH1D("MuonwojetPTreponse06", "MuonwojetPTresponse06", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse07 = new TH1D("MuonwojetPTreponse07", "MuonwojetPTresponse07", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse08 = new TH1D("MuonwojetPTreponse08", "MuonwojetPTresponse08", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse09 = new TH1D("MuonwojetPTreponse09", "MuonwojetPTresponse09", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse10 = new TH1D("MuonwojetPTreponse10", "MuonwojetPTresponse10", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse11 = new TH1D("MuonwojetPTreponse11", "MuonwojetPTresponse11", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse12 = new TH1D("MuonwojetPTreponse12", "MuonwojetPTresponse12", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse13 = new TH1D("MuonwojetPTreponse13", "MuonwojetPTresponse13", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse14 = new TH1D("MuonwojetPTreponse14", "MuonwojetPTresponse14", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse15 = new TH1D("MuonwojetPTreponse15", "MuonwojetPTresponse15", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse16 = new TH1D("MuonwojetPTreponse16", "MuonwojetPTresponse16", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse17 = new TH1D("MuonwojetPTreponse17", "MuonwojetPTresponse17", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse18 = new TH1D("MuonwojetPTreponse18", "MuonwojetPTresponse18", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse19 = new TH1D("MuonwojetPTreponse19", "MuonwojetPTresponse19", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse10 = new TH1D("MuonwojetPTreponse10", "MuonwojetPTresponse10", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse11 = new TH1D("MuonwojetPTreponse11", "MuonwojetPTresponse11", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse12 = new TH1D("MuonwojetPTreponse12", "MuonwojetPTresponse12", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse13 = new TH1D("MuonwojetPTreponse13", "MuonwojetPTresponse13", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse14 = new TH1D("MuonwojetPTreponse14", "MuonwojetPTresponse14", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse15 = new TH1D("MuonwojetPTreponse15", "MuonwojetPTresponse15", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse16 = new TH1D("MuonwojetPTreponse16", "MuonwojetPTresponse16", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse17 = new TH1D("MuonwojetPTreponse17", "MuonwojetPTresponse17", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse18 = new TH1D("MuonwojetPTreponse18", "MuonwojetPTresponse18", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse19 = new TH1D("MuonwojetPTreponse19", "MuonwojetPTresponse19", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse20 = new TH1D("MuonwojetPTreponse20", "MuonwojetPTresponse20", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse21 = new TH1D("MuonwojetPTreponse21", "MuonwojetPTresponse21", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse22 = new TH1D("MuonwojetPTreponse22", "MuonwojetPTresponse22", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse23 = new TH1D("MuonwojetPTreponse23", "MuonwojetPTresponse23", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse24 = new TH1D("MuonwojetPTreponse24", "MuonwojetPTresponse24", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse25 = new TH1D("MuonwojetPTreponse25", "MuonwojetPTresponse25", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse26 = new TH1D("MuonwojetPTreponse26", "MuonwojetPTresponse26", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse27 = new TH1D("MuonwojetPTreponse27", "MuonwojetPTresponse27", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse28 = new TH1D("MuonwojetPTreponse28", "MuonwojetPTresponse28", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse29 = new TH1D("MuonwojetPTreponse29", "MuonwojetPTresponse29", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse20 = new TH1D("MuonwojetPTreponse20", "MuonwojetPTresponse20", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse21 = new TH1D("MuonwojetPTreponse21", "MuonwojetPTresponse21", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse22 = new TH1D("MuonwojetPTreponse22", "MuonwojetPTresponse22", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse23 = new TH1D("MuonwojetPTreponse23", "MuonwojetPTresponse23", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse24 = new TH1D("MuonwojetPTreponse24", "MuonwojetPTresponse24", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse25 = new TH1D("MuonwojetPTreponse25", "MuonwojetPTresponse25", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse26 = new TH1D("MuonwojetPTreponse26", "MuonwojetPTresponse26", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse27 = new TH1D("MuonwojetPTreponse27", "MuonwojetPTresponse27", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse28 = new TH1D("MuonwojetPTreponse28", "MuonwojetPTresponse28", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse29 = new TH1D("MuonwojetPTreponse29", "MuonwojetPTresponse29", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse30 = new TH1D("MuonwojetPTreponse30", "MuonwojetPTresponse30", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse31 = new TH1D("MuonwojetPTreponse31", "MuonwojetPTresponse31", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse32 = new TH1D("MuonwojetPTreponse32", "MuonwojetPTresponse32", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse33 = new TH1D("MuonwojetPTreponse33", "MuonwojetPTresponse33", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse34 = new TH1D("MuonwojetPTreponse34", "MuonwojetPTresponse34", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse35 = new TH1D("MuonwojetPTreponse35", "MuonwojetPTresponse35", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse36 = new TH1D("MuonwojetPTreponse36", "MuonwojetPTresponse36", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse37 = new TH1D("MuonwojetPTreponse37", "MuonwojetPTresponse37", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse38 = new TH1D("MuonwojetPTreponse38", "MuonwojetPTresponse38", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse39 = new TH1D("MuonwojetPTreponse39", "MuonwojetPTresponse39", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse30 = new TH1D("MuonwojetPTreponse30", "MuonwojetPTresponse30", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse31 = new TH1D("MuonwojetPTreponse31", "MuonwojetPTresponse31", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse32 = new TH1D("MuonwojetPTreponse32", "MuonwojetPTresponse32", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse33 = new TH1D("MuonwojetPTreponse33", "MuonwojetPTresponse33", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse34 = new TH1D("MuonwojetPTreponse34", "MuonwojetPTresponse34", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse35 = new TH1D("MuonwojetPTreponse35", "MuonwojetPTresponse35", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse36 = new TH1D("MuonwojetPTreponse36", "MuonwojetPTresponse36", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse37 = new TH1D("MuonwojetPTreponse37", "MuonwojetPTresponse37", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse38 = new TH1D("MuonwojetPTreponse38", "MuonwojetPTresponse38", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse39 = new TH1D("MuonwojetPTreponse39", "MuonwojetPTresponse39", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse40 = new TH1D("MuonwojetPTreponse40", "MuonwojetPTresponse40", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse41 = new TH1D("MuonwojetPTreponse41", "MuonwojetPTresponse41", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse42 = new TH1D("MuonwojetPTreponse42", "MuonwojetPTresponse42", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse43 = new TH1D("MuonwojetPTreponse43", "MuonwojetPTresponse43", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse44 = new TH1D("MuonwojetPTreponse44", "MuonwojetPTresponse44", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse45 = new TH1D("MuonwojetPTreponse45", "MuonwojetPTresponse45", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse46 = new TH1D("MuonwojetPTreponse46", "MuonwojetPTresponse46", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse47 = new TH1D("MuonwojetPTreponse47", "MuonwojetPTresponse47", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse48 = new TH1D("MuonwojetPTreponse48", "MuonwojetPTresponse48", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse49 = new TH1D("MuonwojetPTreponse49", "MuonwojetPTresponse49", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse40 = new TH1D("MuonwojetPTreponse40", "MuonwojetPTresponse40", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse41 = new TH1D("MuonwojetPTreponse41", "MuonwojetPTresponse41", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse42 = new TH1D("MuonwojetPTreponse42", "MuonwojetPTresponse42", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse43 = new TH1D("MuonwojetPTreponse43", "MuonwojetPTresponse43", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse44 = new TH1D("MuonwojetPTreponse44", "MuonwojetPTresponse44", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse45 = new TH1D("MuonwojetPTreponse45", "MuonwojetPTresponse45", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse46 = new TH1D("MuonwojetPTreponse46", "MuonwojetPTresponse46", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse47 = new TH1D("MuonwojetPTreponse47", "MuonwojetPTresponse47", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse48 = new TH1D("MuonwojetPTreponse48", "MuonwojetPTresponse48", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse49 = new TH1D("MuonwojetPTreponse49", "MuonwojetPTresponse49", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse50 = new TH1D("MuonwojetPTreponse50", "MuonwojetPTresponse50", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse51 = new TH1D("MuonwojetPTreponse51", "MuonwojetPTresponse51", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse52 = new TH1D("MuonwojetPTreponse52", "MuonwojetPTresponse52", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse53 = new TH1D("MuonwojetPTreponse53", "MuonwojetPTresponse53", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse54 = new TH1D("MuonwojetPTreponse54", "MuonwojetPTresponse54", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse55 = new TH1D("MuonwojetPTreponse55", "MuonwojetPTresponse55", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse56 = new TH1D("MuonwojetPTreponse56", "MuonwojetPTresponse56", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse57 = new TH1D("MuonwojetPTreponse57", "MuonwojetPTresponse57", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse58 = new TH1D("MuonwojetPTreponse58", "MuonwojetPTresponse58", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse59 = new TH1D("MuonwojetPTreponse59", "MuonwojetPTresponse59", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse50 = new TH1D("MuonwojetPTreponse50", "MuonwojetPTresponse50", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse51 = new TH1D("MuonwojetPTreponse51", "MuonwojetPTresponse51", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse52 = new TH1D("MuonwojetPTreponse52", "MuonwojetPTresponse52", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse53 = new TH1D("MuonwojetPTreponse53", "MuonwojetPTresponse53", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse54 = new TH1D("MuonwojetPTreponse54", "MuonwojetPTresponse54", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse55 = new TH1D("MuonwojetPTreponse55", "MuonwojetPTresponse55", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse56 = new TH1D("MuonwojetPTreponse56", "MuonwojetPTresponse56", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse57 = new TH1D("MuonwojetPTreponse57", "MuonwojetPTresponse57", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse58 = new TH1D("MuonwojetPTreponse58", "MuonwojetPTresponse58", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse59 = new TH1D("MuonwojetPTreponse59", "MuonwojetPTresponse59", 50, 0, 3.3);
     
-     TH1D *MuonwojetPTresponse60 = new TH1D("MuonwojetPTreponse60", "MuonwojetPTresponse60", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse61 = new TH1D("MuonwojetPTreponse61", "MuonwojetPTresponse61", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse62 = new TH1D("MuonwojetPTreponse62", "MuonwojetPTresponse62", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse63 = new TH1D("MuonwojetPTreponse63", "MuonwojetPTresponse63", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse64 = new TH1D("MuonwojetPTreponse64", "MuonwojetPTresponse64", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse65 = new TH1D("MuonwojetPTreponse65", "MuonwojetPTresponse65", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse66 = new TH1D("MuonwojetPTreponse66", "MuonwojetPTresponse66", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse67 = new TH1D("MuonwojetPTreponse67", "MuonwojetPTresponse67", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse68 = new TH1D("MuonwojetPTreponse68", "MuonwojetPTresponse68", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse69 = new TH1D("MuonwojetPTreponse69", "MuonwojetPTresponse69", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse60 = new TH1D("MuonwojetPTreponse60", "MuonwojetPTresponse60", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse61 = new TH1D("MuonwojetPTreponse61", "MuonwojetPTresponse61", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse62 = new TH1D("MuonwojetPTreponse62", "MuonwojetPTresponse62", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse63 = new TH1D("MuonwojetPTreponse63", "MuonwojetPTresponse63", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse64 = new TH1D("MuonwojetPTreponse64", "MuonwojetPTresponse64", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse65 = new TH1D("MuonwojetPTreponse65", "MuonwojetPTresponse65", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse66 = new TH1D("MuonwojetPTreponse66", "MuonwojetPTresponse66", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse67 = new TH1D("MuonwojetPTreponse67", "MuonwojetPTresponse67", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse68 = new TH1D("MuonwojetPTreponse68", "MuonwojetPTresponse68", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse69 = new TH1D("MuonwojetPTreponse69", "MuonwojetPTresponse69", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse70 = new TH1D("MuonwojetPTreponse70", "MuonwojetPTresponse70", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse71 = new TH1D("MuonwojetPTreponse71", "MuonwojetPTresponse71", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse72 = new TH1D("MuonwojetPTreponse72", "MuonwojetPTresponse72", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse73 = new TH1D("MuonwojetPTreponse73", "MuonwojetPTresponse73", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse74 = new TH1D("MuonwojetPTreponse74", "MuonwojetPTresponse74", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse75 = new TH1D("MuonwojetPTreponse75", "MuonwojetPTresponse75", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse76 = new TH1D("MuonwojetPTreponse76", "MuonwojetPTresponse76", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse77 = new TH1D("MuonwojetPTreponse77", "MuonwojetPTresponse77", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse78 = new TH1D("MuonwojetPTreponse78", "MuonwojetPTresponse78", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse79 = new TH1D("MuonwojetPTreponse79", "MuonwojetPTresponse79", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse70 = new TH1D("MuonwojetPTreponse70", "MuonwojetPTresponse70", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse71 = new TH1D("MuonwojetPTreponse71", "MuonwojetPTresponse71", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse72 = new TH1D("MuonwojetPTreponse72", "MuonwojetPTresponse72", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse73 = new TH1D("MuonwojetPTreponse73", "MuonwojetPTresponse73", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse74 = new TH1D("MuonwojetPTreponse74", "MuonwojetPTresponse74", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse75 = new TH1D("MuonwojetPTreponse75", "MuonwojetPTresponse75", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse76 = new TH1D("MuonwojetPTreponse76", "MuonwojetPTresponse76", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse77 = new TH1D("MuonwojetPTreponse77", "MuonwojetPTresponse77", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse78 = new TH1D("MuonwojetPTreponse78", "MuonwojetPTresponse78", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse79 = new TH1D("MuonwojetPTreponse79", "MuonwojetPTresponse79", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse80 = new TH1D("MuonwojetPTreponse80", "MuonwojetPTresponse80", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse81 = new TH1D("MuonwojetPTreponse81", "MuonwojetPTresponse81", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse82 = new TH1D("MuonwojetPTreponse82", "MuonwojetPTresponse82", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse83 = new TH1D("MuonwojetPTreponse83", "MuonwojetPTresponse83", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse84 = new TH1D("MuonwojetPTreponse84", "MuonwojetPTresponse84", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse85 = new TH1D("MuonwojetPTreponse85", "MuonwojetPTresponse85", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse86 = new TH1D("MuonwojetPTreponse86", "MuonwojetPTresponse86", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse87 = new TH1D("MuonwojetPTreponse87", "MuonwojetPTresponse87", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse88 = new TH1D("MuonwojetPTreponse88", "MuonwojetPTresponse88", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse89 = new TH1D("MuonwojetPTreponse89", "MuonwojetPTresponse89", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse80 = new TH1D("MuonwojetPTreponse80", "MuonwojetPTresponse80", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse81 = new TH1D("MuonwojetPTreponse81", "MuonwojetPTresponse81", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse82 = new TH1D("MuonwojetPTreponse82", "MuonwojetPTresponse82", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse83 = new TH1D("MuonwojetPTreponse83", "MuonwojetPTresponse83", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse84 = new TH1D("MuonwojetPTreponse84", "MuonwojetPTresponse84", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse85 = new TH1D("MuonwojetPTreponse85", "MuonwojetPTresponse85", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse86 = new TH1D("MuonwojetPTreponse86", "MuonwojetPTresponse86", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse87 = new TH1D("MuonwojetPTreponse87", "MuonwojetPTresponse87", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse88 = new TH1D("MuonwojetPTreponse88", "MuonwojetPTresponse88", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse89 = new TH1D("MuonwojetPTreponse89", "MuonwojetPTresponse89", 50, 0, 3.3);
 
-     TH1D *MuonwojetPTresponse90 = new TH1D("MuonwojetPTreponse90", "MuonwojetPTresponse90", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse91 = new TH1D("MuonwojetPTreponse91", "MuonwojetPTresponse91", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse92 = new TH1D("MuonwojetPTreponse92", "MuonwojetPTresponse92", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse93 = new TH1D("MuonwojetPTreponse93", "MuonwojetPTresponse93", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse94 = new TH1D("MuonwojetPTreponse94", "MuonwojetPTresponse94", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse95 = new TH1D("MuonwojetPTreponse95", "MuonwojetPTresponse95", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse96 = new TH1D("MuonwojetPTreponse96", "MuonwojetPTresponse96", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse97 = new TH1D("MuonwojetPTreponse97", "MuonwojetPTresponse97", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse98 = new TH1D("MuonwojetPTreponse98", "MuonwojetPTresponse98", 50, 0, 1.3);
-     TH1D *MuonwojetPTresponse99 = new TH1D("MuonwojetPTreponse99", "MuonwojetPTresponse99", 50, 0, 1.3);
+     TH1D *MuonwojetPTresponse90 = new TH1D("MuonwojetPTreponse90", "MuonwojetPTresponse90", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse91 = new TH1D("MuonwojetPTreponse91", "MuonwojetPTresponse91", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse92 = new TH1D("MuonwojetPTreponse92", "MuonwojetPTresponse92", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse93 = new TH1D("MuonwojetPTreponse93", "MuonwojetPTresponse93", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse94 = new TH1D("MuonwojetPTreponse94", "MuonwojetPTresponse94", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse95 = new TH1D("MuonwojetPTreponse95", "MuonwojetPTresponse95", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse96 = new TH1D("MuonwojetPTreponse96", "MuonwojetPTresponse96", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse97 = new TH1D("MuonwojetPTreponse97", "MuonwojetPTresponse97", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse98 = new TH1D("MuonwojetPTreponse98", "MuonwojetPTresponse98", 50, 0, 3.3);
+     TH1D *MuonwojetPTresponse99 = new TH1D("MuonwojetPTreponse99", "MuonwojetPTresponse99", 50, 0, 3.3);
 
      Double_t AKTjet1eta1;
      Double_t AKTjet1theta1;
@@ -568,6 +578,7 @@ void Calibration(const char *inputFile, const char *outputFile){
      Double_t AKTjetEta;
      Double_t AKTjetPt;
      Double_t AKTjetPhi;
+     Double_t AKTjetMass;
      Double_t AKTjetTheta;
 
      Double_t GenJetEta;
@@ -575,9 +586,18 @@ void Calibration(const char *inputFile, const char *outputFile){
      Double_t GenJetPhi;
      Double_t GenJetTheta;
 
-     Double_t MuonEta;
-     Double_t MuonPhi;
-     Double_t MuonPt;
+     Double_t GenMuonEta;
+     Double_t GenMuonPhi;
+     Double_t GenMuonPt;
+
+     Double_t recoMuonEta;
+     Double_t recoMuonPhi;
+     Double_t recoMuonPt;
+
+     TLorentzVector AKTjet;
+     TLorentzVector GenJet;
+     TLorentzVector recoMuon;
+     TLorentzVector GenMuon;
 
      Double_t MatchedGenJetEta;
      Double_t MatchedGenJetPhi;
@@ -935,9 +955,11 @@ void Calibration(const char *inputFile, const char *outputFile){
 
      Double_t JERtmp;
      Double_t DeltaPhi;
-     Double_t MuonDeltaPhi;
      Double_t DeltaR;
      Double_t MuonDeltaR;
+     Double_t MuonDeltaPhi;
+     Double_t GenMuonDeltaR;
+     Double_t GenMuonDeltaPhi;
      Int_t PTGrid;
      Int_t ThetaGrid;
      cout << "Running Pairing up Algo..." << endl;
@@ -965,51 +987,90 @@ void Calibration(const char *inputFile, const char *outputFile){
 	 GenParticlePt->GetBranch()->GetEntry(entry);
 	 GenParticleSize->GetBranch()->GetEntry(entry);
 	 Int_t nParticle = GenParticleSize->GetValue();
-	 //if (nAKTjet >= 4) {
+
+	 MuonEta->GetBranch()->GetEntry(entry);
+	 MuonPhi->GetBranch()->GetEntry(entry);
+	 MuonPt->GetBranch()->GetEntry(entry);
+	 MuonSize->GetBranch()->GetEntry(entry);
+	 Int_t nMuon = MuonSize->GetValue();
+	 if (nAKTjet == 6) {
              //Truth matching for all and calculate Jet energy response
 	     for (Int_t aktentry=0; aktentry < nAKTjet; aktentry++) {
                  AKTjetEta = AKTjet_eta->GetValue(aktentry);
                  AKTjetPhi = AKTjet_phi->GetValue(aktentry);
 	         AKTjetPt = AKTjet_pt->GetValue(aktentry);
+		 AKTjetMass = AKTjet_mass->GetValue(aktentry);
 	         AKTjetTheta = 2 * atan(exp(-AKTjetEta));
+		 AKTjet.SetPtEtaPhiM(AKTjetPt, AKTjetEta, AKTjetPhi, AKTjetMass);
 		 DeltaR = 100;
 		 for (Int_t genentry=0; genentry < nGenJet; genentry++) {
+                     MuonTagging = false;
 		     GenJetEta = GenJet_eta->GetValue(genentry);
                      GenJetPhi = GenJet_phi->GetValue(genentry);
 	             GenJetPt = GenJet_pt->GetValue(genentry);
+		     //GenJetMass = GenJet_mass->GetValue(genentry)
 	             GenJetTheta = 2 * atan(exp(-GenJetEta));
+		     
 		     DeltaPhi = TMath::Abs(AKTjetPhi-GenJetPhi);
 		     if (DeltaPhi > TMath::Pi()) {
 		         DeltaPhi -= TMath::TwoPi();
 		     }
 		     Float_t DeltaRtmp = TMath::Sqrt(pow((AKTjetEta-GenJetEta),2)+pow(DeltaPhi,2));
+		     
+		     //Float_t DeltaRtmp = GenJet.DeltaR(AKTjet);
 		     if (DeltaRtmp < DeltaR) {
 		        DeltaR = DeltaRtmp;
 			JERtmp = AKTjetPt/GenJetPt;
 			MatchedGenJetEta = GenJetEta;
 			MatchedGenJetPhi = GenJetPhi;
+                        GenJet.SetPtEtaPhiM(GenJetPt, GenJetEta, GenJetPhi, 0);
 		     }
 		 }
 
 		 if (DeltaR < 0.5) {
+		     jetPTresponse->Fill(JERtmp); 
+		     /*
+		     for (Int_t muonentry=0;muonentry < nMuon; muonentry++) {
+                         recoMuonEta = MuonEta->GetValue(muonentry);
+                         recoMuonPhi = MuonPhi->GetValue(muonentry);
+                         recoMuonPt = MuonPt->GetValue(muonentry);
+			 recoMuon.SetPtEtaPhiM(recoMuonPt, recoMuonEta, recoMuonPhi, 0);
+			 MuonDeltaPhi = recoMuon.DeltaPhi(AKTjet);
+			 MuonDeltaR = recoMuon.DeltaR(AKTjet);
+			 if (MuonDeltaR < 0.5) {
+		             MuonTagging = true;
+			     //AKTjet = AKTjet + recoMuon;
+			     JERtmp = AKTjet.Pt()/GenJet.Pt();
+		             MuonwjetPTresponse->Fill(JERtmp); 
+			     break;
+			 }
+		     }
+		    */ 
+		     
 		     for (Int_t partentry=0; partentry < nParticle; partentry++) {
                          ParticlePID = PID->GetValue(partentry);
-                         MuonTagging = false; 
 			 if (TMath::Abs(ParticlePID) == 13){
-			     MuonEta = GenParticleEta->GetValue(partentry);
-			     MuonPhi = GenParticlePhi->GetValue(partentry);
-			     MuonDeltaPhi = TMath::Abs(MuonPhi-MatchedGenJetPhi);
-			     if (MuonDeltaPhi > TMath::Pi()) {
-			         MuonDeltaPhi -= TMath::TwoPi();
+			     GenMuonEta = GenParticleEta->GetValue(partentry);
+			     GenMuonPhi = GenParticlePhi->GetValue(partentry);
+			     GenMuonPt = GenParticlePt->GetValue(partentry);
+			     GenMuon.SetPtEtaPhiM(GenMuonPt, GenMuonEta, GenMuonPhi, 0);
+			     
+			     GenMuonDeltaPhi = TMath::Abs(GenMuonPhi-MatchedGenJetPhi);
+			     if (GenMuonDeltaPhi > TMath::Pi()) {
+			         GenMuonDeltaPhi -= TMath::TwoPi();
 			     }
-			     MuonDeltaR = TMath::Sqrt(pow((MuonEta-MatchedGenJetEta),2)+pow(MuonDeltaPhi,2));
-			     if (MuonDeltaR < 0.5) {
+			     GenMuonDeltaR = TMath::Sqrt(pow((GenMuonEta-MatchedGenJetEta),2)+pow(GenMuonDeltaPhi,2));
+			     //GenMuonDeltaR = GenMuon.DeltaR(AKTjet);
+			     if (GenMuonDeltaR < 0.5) {
 			         MuonTagging = true;
+				 //AKTjet += GenMuon;
+				 JERtmp = AKTjet.Pt()/GenJet.Pt();
 				 break;
 			     }
 			 }
 	   	     }
-  		     if (0 < AKTjetTheta and AKTjetTheta <= 0.3) {
+                     
+  		     if (0 <= AKTjetTheta and AKTjetTheta <= 0.3) {
 		         ThetaGrid = 0;		 
 		     }    
 		     if (0.3 < AKTjetTheta and AKTjetTheta <= 0.6) {
@@ -1039,7 +1100,7 @@ void Calibration(const char *inputFile, const char *outputFile){
 		     if (2.7 < AKTjetTheta) {
 		         ThetaGrid = 9;		 
 		     }
-		     if (0 < AKTjetPt and AKTjetPt <= 50) {
+		     if (0 <= AKTjetPt and AKTjetPt <= 50) {
 		         PTGrid = 0;
 		     }
 		     if (50 < AKTjetPt and AKTjetPt <= 100) {
@@ -1086,10 +1147,16 @@ void Calibration(const char *inputFile, const char *outputFile){
 		     //cout << DeltaR << endl;
 		 }
 	     }
-	 //}
+	 }
      }
      TCanvas *mycanvas = new TCanvas("mycanvas","My Canvas",800,600);
 //Calibration result
+     jetPTresponse->Draw();
+     mycanvas->SaveAs("jetPTresponse.png");
+     MuonwjetPTresponse->Draw();
+     mycanvas->SaveAs("MuonwjetPTresponse.png");
+
+
      for (Int_t PTentry=9; PTentry >=0; PTentry-=1) {
          for (Int_t ThetaEntry=0; ThetaEntry < 10; ThetaEntry++) {
              if (matchJetCnt[ThetaEntry][PTentry] == 0){
@@ -1503,25 +1570,25 @@ void Calibration(const char *inputFile, const char *outputFile){
              
 	     //theta edge check
 	     /*
-	     if (AKTjet1theta1>0.5 and AKTjet1theta1<2.5){
+	     if (AKTjet1theta1>0.5 and AKTjet1theta1<3){
 	         AKT1jet1edgeflag = true;
 	     } else {
 	         AKT1jet1edgeflag = false;
 	     }
 
-	     if (AKTjet1theta2>0.5 and AKTjet1theta2<2.5){
+	     if (AKTjet1theta2>0.5 and AKTjet1theta2<3){
 	         AKT1jet2edgeflag = true;
 	     } else {
 	         AKT1jet2edgeflag = false;
 	     }
 
-	     if (AKTjet2theta1>0.5 and AKTjet2theta1<2.5){
+	     if (AKTjet2theta1>0.5 and AKTjet2theta1<3){
 	         AKT2jet1edgeflag = true;
 	     } else {
 	         AKT2jet1edgeflag = false;
 	     }
 
-	     if (AKTjet2theta2>0.5 and AKTjet2theta2<2.5){
+	     if (AKTjet2theta2>0.5 and AKTjet2theta2<3){
 	         AKT2jet2edgeflag = true;
 	     } else {
 	         AKT2jet2edgeflag = false;
@@ -1602,13 +1669,13 @@ void Calibration(const char *inputFile, const char *outputFile){
      jetpair2fit->SetParLimits(5,0,20);
      jetpair2fit->SetParLimits(6,-1,-0.0001);
      //jetpair2fit->SetParLimits(4,50,109);
-     jetpair2fit->SetParLimits(3,10,50);
+     jetpair2fit->SetParLimits(10.5.30);
      jetpair2fit->SetParLimits(4,0,10);
      
      jetpair1fit->SetParameters(300,120,10,40,20);
      jetpair1fit->SetParLimits(0,50,350);
      jetpair1fit->SetParLimits(1,100,140);
-     jetpair1fit->SetParLimits(2,5,30);
+     jetpair1fit->SetParLimits(10.5,30);
      //jetpair1fit->SetParLimits(6,0,8);
      //jetpair1fit->SetParLimits(7,-1.5,-0.0001);
      jetpair1fit->SetParLimits(3,0,60);
