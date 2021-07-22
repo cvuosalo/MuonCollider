@@ -1,4 +1,4 @@
-//usage: root -l Calibration.C\(\"ttbar.root\"\,\"ttbar_cali.root\"\)
+//usage: root -l Pairing_w_JES.C\(\"inputfile.root\"\,\"outputfile.root\"\,\"inputfileForJES.root\"\,\"outputfileForJES.root\"\)
 #ifdef __CLING__
 R__LOAD_LIBRARY(libDelphes)
 #include "classes/DelphesClasses.h"
@@ -23,11 +23,12 @@ R__LOAD_LIBRARY(libDelphes)
 #include <TMath.h>
 #include <TLorentzVector.h>
 #include <TLatex.h>
-void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]){
+
+void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]) {// Double_t MuonwJER[10][10], Double_t MuonwoJER[10][10], bool MuonTagging){
      Double_t AKTjetTheta = 2 * atan(exp(-AKTjeteta));
      Int_t ThetaGrid;
      Int_t PTGrid;
-     if (0 <= AKTjetTheta and AKTjetTheta <= 0.3) {
+     if (0 < AKTjetTheta and AKTjetTheta <= 0.3) {
          ThetaGrid = 0;		 
      }    
      if (0.3 < AKTjetTheta and AKTjetTheta <= 0.6) {
@@ -57,7 +58,7 @@ void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]){
      if (2.7 < AKTjetTheta) {
          ThetaGrid = 9;		 
      }
-     if (0 <= AKTjetPt and AKTjetPt <= 50) {
+     if (0 < AKTjetPt and AKTjetPt <= 50) {
          PTGrid = 0;
      }
      if (50 < AKTjetPt and AKTjetPt <= 100) {
@@ -87,24 +88,31 @@ void JetEnergyFix(Double_t AKTjeteta, Double_t AKTjetPt, Double_t JER[10][10]){
      if (450 < AKTjetPt) {
          PTGrid = 9;
      }
+     /*
+     if (MuonTagging == true) {
+         AKTjetPt = AKTjetPt/MuonwJER[ThetaGrid][PTGrid];
+     } else {
+         AKTjetPt = AKTjetPt/MuonwoJER[ThetaGrid][PTGrid];
+     }
+     */
      AKTjetPt = AKTjetPt/JER[ThetaGrid][PTGrid];
 }
-
-void Calibration(const char *inputFile, const char *outputFile){
+void Calibration(const char *inputFile, const char *outputFile, Double_t JER[10][10]) { // Double_t MuonwJER[10][10], Double_t MuonwoJER[10][10]){
+     //Initiation
      gSystem->Load("libDelphes.so");
      TFile *file_sig = new TFile(inputFile);
      TFile *output = new TFile(outputFile, "recreate");
      TTree *tree_sig = (TTree*)file_sig->Get("Delphes");
      TTree *tree_output = new TTree("tree_output","Delphes");
 
-     cout << "Initiating..." <<endl; 
-     
+     cout << "Initiating..." <<endl;
+
      TLeaf *AKTjet_size = tree_sig->GetLeaf("AKTjet_size");
      TLeaf *AKTjet_eta = tree_sig->GetLeaf("AKTjet.Eta");
      TLeaf *AKTjet_phi = tree_sig->GetLeaf("AKTjet.Phi");
      TLeaf *AKTjet_pt = tree_sig->GetLeaf("AKTjet.PT");
      TLeaf *AKTjet_mass = tree_sig->GetLeaf("AKTjet.Mass");
- 
+
      TLeaf *GenJet_size = tree_sig->GetLeaf("GenJet_size");
      TLeaf *GenJet_eta = tree_sig->GetLeaf("GenJet.Eta");
      TLeaf *GenJet_phi = tree_sig->GetLeaf("GenJet.Phi");
@@ -124,51 +132,11 @@ void Calibration(const char *inputFile, const char *outputFile){
 
      Int_t nEntries = tree_sig->GetEntries();
 
-     TH1D *AKTjetMass1 = new TH1D("AKTjetMass1", "Anti_KTjet leading jets pair invariant mass", 150 , 0, 400); 
-     TH1D *AKTjetMass2 = new TH1D("AKTjetMass2", "Anti_KTjet sub-leading jets pair invariant mass", 150 , 0, 400); 
-
-     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 50 , -1, 2); 
+     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 50 , -1, 2);
      TH2D *AKTjetPT_Theta = new TH2D("AKTjetPT_Theta", "AKTjetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
      TH2D *GenJetPT_Theta = new TH2D("GenJetPT_Theta", "GenJetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
-
-     TH2D *jet1Reso_Pt = new TH2D("jet1Reso_Pt", "jet1Reso_Pt", 70, 0, 400, 70, -1, 4); 
-     TH2D *jet2Reso_Pt = new TH2D("jet2Reso_Pt", "jet2Reso_Pt", 70, 0, 400, 70, -1, 4); 
-     TH2D *jet3Reso_Pt = new TH2D("jet3Reso_Pt", "jet3Reso_Pt", 70, 0, 400, 70, -1, 4); 
-     TH2D *jet4Reso_Pt = new TH2D("jet4Reso_Pt", "jet4Reso_Pt", 70, 0, 400, 70, -1, 4); 
-
-     TH1D *badjet1theta = new TH1D("badjet1theta", "badjet1theta", 50, 0, 3.1415); 
-     TH1D *badjet2theta = new TH1D("badjet2theta", "badjet2theta", 50, 0, 3.1315); 
-     TH1D *badjet3theta = new TH1D("badjet3theta", "badjet3theta", 50, 0, 3.1415); 
-     TH1D *badjet4theta = new TH1D("badjet4theta", "badjet4theta", 50, 0, 3.1415); 
-
-     TH1D *goodjet1theta = new TH1D("goodjet1theta", "goodjet1theta", 50, 0, 3.1415); 
-     TH1D *goodjet2theta = new TH1D("goodjet2theta", "goodjet2theta", 50, 0, 3.1415); 
-     TH1D *goodjet3theta = new TH1D("goodjet3theta", "goodjet3theta", 50, 0, 3.1415); 
-     TH1D *goodjet4theta = new TH1D("goodjet4theta", "goodjet4theta", 50, 0, 3.1415); 
-
-     TH1D *alljet1theta = new TH1D("alljet1theta", "alljet1theta", 50, 0, 3.1415); 
-     TH1D *alljet2theta = new TH1D("alljet2theta", "alljet2theta", 50, 0, 3.1315); 
-     TH1D *alljet3theta = new TH1D("alljet3theta", "alljet3theta", 50, 0, 3.1415); 
-     TH1D *alljet4theta = new TH1D("alljet4theta", "alljet4theta", 50, 0, 3.1415); 
-
-     TH2D *jet1Reso_DeltaR = new TH2D("jet1Reso_DeltaR", "jet1Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
-     TH2D *jet2Reso_DeltaR = new TH2D("jet2Reso_DeltaR", "jet2Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
-     TH2D *jet3Reso_DeltaR = new TH2D("jet3Reso_DeltaR", "jet3Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
-     TH2D *jet4Reso_DeltaR = new TH2D("jet4Reso_DeltaR", "jet4Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
-
-     TH1D *badjet1DeltaR = new TH1D("badjet1DeltaR", "badjet1DeltaR", 50, 0, 0.5); 
-     TH1D *badjet2DeltaR = new TH1D("badjet2DeltaR", "badjet2DeltaR", 50, 0, 0.5); 
-     TH1D *badjet3DeltaR = new TH1D("badjet3DeltaR", "badjet3DeltaR", 50, 0, 0.5); 
-     TH1D *badjet4DeltaR = new TH1D("badjet4DeltaR", "badjet4DeltaR", 50, 0, 0.5); 
-     
-     TH1D *alljet1DeltaR = new TH1D("alljet1DeltaR", "alljet1DeltaR", 50, 0, 0.5); 
-     TH1D *alljet2DeltaR = new TH1D("alljet2DeltaR", "alljet2DeltaR", 50, 0, 0.5); 
-     TH1D *alljet3DeltaR = new TH1D("alljet3DeltaR", "alljet3DeltaR", 50, 0, 0.5); 
-     TH1D *alljet4DeltaR = new TH1D("alljet4DeltaR", "alljet4DeltaR", 50, 0, 0.5); 
-     
+    
      //Calibration histogram
-     
-
      TH1D *jetPTresponse = new TH1D("jetPTreponse", "jetPTresponse", 50, 0, 2);
      TH1D *MuonwjetPTresponse = new TH1D("MuonwjetPTreponse", "MuonwjetPTresponse", 50, 0, 2);
 
@@ -502,6 +470,7 @@ void Calibration(const char *inputFile, const char *outputFile){
      TH1D *MuonwojetPTresponse98 = new TH1D("MuonwojetPTreponse98", "MuonwojetPTresponse98", 50, 0, 3.3);
      TH1D *MuonwojetPTresponse99 = new TH1D("MuonwojetPTreponse99", "MuonwojetPTresponse99", 50, 0, 3.3);
 
+     //Pairing variables
      Double_t AKTjet1eta1;
      Double_t AKTjet1theta1;
      Double_t AKTjet1phi1;
@@ -604,9 +573,10 @@ void Calibration(const char *inputFile, const char *outputFile){
      
      Int_t ParticlePID;
 
-     Double_t JER[10][10];
+     //Double_t JER[10][10];
      Double_t MuonwJER[10][10];
      Double_t MuonwoJER[10][10];
+     
      Double_t matchJetCnt[10][10];
      Double_t matchJetMuonwCnt[10][10];
      Double_t matchJetMuonwoCnt[10][10];
@@ -622,7 +592,7 @@ void Calibration(const char *inputFile, const char *outputFile){
      }
      TH1D* jetPT2darray[10][10][3];
      bool MuonTagging = false;
-
+     //Calibration 2darray
      jetPT2darray[0][0][0] = jetPTresponse00;
      jetPT2darray[0][1][0] = jetPTresponse01;
      jetPT2darray[0][2][0] = jetPTresponse02;
@@ -965,6 +935,7 @@ void Calibration(const char *inputFile, const char *outputFile){
      cout << "Running Pairing up Algo..." << endl;
 //Calculate JER
      for(Long64_t entry=0; entry < nEntries; entry++){
+	 //Initiation
 	 tree_sig->GetEntry(entry);
          AKTjet_size->GetBranch()->GetEntry(entry);
 	 GenJet_size->GetBranch()->GetEntry(entry);
@@ -1150,8 +1121,8 @@ void Calibration(const char *inputFile, const char *outputFile){
 	     }
 	 }
      }
-     TCanvas *mycanvas = new TCanvas("mycanvas","My Canvas",800,600);
 //Calibration result
+     TCanvas *mycanvas = new TCanvas("mycanvas","My Canvas",800,600);
      jetPTresponse->Draw();
      mycanvas->SaveAs("jetPTresponse.png");
      MuonwjetPTresponse->Draw();
@@ -1235,8 +1206,221 @@ void Calibration(const char *inputFile, const char *outputFile){
          } 
 	 cout << endl;
      }
-//run over event entries
+
+     tree_output->Write();
+     output->Close();
+     file_sig->Close();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Pairing_w_JES(const char *inputFile, const char *outputFile, const char *inputFileForJES, const char *outputFileForJES){
+     //Initiation
+     gSystem->Load("libDelphes.so");
+     //TChain chain("Delphes");
+     //chain.Add(inputFile);
+     //ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
+     TFile *file_sig = new TFile(inputFile);
+     TFile *output = new TFile(outputFile, "recreate");
+     TTree *tree_sig = (TTree*)file_sig->Get("Delphes");
+     TTree *tree_output = new TTree("tree_output","Delphes");
+
+     cout << "Initiating..." <<endl; 
+     
+     TLeaf *AKTjet_size = tree_sig->GetLeaf("AKTjet_size");
+     TLeaf *AKTjet_eta = tree_sig->GetLeaf("AKTjet.Eta");
+     TLeaf *AKTjet_phi = tree_sig->GetLeaf("AKTjet.Phi");
+     TLeaf *AKTjet_pt = tree_sig->GetLeaf("AKTjet.PT");
+     TLeaf *AKTjet_mass = tree_sig->GetLeaf("AKTjet.Mass");
+ 
+     TLeaf *GenJet_size = tree_sig->GetLeaf("GenJet_size");
+     TLeaf *GenJet_eta = tree_sig->GetLeaf("GenJet.Eta");
+     TLeaf *GenJet_phi = tree_sig->GetLeaf("GenJet.Phi");
+     TLeaf *GenJet_pt = tree_sig->GetLeaf("GenJet.PT");
+     TLeaf *GenJet_mass = tree_sig->GetLeaf("GenJet.Mass");
+
+     TLeaf *PID = tree_sig->GetLeaf("Particle.PID");
+     TLeaf *GenParticleEta = tree_sig->GetLeaf("Particle.Eta");
+     TLeaf *GenParticlePhi = tree_sig->GetLeaf("Particle.Phi");
+     TLeaf *GenParticlePt = tree_sig->GetLeaf("Particle.PT");
+     TLeaf *GenParticleSize = tree_sig->GetLeaf("Particle_size");
+
+     Int_t nEntries = tree_sig->GetEntries();
+
+     TH1D *AKTjetMass1 = new TH1D("AKTjetMass1", "Anti_KTjet leading jets pair invariant mass", 150 , 0, 400); 
+     TH1D *AKTjetMass2 = new TH1D("AKTjetMass2", "Anti_KTjet sub-leading jets pair invariant mass", 150 , 0, 400); 
+     TH1D *GenAKTMass2 = new TH1D("GenAKTMass2", "GenAKTMass2", 50 , 0, 600); 
+     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 50 , -1, 2); 
+     TH1D *AKTGenMass2Comp = new TH1D("AKTGenMass2Comp", "AKTGenMass2Comp", 50 , -1, 2); 
+     TH1D *GenUncutMass2 = new TH1D("GenUncutMass2", "GenUncutMass2", 50 , 0, 600); 
+ 
+     TH1D *AKTGenPt1Comp = new TH1D("AKTGenPt1Comp", "AKTGenPt1Comp", 200 , -1, 5); 
+     TH1D *AKTGenPt2Comp = new TH1D("AKTGenPt2Comp", "AKTGenPt2Comp", 200 , -1, 5); 
+     TH1D *AKTGenPt3Comp = new TH1D("AKTGenPt3Comp", "AKTGenPt3Comp", 200 , -1, 5); 
+     TH1D *AKTGenPt4Comp = new TH1D("AKTGenPt4Comp", "AKTGenPt4Comp", 200 , -1, 5); 
+
+     TH2D *AKTjetPT_Theta = new TH2D("AKTjetPT_Theta", "AKTjetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
+     TH2D *GenJetPT_Theta = new TH2D("GenJetPT_Theta", "GenJetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
+
+     TH2D *jet1Reso_Pt = new TH2D("jet1Reso_Pt", "jet1Reso_Pt", 70, 0, 400, 70, -1, 4); 
+     TH2D *jet2Reso_Pt = new TH2D("jet2Reso_Pt", "jet2Reso_Pt", 70, 0, 400, 70, -1, 4); 
+     TH2D *jet3Reso_Pt = new TH2D("jet3Reso_Pt", "jet3Reso_Pt", 70, 0, 400, 70, -1, 4); 
+     TH2D *jet4Reso_Pt = new TH2D("jet4Reso_Pt", "jet4Reso_Pt", 70, 0, 400, 70, -1, 4); 
+
+     TH1D *badjet1theta = new TH1D("badjet1theta", "badjet1theta", 50, 0, 3.1415); 
+     TH1D *badjet2theta = new TH1D("badjet2theta", "badjet2theta", 50, 0, 3.1315); 
+     TH1D *badjet3theta = new TH1D("badjet3theta", "badjet3theta", 50, 0, 3.1415); 
+     TH1D *badjet4theta = new TH1D("badjet4theta", "badjet4theta", 50, 0, 3.1415); 
+
+     TH1D *goodjet1theta = new TH1D("goodjet1theta", "goodjet1theta", 50, 0, 3.1415); 
+     TH1D *goodjet2theta = new TH1D("goodjet2theta", "goodjet2theta", 50, 0, 3.1415); 
+     TH1D *goodjet3theta = new TH1D("goodjet3theta", "goodjet3theta", 50, 0, 3.1415); 
+     TH1D *goodjet4theta = new TH1D("goodjet4theta", "goodjet4theta", 50, 0, 3.1415); 
+
+     TH1D *alljet1theta = new TH1D("alljet1theta", "alljet1theta", 50, 0, 3.1415); 
+     TH1D *alljet2theta = new TH1D("alljet2theta", "alljet2theta", 50, 0, 3.1315); 
+     TH1D *alljet3theta = new TH1D("alljet3theta", "alljet3theta", 50, 0, 3.1415); 
+     TH1D *alljet4theta = new TH1D("alljet4theta", "alljet4theta", 50, 0, 3.1415); 
+
+     TH2D *jet1Reso_DeltaR = new TH2D("jet1Reso_DeltaR", "jet1Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
+     TH2D *jet2Reso_DeltaR = new TH2D("jet2Reso_DeltaR", "jet2Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
+     TH2D *jet3Reso_DeltaR = new TH2D("jet3Reso_DeltaR", "jet3Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
+     TH2D *jet4Reso_DeltaR = new TH2D("jet4Reso_DeltaR", "jet4Reso_DeltaR", 50, 0, 0.5, 50, -1, 4); 
+
+     TH1D *badjet1DeltaR = new TH1D("badjet1DeltaR", "badjet1DeltaR", 50, 0, 0.5); 
+     TH1D *badjet2DeltaR = new TH1D("badjet2DeltaR", "badjet2DeltaR", 50, 0, 0.5); 
+     TH1D *badjet3DeltaR = new TH1D("badjet3DeltaR", "badjet3DeltaR", 50, 0, 0.5); 
+     TH1D *badjet4DeltaR = new TH1D("badjet4DeltaR", "badjet4DeltaR", 50, 0, 0.5); 
+     
+     TH1D *alljet1DeltaR = new TH1D("alljet1DeltaR", "alljet1DeltaR", 50, 0, 0.5); 
+     TH1D *alljet2DeltaR = new TH1D("alljet2DeltaR", "alljet2DeltaR", 50, 0, 0.5); 
+     TH1D *alljet3DeltaR = new TH1D("alljet3DeltaR", "alljet3DeltaR", 50, 0, 0.5); 
+     TH1D *alljet4DeltaR = new TH1D("alljet4DeltaR", "alljet4DeltaR", 50, 0, 0.5);
+
+     Double_t AKTjet1eta1;
+     Double_t AKTjet1theta1;
+     Double_t AKTjet1phi1;
+     Double_t AKTjet1pt1;
+     Double_t AKTjet1mass1;
+     Double_t AKTjet1eta2;
+     Double_t AKTjet1theta2;
+     Double_t AKTjet1phi2;
+     Double_t AKTjet1pt2;
+     Double_t AKTjet1mass2;
+     Double_t AKTjet2eta1;
+     Double_t AKTjet2theta1;
+     Double_t AKTjet2phi1;
+     Double_t AKTjet2pt1;
+     Double_t AKTjet2mass1;
+     Double_t AKTjet2eta2;
+     Double_t AKTjet2theta2;
+     Double_t AKTjet2phi2;
+     Double_t AKTjet2pt2;
+     Double_t AKTjet2mass2;
+     Double_t AKTjetpairmass;
+    
+     Double_t Gen1eta;
+     Double_t Gen1phi;
+     Double_t Gen2eta;
+     Double_t Gen2phi;
+     Double_t Gen1pt;
+     Double_t Gen2pt;
+     Double_t Gen1mass;
+     Double_t Gen2mass;
+
+     Double_t Gen3eta;
+     Double_t Gen3phi;
+     Double_t Gen4eta;
+     Double_t Gen4phi;
+     Double_t Gen3pt;
+     Double_t Gen4pt;
+     Double_t Gen3mass;
+     Double_t Gen4mass;
+
+     Int_t pair1jet1entry;
+     Int_t pair1jet2entry;
+     Int_t pair2jet1entry;
+     Int_t pair2jet2entry;
+     
+     Int_t AKTjet2entry1;
+     Int_t AKTjet2entry2;
+
+     Double_t diHiggsdis;
+         
+     Double_t AKTjetpair1Mass;
+     Double_t AKTjetpair2Mass;
+
+     Int_t AKTjetpaircnt;
+     
+     TLorentzVector AKTh1;
+     TLorentzVector AKTh2;
+     TLorentzVector AKTjet1;
+     TLorentzVector AKTjet2;
+         
+     Double_t GenJetMass = 0;
+     TLorentzVector Genh2;
+     TLorentzVector GenJet1;
+     TLorentzVector GenJet2;
+     TLorentzVector GenJet3;
+     TLorentzVector GenJet4;
+     
+     Double_t jet1DeltaR;
+     Double_t jet2DeltaR;
+     Double_t jet3DeltaR;
+     Double_t jet4DeltaR;
+
+     //Calibration variable
+     Double_t AKTjetEta;
+     Double_t AKTjetPt;
+     Double_t AKTjetPhi;
+     Double_t AKTjetMass;
+     Double_t AKTjetTheta;
+
+     Double_t GenJetEta;
+     Double_t GenJetPt;
+     Double_t GenJetPhi;
+     Double_t GenJetTheta;
+
+     Double_t GenMuonEta;
+     Double_t GenMuonPhi;
+     Double_t GenMuonPt;
+
+     Double_t recoMuonEta;
+     Double_t recoMuonPhi;
+     Double_t recoMuonPt;
+
+     TLorentzVector AKTjet;
+     TLorentzVector GenJet;
+     TLorentzVector recoMuon;
+     TLorentzVector GenMuon;
+
+     Double_t MatchedGenJetEta;
+     Double_t MatchedGenJetPhi;
+     
+     Int_t ParticlePID;
+
+
+     Double_t JER[10][10];
+     //Double_t MuonwJER[10][10];
+     //Double_t MuonwoJER[10][10];
+     Double_t    matchJetCnt[10][10];
+     Double_t    matchJetMuonwCnt[10][10];
+     Double_t    matchJetMuonwoCnt[10][10];
+     for (Int_t ThetaEntry=0; ThetaEntry < 10; ThetaEntry++) {
+         for (Int_t PTentry=0; PTentry < 10; PTentry++) {
+	     matchJetCnt[ThetaEntry][PTentry] = 0;
+	     matchJetMuonwCnt[ThetaEntry][PTentry] = 0;
+	     matchJetMuonwoCnt[ThetaEntry][PTentry] = 0;
+	     JER[ThetaEntry][PTentry]=0;
+	     //MuonwJER[ThetaEntry][PTentry]=0;
+	     //MuonwoJER[ThetaEntry][PTentry]=0;
+         } 
+     }
+     
+     Calibration(inputFileForJES, outputFileForJES, JER);// MuonwJER, MuonwoJER);
+     
+     //run over event entries
      for(Long64_t entry=0; entry < nEntries; entry++){
+         //Initiation
 	 tree_sig->GetEntry(entry);
 	 tree_output->GetEntry(entry);
          AKTjet_size->GetBranch()->GetEntry(entry);
@@ -1571,25 +1755,25 @@ void Calibration(const char *inputFile, const char *outputFile){
              
 	     //theta edge check
 	     /*
-	     if (AKTjet1theta1>0.5 and AKTjet1theta1<3){
+	     if (AKTjet1theta1>0.5 and AKTjet1theta1<2.5){
 	         AKT1jet1edgeflag = true;
 	     } else {
 	         AKT1jet1edgeflag = false;
 	     }
 
-	     if (AKTjet1theta2>0.5 and AKTjet1theta2<3){
+	     if (AKTjet1theta2>0.5 and AKTjet1theta2<2.5){
 	         AKT1jet2edgeflag = true;
 	     } else {
 	         AKT1jet2edgeflag = false;
 	     }
 
-	     if (AKTjet2theta1>0.5 and AKTjet2theta1<3){
+	     if (AKTjet2theta1>0.5 and AKTjet2theta1<2.5){
 	         AKT2jet1edgeflag = true;
 	     } else {
 	         AKT2jet1edgeflag = false;
 	     }
 
-	     if (AKTjet2theta2>0.5 and AKTjet2theta2<3){
+	     if (AKTjet2theta2>0.5 and AKTjet2theta2<2.5){
 	         AKT2jet2edgeflag = true;
 	     } else {
 	         AKT2jet2edgeflag = false;
@@ -1597,6 +1781,10 @@ void Calibration(const char *inputFile, const char *outputFile){
              */
 	     
              //if (AKT1jet1flag==true and AKT1jet2flag==true and AKT2jet1flag==true and AKT2jet2flag==true){
+	         AKTGenPt1Comp->Fill(AKTGenPt1diff);
+		 AKTGenPt2Comp->Fill(AKTGenPt2diff);
+		 AKTGenPt3Comp->Fill(AKTGenPt3diff);
+		 AKTGenPt4Comp->Fill(AKTGenPt4diff);
 		 alljet1DeltaR->Fill(deltaR[0]);
 		 alljet2DeltaR->Fill(deltaR[1]);
 		 alljet3DeltaR->Fill(deltaR[2]);
@@ -1605,6 +1793,7 @@ void Calibration(const char *inputFile, const char *outputFile){
 		 alljet2theta->Fill(AKTjet1theta2);
 		 alljet3theta->Fill(AKTjet2theta1);
 		 alljet4theta->Fill(AKTjet2theta2);
+
 		 if (abs(AKTGenPt1diff)>0.2) {
 		     jet1Reso_Pt->Fill(Genpt[0], AKTGenPt1diff);
                      jet1Reso_DeltaR->Fill(deltaR[0], AKTGenPt1diff);
@@ -1643,6 +1832,9 @@ void Calibration(const char *inputFile, const char *outputFile){
 		     //if (AKT1jet1edgeflag==true and AKT1jet2edgeflag==true and AKT2jet1edgeflag==true and AKT2jet2edgeflag==true) {
 		         AKTjetMass1->Fill(AKTjetpair1Mass);
                          AKTjetMass2->Fill(AKTjetpair2Mass);
+		         //GenAKTMass2->Fill(GenJetMass);
+	                 AKTGenMass1Comp->Fill(AKTGenMass1diff);
+	                 AKTGenMass2Comp->Fill(AKTGenMass2diff);
 		     //}
 	         }
 	     //} 
@@ -1654,7 +1846,7 @@ void Calibration(const char *inputFile, const char *outputFile){
      }
 
  //Fitting and plotting
-/*
+     TCanvas *mycanvas = new TCanvas("mycanvas","My Canvas",800,600);
      TF1 *jetpair1fit = new TF1("jetpair1fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)",25,600);
      TF1 *jetpair2fit = new TF1("jetpair2fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)+expo(5)",25,600);
      TF1 *fSignal = new TF1("fSignal","gaus+gaus(3)",20,600);
@@ -1670,15 +1862,15 @@ void Calibration(const char *inputFile, const char *outputFile){
      jetpair2fit->SetParLimits(5,0,20);
      jetpair2fit->SetParLimits(6,-1,-0.0001);
      //jetpair2fit->SetParLimits(4,50,109);
-     jetpair2fit->SetParLimits(10.5.30);
+     jetpair2fit->SetParLimits(3,10,50);
      jetpair2fit->SetParLimits(4,0,10);
      
      jetpair1fit->SetParameters(300,120,10,40,20);
      jetpair1fit->SetParLimits(0,50,350);
      jetpair1fit->SetParLimits(1,100,140);
-     jetpair1fit->SetParLimits(10.5,30);
-     //jetpair1fit->SetParLimits(6,0,8);
-     //jetpair1fit->SetParLimits(7,-1.5,-0.0001);
+     jetpair1fit->SetParLimits(2,5,30);
+     /*jetpair1fit->SetParLimits(6,0,8);
+     jetpair1fit->SetParLimits(7,-1.5,-0.0001);*/
      jetpair1fit->SetParLimits(3,0,60);
      jetpair1fit->SetParLimits(4,5,40);
 	     
@@ -1751,7 +1943,7 @@ void Calibration(const char *inputFile, const char *outputFile){
      AKTGenPt4Comp->GetYaxis()->SetTitle("Events");
      AKTGenPt4Comp->Draw();
      mycanvas->SaveAs("AKTGenPt4Comp.png");
- */     
+      
      //Calibration plot
      GenJetPT_Theta->GetXaxis()->SetTitle("#theta");
      GenJetPT_Theta->GetYaxis()->SetTitle("P_{T} [GeV]");
@@ -1804,27 +1996,7 @@ void Calibration(const char *inputFile, const char *outputFile){
      jet4Reso_DeltaR->GetYaxis()->SetTitle("Resolution (P_{T})");     
      jet4Reso_DeltaR->Draw();//"COLZ");
      mycanvas->SaveAs("jet4Reso_DeltaR.png");
-/* 
-     badjet1theta->GetXaxis()->SetTitle("#theta");
-     badjet1theta->GetYaxis()->SetTitle("Events");
-     badjet1theta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet1theta.png");
-  
-     badjet2theta->GetXaxis()->SetTitle("#theta");
-     badjet2theta->GetYaxis()->SetTitle("Events");
-     badjet2theta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet2theta.png");
-  
-     badjet3theta->GetXaxis()->SetTitle("#theta");
-     badjet3theta->GetYaxis()->SetTitle("Events");
-     badjet3theta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet3theta.png");
-  
-     badjet4theta->GetXaxis()->SetTitle("#theta");
-     badjet4theta->GetYaxis()->SetTitle("Events");
-     badjet4theta->Draw();//"COLZ");
-     mycanvas->SaveAs("badjet4theta.png");
-*/
+
      alljet1theta->Draw();
      alljet1theta->SetLineColor(kRed);
      alljet1theta->GetXaxis()->SetTitle("#theta");
@@ -1970,6 +2142,14 @@ void Calibration(const char *inputFile, const char *outputFile){
 
      AKTjetMass1->Write();
      AKTjetMass2->Write();
+     //GenAKTMass2->Write();
+     AKTGenMass1Comp->Write();
+     AKTGenMass2Comp->Write();
+     //GenUncutMass2->Write();
+     AKTGenPt1Comp->Write();
+     AKTGenPt2Comp->Write();
+     AKTGenPt3Comp->Write();
+     AKTGenPt4Comp->Write();
     
      AKTjetPT_Theta->Write();
      GenJetPT_Theta->Write();
@@ -2009,7 +2189,6 @@ void Calibration(const char *inputFile, const char *outputFile){
      alljet4theta->Write();
 
      tree_output->Write();
-
      output->Close();
      file_sig->Close();
 }
