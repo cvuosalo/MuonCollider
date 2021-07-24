@@ -1,0 +1,68 @@
+nohup: ignoring input
+
+Processing Pairing_w_JES.C("delphes_dhiggs_sig_10k.root","delphes_dhiggs_sig_10k_pairMass.root","/nfs_scratch/hjia38/ttbar_w_hadron.root","ttbar_w_hadron_Cali.root")...
+
+Initiating pairing algorithm...
+
+Calling Calibration algorithm...
+
+Initiating Calibration...
+
+Calibration's result:
+Jet Energy Calibration gives following Jet Energy Response:
+1, 0.98, 0.96, 0.96, 0.96, 0.96, 0.96, 0.96, 0.97, 0.99, 
+1.02, 0.96, 0.94, 0.95, 1, 0.97, 0.96, 0.94, 0.94, 0.99, 
+1.01, 0.97, 0.95, 0.97, 0.96, 1.01, 0.98, 0.95, 0.93, 0.97, 
+0.99, 0.95, 0.96, 0.99, 0.97, 0.98, 0.95, 0.97, 0.94, 0.96, 
+0.99, 0.95, 1.01, 0.97, 0.96, 0.97, 0.98, 0.97, 0.94, 0.96, 
+0.97, 0.94, 0.96, 0.98, 1, 0.99, 0.98, 0.96, 0.96, 0.95, 
+0.95, 0.96, 0.98, 0.99, 0.99, 1.03, 0.99, 0.98, 0.97, 0.95, 
+0.95, 0.97, 0.99, 1, 0.99, 1, 0.99, 0.97, 0.99, 0.95, 
+0.93, 0.98, 0.99, 0.99, 1, 1, 1, 1, 0.99, 0.94, 
+0.89, 0.97, 0.98, 0.98, 0.99, 0.98, 0.98, 0.98, 0.98, 0.9, 
+
+Number of Jets included in calculation
+0, 1084, 1776, 1492, 1429, 1302, 1438, 1653, 1747, 191, 
+1, 326, 100, 80, 80, 75, 80, 89, 206, 178, 
+19, 356, 114, 90, 82, 66, 82, 103, 198, 230, 
+47, 352, 129, 92, 88, 113, 99, 101, 179, 297, 
+112, 346, 148, 111, 105, 101, 112, 132, 197, 306, 
+160, 422, 167, 173, 146, 133, 153, 170, 236, 446, 
+340, 578, 270, 215, 221, 241, 227, 223, 388, 655, 
+499, 784, 506, 376, 336, 370, 370, 397, 600, 854, 
+705, 1389, 1008, 823, 757, 713, 748, 887, 1139, 1490, 
+720, 1497, 1339, 1244, 1145, 1076, 1191, 1307, 1516, 1476, 
+
+Calibration all done! Quit...
+
+Results of pairing algorithm:
+
+Run gaussian fit for the leading anti-KT jet pair...
+ FCN=109.384 FROM MIGRAD    STATUS=CONVERGED     250 CALLS         251 TOTAL
+                     EDM=7.99384e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           1.83706e+02   9.31872e+00   2.24192e-04  -1.26365e-02
+   2  p1           1.19932e+02   2.69473e-01   6.64501e-05  -1.85885e-02
+   3  p2           7.54674e+00   6.11774e-01   1.73150e-04   4.31588e-03
+   4  p3           7.45241e+01   7.32820e+00   5.34402e-04  -1.51449e-03
+   5  p4           2.51569e+01   9.86068e-01   1.16309e-04   3.26339e-03
+
+Run gaussian fit for the sub-leading anti-KT jet pair...
+ FCN=177.747 FROM MIGRAD    STATUS=CONVERGED     642 CALLS         643 TOTAL
+                     EDM=4.30813e-08    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   3.9 per cent
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           8.40775e+01   3.77138e+00   1.93987e-05  -3.66802e-03
+   2  p1           1.02588e+02   5.94724e-01   5.26439e-05   3.33646e-03
+   3  p2           2.24199e+01   1.09501e+00  -7.13373e-05   1.29503e-03
+   4  p3           4.44804e+01   2.12464e+00  -7.80886e-05  -1.10612e-03
+   5  p4           2.24196e+01   1.93024e+00   1.38772e-04  -6.38141e-04
+   6  p5           3.11474e+00   1.41591e-01  -6.11283e-06  -6.52043e-03
+   7  p6          -1.85063e-02   2.92214e-03   7.75300e-06  -8.15554e-03
+
+Output in TTree...
+
+Saving...
+Time taken: 449.55s
+All done! Exit...
