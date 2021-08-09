@@ -124,7 +124,7 @@ void JetEnergyFix(Double_t AKTjeteta,
 }
 void Calibration(const char *inputFile,
     const char *outputFile,
-        Double_t JER[10][10]) { // Double_t MuonwJER[10][10], Double_t MuonwoJER[10][10]){
+        Double_t JER[10][10]) { 
     //Initiation
     gSystem -> Load("libDelphes.so");
     TFile *file_sig = new TFile(inputFile);
@@ -1255,10 +1255,10 @@ void Calibration(const char *inputFile,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Pairing_w_JES(const char *inputFile,
-    const char *outputFile,
-        const char *inputFileForJES,
-            const char *outputFileForJES) {
-    clock_t tStart = clock();
+    Double_t JER[10][10],
+    	TH1D* AKTjetMass1,
+	    TH1D* AKTjetMass2) {
+    //clock_t tStart = clock();
     //Initiation
     gSystem -> Load("libDelphes.so");
     gROOT -> ProcessLine("gErrorIgnoreLevel = kWarning;");
@@ -1267,11 +1267,11 @@ void Pairing_w_JES(const char *inputFile,
     //chain.Add(inputFile);
     //ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
     TFile *file_sig = new TFile(inputFile);
-    TFile *output = new TFile(outputFile, "RECREATE");
+    //TFile *output = new TFile(outputFile, "RECREATE");
     TTree *tree_sig = (TTree*) file_sig -> Get("Delphes");
-    TTree *tree_output = new TTree("tree_output", "Delphes");
+    //TTree *tree_output = new TTree("tree_output", "Delphes");
 
-    cout << endl << "Initiating pairing algorithm..." << endl;
+    cout << endl << "///////////////////////////////////////////////////" << endl << "Initiating pairing algorithm..." << endl;
 
     TLeaf *AKTjet_size = tree_sig -> GetLeaf("AKTjet_size");
     TLeaf *AKTjet_eta = tree_sig -> GetLeaf("AKTjet.Eta");
@@ -1293,11 +1293,8 @@ void Pairing_w_JES(const char *inputFile,
 
     Int_t nEntries = tree_sig -> GetEntries();
 
-    TH1D *AKTjetMass1 = new TH1D("AKTjetMass1", "Anti_KTjet leading jets pair invariant mass", 150, 0, 400);
-    TH1D *AKTjetMass2 = new TH1D("AKTjetMass2", "Anti_KTjet sub-leading jets pair invariant mass", 150, 0, 400);
-
-    TH2D *AKTJetPair = new TH2D("AKTJetPair", "Anti_kT jet pair invariant mass", 50, 0, 250, 50, 0, 250);
-
+    //TH1D *AKTjetMass1 = new TH1D("AKTjetMass1", "Anti_KTjet leading jets pair invariant mass", 150, 0, 400);
+    //TH1D *AKTjetMass2 = new TH1D("AKTjetMass2", "Anti_KTjet sub-leading jets pair invariant mass", 150, 0, 400);
     TH1D *GenAKTMass2 = new TH1D("GenAKTMass2", "GenAKTMass2", 50, 0, 600);
     TH1D *AKTGenMass1Comp = new TH1D("AKTGenMass1Comp", "AKTGenMass1Comp", 50, -1, 2);
     TH1D *AKTGenMass2Comp = new TH1D("AKTGenMass2Comp", "AKTGenMass2Comp", 50, -1, 2);
@@ -1448,31 +1445,14 @@ void Pairing_w_JES(const char *inputFile,
 
     Int_t ParticlePID;
 
-    Double_t JER[10][10];
-    //Double_t MuonwJER[10][10];
-    //Double_t MuonwoJER[10][10];
-    Double_t matchJetCnt[10][10];
-    Double_t matchJetMuonwCnt[10][10];
-    Double_t matchJetMuonwoCnt[10][10];
-    for (Int_t ThetaEntry = 0; ThetaEntry < 10; ThetaEntry++) {
-        for (Int_t PTentry = 0; PTentry < 10; PTentry++) {
-            matchJetCnt[ThetaEntry][PTentry] = 0;
-            matchJetMuonwCnt[ThetaEntry][PTentry] = 0;
-            matchJetMuonwoCnt[ThetaEntry][PTentry] = 0;
-            JER[ThetaEntry][PTentry] = 0;
-            //MuonwJER[ThetaEntry][PTentry]=0;
-            //MuonwoJER[ThetaEntry][PTentry]=0;
-        }
-    }
-
-    cout << endl << "Calling Calibration algorithm..." << endl;
-    Calibration(inputFileForJES, outputFileForJES, JER); // MuonwJER, MuonwoJER);
+    //cout << endl << "Calling Calibration algorithm..." << endl;
+    //Calibration(inputFileForJES, outputFileForJES, JER); // MuonwJER, MuonwoJER);
 
     //run over event entries
     for (Long64_t entry = 0; entry < nEntries; entry++) {
         //Initiation
         tree_sig -> GetEntry(entry);
-        tree_output -> GetEntry(entry);
+        //tree_output -> GetEntry(entry);
         AKTjet_size -> GetBranch() -> GetEntry(entry);
         GenJet_size -> GetBranch() -> GetEntry(entry);
 
@@ -1729,7 +1709,7 @@ void Pairing_w_JES(const char *inputFile,
                     }
                 }
             }
-            /* 
+
             if (AKTjetpair1Mass < AKTjetpair2Mass) {
                 swap(AKTjetpair1Mass, AKTjetpair2Mass);
                 swap(jet1entry, jet3entry);
@@ -1739,7 +1719,7 @@ void Pairing_w_JES(const char *inputFile,
                 swap(AKTjet1eta1, AKTjet2eta1);
                 swap(AKTjet1eta2, AKTjet2eta2);
             }
-	    */
+
             Gen1eta = GenJet_eta -> GetValue(jet1entry);
             Gen1phi = GenJet_phi -> GetValue(jet1entry);
             Gen1pt = GenJet_pt -> GetValue(jet1entry);
@@ -1900,7 +1880,6 @@ void Pairing_w_JES(const char *inputFile,
                     //if (AKT1jet1edgeflag==true and AKT1jet2edgeflag==true and AKT2jet1edgeflag==true and AKT2jet2edgeflag==true) {
                         AKTjetMass1 -> Fill(AKTjetpair1Mass);
                         AKTjetMass2 -> Fill(AKTjetpair2Mass);
-			AKTJetPair -> Fill(AKTjetpair1Mass, AKTjetpair2Mass);
                         //GenAKTMass2->Fill(GenJetMass);
                         AKTGenMass1Comp -> Fill(AKTGenMass1diff);
                         AKTGenMass2Comp -> Fill(AKTGenMass2diff);
@@ -1915,10 +1894,11 @@ void Pairing_w_JES(const char *inputFile,
 
         //GenUncutMass2->Fill(GenJetMass);
     }
-
+    
     //Fitting and plotting
+    /*
     cout << endl << "Results of pairing algorithm:" << endl;
-    TCanvas *mycanvas = new TCanvas("mycanvas", "My Canvas", 1400, 1800);
+    TCanvas *mycanvas = new TCanvas("mycanvas", "My Canvas", 800, 600);
     TF1 *jetpair1fit = new TF1("jetpair1fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)", 25, 600);
     TF1 *jetpair2fit = new TF1("jetpair2fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)+expo(5)", 25, 600);
     TF1 *fSignal = new TF1("fSignal", "gaus+gaus(3)", 20, 600);
@@ -1941,11 +1921,10 @@ void Pairing_w_JES(const char *inputFile,
     jetpair1fit -> SetParLimits(0, 50, 350);
     jetpair1fit -> SetParLimits(1, 100, 140);
     jetpair1fit -> SetParLimits(2, 5, 30);
-    /*jetpair1fit->SetParLimits(6,0,8);
-    jetpair1fit->SetParLimits(7,-1.5,-0.0001);*/
     jetpair1fit -> SetParLimits(3, 0, 100);
     jetpair1fit -> SetParLimits(4, 5, 40);
 
+    
     cout << endl << "Run gaussian fit for the leading anti-KT jet pair..." << endl;
     AKTjetMass1 -> Fit("jetpair1fit", "R");
     jetpair1fit -> GetParameters(param);
@@ -1988,250 +1967,9 @@ void Pairing_w_JES(const char *inputFile,
     f2peak -> Draw("SAME");
     //AKTjetMass2Signal->Draw("SAME"); fSignal->Draw("SAME");
     mycanvas -> SaveAs("AKTjetpair2Mass.png");
-    
-    AKTJetPair -> GetXaxis() ->SetTitleOffset(1.9);
-    AKTJetPair -> GetYaxis() ->SetTitleOffset(1.9);
-    AKTJetPair -> GetXaxis() -> SetTitle("Lead Higgs inv mass [GeV]");
-    AKTJetPair -> GetYaxis() -> SetTitle("Sub-lead Higgs inv mass [GeV]");
-    AKTJetPair -> Draw("LEGO2");
-    //AKTJetPair -> Draw("COLZ");
-    mycanvas -> SaveAs("AKTJetPair.png");
-    /*
-    cout << endl << "Run gaussian fit for the sub-leading GenJet pair under selection of AKT..." << endl;
-    //GenAKTMass2->Fit("jetpair2fit","R");
-    //mycanvas->SaveAs("GenAKTMass2.png");
-    cout << endl << "Run gaussian fit for the sub-leading GenJet pair (Uncut)..." << endl;
-    //GenUncutMass2->Fit("jetpair2fit","R");
-    //mycanvas->SaveAs("GenUncutMass2.png");
-    */
-
-    AKTGenMass1Comp -> GetXaxis() -> SetTitle("(M_{H1}-M_{Gen})/M_{Gen}");
-    AKTGenMass1Comp -> GetYaxis() -> SetTitle("Events");
-    AKTGenMass1Comp -> Draw();
-    mycanvas -> SaveAs("AKTGenMass1Comp.png");
-
-    AKTGenMass2Comp -> GetXaxis() -> SetTitle("(M_{H2}-M_{Gen})/M_{Gen}");
-    AKTGenMass2Comp -> GetYaxis() -> SetTitle("Events");
-    AKTGenMass2Comp -> Draw();
-    mycanvas -> SaveAs("AKTGenMass2Comp.png");
-
-    AKTGenPt1Comp -> GetXaxis() -> SetTitle("(P_{T_1}-P_{T_{Gen1}})/P_{T_{Gen1}}");
-    AKTGenPt1Comp -> GetYaxis() -> SetTitle("Events");
-    AKTGenPt1Comp -> Draw();
-    mycanvas -> SaveAs("AKTGenPt1Comp.png");
-
-    AKTGenPt2Comp -> GetXaxis() -> SetTitle("(P_{T_2}-P_{T_{Gen2}})/P_{T_{Gen2}}");
-    AKTGenPt2Comp -> GetYaxis() -> SetTitle("Events");
-    AKTGenPt2Comp -> Draw();
-    mycanvas -> SaveAs("AKTGenPt2Comp.png");
-
-    AKTGenPt3Comp -> GetXaxis() -> SetTitle("(P_{T_3}-P_{T_{Gen3}})/P_{T_{Gen3}}");
-    AKTGenPt3Comp -> GetYaxis() -> SetTitle("Events");
-    AKTGenPt3Comp -> Draw();
-    mycanvas -> SaveAs("AKTGenPt3Comp.png");
-
-    AKTGenPt4Comp -> GetXaxis() -> SetTitle("(P_{T_4}-P_{T_{Gen4}})/P_{T_{Gen4}}");
-    AKTGenPt4Comp -> GetYaxis() -> SetTitle("Events");
-    AKTGenPt4Comp -> Draw();
-    mycanvas -> SaveAs("AKTGenPt4Comp.png");
-
-    //Calibration plot
-    GenJetPT_Theta -> GetXaxis() -> SetTitle("#theta");
-    GenJetPT_Theta -> GetYaxis() -> SetTitle("P_{T} [GeV]");
-    GenJetPT_Theta -> SetMarkerColor(kBlue);
-    //GenJetPT_Theta->SetMarkerStyle(kCircle);
-    GenJetPT_Theta -> SetLineColor(kBlue);
-    GenJetPT_Theta -> Draw();
-    AKTjetPT_Theta -> SetMarkerColor(kRed);
-    //AKTjetPT_Theta->SetMarkerStyle(kPlus);
-    AKTjetPT_Theta -> SetLineColor(kRed);
-    AKTjetPT_Theta -> Draw("same");
-    mycanvas -> SaveAs("Calibration.png");
-
-    jet1Reso_Pt -> GetXaxis() -> SetTitle("P_{T} [GeV]");
-    jet1Reso_Pt -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet1Reso_Pt -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet1Reso_Pt.png");
-
-    jet2Reso_Pt -> GetXaxis() -> SetTitle("P_{T} [GeV]");
-    jet2Reso_Pt -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet2Reso_Pt -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet2Reso_Pt.png");
-
-    jet3Reso_Pt -> GetXaxis() -> SetTitle("P_{T} [GeV]");
-    jet3Reso_Pt -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet3Reso_Pt -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet3Reso_Pt.png");
-
-    jet4Reso_Pt -> GetXaxis() -> SetTitle("P_{T} [GeV]");
-    jet4Reso_Pt -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet4Reso_Pt -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet4Reso_Pt.png");
-
-    jet1Reso_DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    jet1Reso_DeltaR -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet1Reso_DeltaR -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet1Reso_DeltaR.png");
-
-    jet2Reso_DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    jet2Reso_DeltaR -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet2Reso_DeltaR -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet2Reso_DeltaR.png");
-
-    jet3Reso_DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    jet3Reso_DeltaR -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet3Reso_DeltaR -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet3Reso_DeltaR.png");
-
-    jet4Reso_DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    jet4Reso_DeltaR -> GetYaxis() -> SetTitle("Resolution (P_{T})");
-    jet4Reso_DeltaR -> Draw(); //"COLZ");
-    mycanvas -> SaveAs("jet4Reso_DeltaR.png");
-
-    alljet1theta -> Draw();
-    alljet1theta -> SetLineColor(kRed);
-    alljet1theta -> GetXaxis() -> SetTitle("#theta");
-    alljet1theta -> GetYaxis() -> SetTitle("Events");
-    badjet1theta -> SetStats(0);
-    badjet1theta -> Draw("same");
-    badjet1theta -> SetLineColor(kBlue + 1);
-    TH1D *jet1thetaRatio = (TH1D*) badjet1theta -> Clone("jet1thetaRatio");
-    jet1thetaRatio -> SetLineColor(kBlack);
-    jet1thetaRatio -> Sumw2();
-    jet1thetaRatio -> SetStats(0);
-    jet1thetaRatio -> Divide(alljet1theta);
-    jet1thetaRatio -> Scale(100);
-    goodjet1theta -> Draw("same");
-    goodjet1theta -> SetLineColor(kGreen);
-    mycanvas -> SaveAs("AKTjet1theta.png");
-    jet1thetaRatio -> Draw("HIST");
-    mycanvas -> SaveAs("jet1thetaRatio.png");
-
-    alljet2theta -> Draw();
-    alljet2theta -> SetLineColor(kRed);
-    alljet2theta -> GetXaxis() -> SetTitle("#theta");
-    alljet2theta -> GetYaxis() -> SetTitle("Events");
-    badjet2theta -> SetStats(0);
-    badjet2theta -> Draw("same");
-    badjet2theta -> SetLineColor(kBlue + 1);
-    TH1D *jet2thetaRatio = (TH1D*) badjet2theta -> Clone("jet2thetaRatio");
-    jet2thetaRatio -> SetLineColor(kBlack);
-    jet2thetaRatio -> Sumw2();
-    jet2thetaRatio -> SetStats(0);
-    jet2thetaRatio -> Divide(alljet2theta);
-    jet2thetaRatio -> Scale(100);
-    goodjet2theta -> Draw("same");
-    goodjet2theta -> SetLineColor(kGreen);
-    mycanvas -> SaveAs("AKTjet2theta.png");
-    jet2thetaRatio -> Draw("HIST");
-    mycanvas -> SaveAs("jet2thetaRatio.png");
-
-    alljet3theta -> Draw();
-    alljet3theta -> SetLineColor(kRed);
-    alljet3theta -> GetXaxis() -> SetTitle("#theta");
-    alljet3theta -> GetYaxis() -> SetTitle("Events");
-    badjet3theta -> SetStats(0);
-    badjet3theta -> Draw("same");
-    badjet3theta -> SetLineColor(kBlue + 1);
-    TH1D *jet3thetaRatio = (TH1D*) badjet3theta -> Clone("jet3thetaRatio");
-    jet3thetaRatio -> SetLineColor(kBlack);
-    jet3thetaRatio -> Sumw2();
-    jet3thetaRatio -> SetStats(0);
-    jet3thetaRatio -> Divide(alljet3theta);
-    jet3thetaRatio -> Scale(100);
-    goodjet3theta -> Draw("same");
-    goodjet3theta -> SetLineColor(kGreen);
-    mycanvas -> SaveAs("AKTjet3theta.png");
-    jet3thetaRatio -> Draw("HIST");
-    mycanvas -> SaveAs("jet3thetaRatio.png");
-
-    alljet4theta -> Draw();
-    alljet4theta -> SetLineColor(kRed);
-    alljet4theta -> GetXaxis() -> SetTitle("#theta");
-    alljet4theta -> GetYaxis() -> SetTitle("Events");
-    badjet4theta -> SetStats(0);
-    badjet4theta -> Draw("same");
-    badjet4theta -> SetLineColor(kBlue + 1);
-    TH1D *jet4thetaRatio = (TH1D*) badjet4theta -> Clone("jet4thetaRatio");
-    jet4thetaRatio -> SetLineColor(kBlack);
-    jet4thetaRatio -> Sumw2();
-    jet4thetaRatio -> SetStats(0);
-    jet4thetaRatio -> Divide(alljet4theta);
-    jet4thetaRatio -> Scale(100);
-    goodjet4theta -> Draw("same");
-    goodjet4theta -> SetLineColor(kGreen);
-    mycanvas -> SaveAs("AKTjet4theta.png");
-    jet4thetaRatio -> Draw("HIST");
-    mycanvas -> SaveAs("jet4thetaRatio.png");
-
-    // Plot DeltaR distribution
-    alljet1DeltaR -> Draw();
-    alljet1DeltaR -> SetLineColor(kRed);
-    badjet1DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    badjet1DeltaR -> GetYaxis() -> SetTitle("Events");
-    badjet1DeltaR -> SetStats(0);
-    badjet1DeltaR -> Draw("same");
-    badjet1DeltaR -> SetLineColor(kBlue + 1);
-    TH1D *jet1DeltaRratio = (TH1D*) badjet1DeltaR -> Clone("jet1DeltaRratio");
-    jet1DeltaRratio -> SetLineColor(kBlack);
-    jet1DeltaRratio -> Sumw2();
-    jet1DeltaRratio -> SetStats(0);
-    jet1DeltaRratio -> Divide(alljet1DeltaR);
-    jet1DeltaRratio -> Scale(100);
-    jet1DeltaRratio -> Draw("sameHIST");
-    mycanvas -> SaveAs("badjet1DeltaR.png");
-
-    alljet2DeltaR -> Draw();
-    alljet2DeltaR -> SetLineColor(kRed);
-    badjet2DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    badjet2DeltaR -> GetYaxis() -> SetTitle("Events");
-    badjet2DeltaR -> SetStats(0);
-    badjet2DeltaR -> Draw("same");
-    badjet2DeltaR -> SetLineColor(kBlue + 1);
-    TH1D *jet2DeltaRratio = (TH1D*) badjet2DeltaR -> Clone("jet2DeltaRratio");
-    jet2DeltaRratio -> SetLineColor(kBlack);
-    jet2DeltaRratio -> Sumw2();
-    jet2DeltaRratio -> SetStats(0);
-    jet2DeltaRratio -> Divide(alljet2DeltaR);
-    jet2DeltaRratio -> Scale(100);
-    jet2DeltaRratio -> Draw("sameHIST");
-    mycanvas -> SaveAs("badjet2DeltaR.png");
-
-    alljet3DeltaR -> Draw();
-    alljet3DeltaR -> SetLineColor(kRed);
-    badjet3DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    badjet3DeltaR -> GetYaxis() -> SetTitle("Events");
-    badjet3DeltaR -> SetStats(0);
-    badjet3DeltaR -> Draw("same");
-    badjet3DeltaR -> SetLineColor(kBlue + 1);
-    TH1D *jet3DeltaRratio = (TH1D*) badjet3DeltaR -> Clone("jet3DeltaRratio");
-    jet3DeltaRratio -> SetLineColor(kBlack);
-    jet3DeltaRratio -> Sumw2();
-    jet3DeltaRratio -> SetStats(0);
-    jet3DeltaRratio -> Divide(alljet3DeltaR);
-    jet3DeltaRratio -> Scale(100);
-    jet3DeltaRratio -> Draw("sameHIST");
-    mycanvas -> SaveAs("badjet3DeltaR.png");
-
-    alljet4DeltaR -> Draw();
-    alljet4DeltaR -> SetLineColor(kRed);
-    badjet4DeltaR -> GetXaxis() -> SetTitle("#Delta_{R}");
-    badjet4DeltaR -> GetYaxis() -> SetTitle("Events");
-    badjet4DeltaR -> SetStats(0);
-    badjet4DeltaR -> Draw("same");
-    badjet4DeltaR -> SetLineColor(kBlue + 1);
-    TH1D *jet4DeltaRratio = (TH1D*) badjet4DeltaR -> Clone("jet4DeltaRratio");
-    jet4DeltaRratio -> SetLineColor(kBlack);
-    jet4DeltaRratio -> Sumw2();
-    jet4DeltaRratio -> SetStats(0);
-    jet4DeltaRratio -> Divide(alljet4DeltaR);
-    jet4DeltaRratio -> Scale(100);
-    jet4DeltaRratio -> Draw("sameHIST");
-    mycanvas -> SaveAs("badjet4DeltaR.png");
-    cout << endl << "Output in TTree..." << endl;
-
+  
     output -> cd();
-
+    
     cout << endl << "Saving..." << endl;
     AKTjetMass1 -> Write();
     AKTjetMass2 -> Write();
@@ -2279,12 +2017,142 @@ void Pairing_w_JES(const char *inputFile,
     alljet3theta -> Write();
     alljet4theta -> Write();
 
-    AKTJetPair -> Write();
+    tree_output -> Write();
+    output -> Close();
+    */
+    file_sig -> Close();
+
+    //printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+    //cout << "All done! Exit..." << endl;
+}
+
+void Pairing_w_bkg_JES(const char *inputSigFile,
+    const char *inputBkg1File,
+    	const char *inputBkg2File,
+	    const char *inputBkg3File,
+	        const char *outputFile,
+		    const char *inputFileForJES,
+			const char *outputFileForJES) {
+    clock_t tStart = clock();
+    //Initiation
+    gSystem -> Load("libDelphes.so");
+    gROOT -> ProcessLine("gErrorIgnoreLevel = kWarning;");
+    gErrorIgnoreLevel = kWarning;
+
+    //Calibration
+    Double_t JER[10][10];
+    cout << endl << "Calling Calibration algorithm..." << endl;
+    Calibration(inputFileForJES, outputFileForJES, JER);
+
+    TFile *output = new TFile(outputFile, "RECREATE");
+    TTree *tree_output = new TTree("tree_output","Delphes");
+    
+    THStack* JetPair1 = new THStack("JetPair1", "");// "Leading Anti_{kT} jets pair invariant mass");
+    THStack* JetPair2 = new THStack("JetPair2", "");//"Sub-Leading Anti_{kT} jets pair invariant mass");
+
+    TH1D *AKTjetMass1_sig = new TH1D("AKTjetMass1_sig", "Anti_KTjet leading jets pair invariant mass", 50, 0, 250);
+    TH1D *AKTjetMass2_sig = new TH1D("AKTjetMass2_sig", "Anti_KTjet sub-leading jets pair invariant mass", 50, 0, 250); 
+
+    TH1D *AKTjetMass1_bkg1 = new TH1D("AKTjetMass1_bkg1", "Anti_KTjet leading jets pair invariant mass", 50, 0, 250);
+    TH1D *AKTjetMass2_bkg1 = new TH1D("AKTjetMass2_bkg1", "Anti_KTjet sub-leading jets pair invariant mass", 50, 0, 250); 
+
+
+    TH1D *AKTjetMass1_bkg2 = new TH1D("AKTjetMass1_bkg2", "Anti_KTjet leading jets pair invariant mass", 50, 0, 250);
+    TH1D *AKTjetMass2_bkg2 = new TH1D("AKTjetMass2_bkg2", "Anti_KTjet sub-leading jets pair invariant mass", 50, 0, 250); 
+
+
+    TH1D *AKTjetMass1_bkg3 = new TH1D("AKTjetMass1_bkg3", "Anti_KTjet leading jets pair invariant mass", 50, 0, 250);
+    TH1D *AKTjetMass2_bkg3 = new TH1D("AKTjetMass2_bkg3", "Anti_KTjet sub-leading jets pair invariant mass", 50, 0, 250); 
+
+    Pairing_w_JES(inputSigFile, JER, AKTjetMass1_sig, AKTjetMass2_sig); 
+    Pairing_w_JES(inputBkg1File, JER, AKTjetMass1_bkg1, AKTjetMass2_bkg1); 
+    Pairing_w_JES(inputBkg2File, JER, AKTjetMass1_bkg2, AKTjetMass2_bkg2); 
+    Pairing_w_JES(inputBkg3File, JER, AKTjetMass1_bkg3, AKTjetMass2_bkg3); 
+
+    Int_t N1sig = AKTjetMass1_sig -> GetEntries(); 
+    Int_t N1bkg1 = AKTjetMass1_bkg1 -> GetEntries(); 
+    Int_t N1bkg2 = AKTjetMass1_bkg2 -> GetEntries(); 
+    Int_t N1bkg3 = AKTjetMass1_bkg3 -> GetEntries(); 
+    Int_t N2sig = AKTjetMass2_sig -> GetEntries(); 
+    Int_t N2bkg1 = AKTjetMass2_bkg1 -> GetEntries(); 
+    Int_t N2bkg2 = AKTjetMass2_bkg2 -> GetEntries(); 
+    Int_t N2bkg3 = AKTjetMass2_bkg3 -> GetEntries(); 
+
+    Double_t weight1 = 0.0008201/(0.0008201 + 0.0009234 + 0.003722 + 0.03168);
+    Double_t weight2 = 0.0009234/(0.0008201 + 0.0009234 + 0.003722 + 0.03168);
+    Double_t weight3 = 0.003722/(0.0008201 + 0.0009234 + 0.003722 + 0.03168);
+    Double_t weight4 = 0.03168/(0.0008201 + 0.0009234 + 0.003722 + 0.03168);
+
+    AKTjetMass1_sig -> Scale(weight1);//*10000/N1sig);
+    AKTjetMass1_sig -> SetFillColor(kBlue);
+    JetPair1 -> Add(AKTjetMass1_sig);
+    AKTjetMass1_bkg1 -> Scale(weight2*10);//000/N1bkg1);
+    AKTjetMass1_bkg1-> SetFillColor(kOrange);
+    JetPair1 -> Add(AKTjetMass1_bkg1);
+    AKTjetMass1_bkg2 -> Scale(weight3*10);//000/N1bkg2);
+    AKTjetMass1_bkg2-> SetFillColor(kGreen);
+    JetPair1 -> Add(AKTjetMass1_bkg2);
+    AKTjetMass1_bkg3 -> Scale(weight4*10);//000/N1bkg3);
+    AKTjetMass1_bkg3-> SetFillColor(kPink+9);
+    JetPair1 -> Add(AKTjetMass1_bkg3);
+ 
+    AKTjetMass2_sig -> Scale(weight1);//*10000/N2sig);
+    AKTjetMass2_sig -> SetFillColor(kBlue);
+    JetPair2 -> Add(AKTjetMass2_sig);
+    AKTjetMass2_bkg1 -> Scale(weight2*10);//000/N2bkg1);
+    AKTjetMass2_bkg1-> SetFillColor(kOrange);
+    JetPair2 -> Add(AKTjetMass2_bkg1);
+    AKTjetMass2_bkg2 -> Scale(weight3*10);//000/N2bkg2);
+    AKTjetMass2_bkg2-> SetFillColor(kGreen);
+    JetPair2 -> Add(AKTjetMass2_bkg2);
+    AKTjetMass2_bkg3 -> Scale(weight4*10);//000/N2bkg3);
+    AKTjetMass2_bkg3-> SetFillColor(kPink+9);
+    JetPair2 -> Add(AKTjetMass2_bkg3);
+
+    TCanvas *totalcanvas = new TCanvas("totalcanvas", "Canvas", 10, 10, 800, 800);
+    JetPair1 -> Draw("HIST");
+    TLegend *legend = new TLegend(0.7, 0.65, 0.85, 0.85);
+    legend -> AddEntry(AKTjetMass1_sig, "#nu#bar{#nu}HH", "f");
+    legend -> AddEntry(AKTjetMass1_bkg1, "#nu#bar{#nu}b#bar{b}b#bar{b}", "f");
+    legend -> AddEntry(AKTjetMass1_bkg2, "#nu#bar{#nu}b#bar{b}H", "f");
+    legend -> AddEntry(AKTjetMass1_bkg3, "#nu#bar{#nu}b#bar{b}Z", "f");
+    legend -> SetBorderSize(0);
+    legend -> Draw();
+    JetPair1 -> GetXaxis() -> SetTitle("m_{H_1} [GeV]");
+    JetPair1 -> GetYaxis() -> SetTitle("Events");
+    TLatex title1(10, 265, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    TLatex latex1(15, 230, "#it{#sqrt{s}  = 3 TeV}");
+    latex1.SetTextSize(0.045); 
+    latex1.Draw("same");
+    title1.Draw("same");
+    totalcanvas -> SaveAs("JetPairs1_sig+bkg.png");
+
+    JetPair2 -> Draw("HIST");
+    TLegend *legend2 = new TLegend(0.7, 0.65, 0.85, 0.85);
+    legend2 -> AddEntry(AKTjetMass2_sig, "#nu#bar{#nu}HH", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg1, "#nu#bar{#nu}b#bar{b}b#bar{b}", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg2, "#nu#bar{#nu}b#bar{b}H", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg3, "#nu#bar{#nu}b#bar{b}Z", "f");
+    legend2 -> SetBorderSize(0);
+    legend2 -> Draw();
+    JetPair2 -> GetXaxis() -> SetTitle("m_{H_2} [GeV]");
+    JetPair2 -> GetYaxis() -> SetTitle("Events");
+    TLatex title2(10, 250, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    TLatex latex2(15, 220, "#it{#sqrt{s}  = 3 TeV}");
+    latex2.SetTextSize(0.045); 
+    latex2.Draw("same");
+    title2.Draw("same");
+    totalcanvas -> SaveAs("JetPairs2_sig+bkg.png");
+
+    output -> cd();
+
+    JetPair1 -> Write();
+    JetPair2 -> Write();
 
     tree_output -> Write();
     output -> Close();
-    file_sig -> Close();
-
+    
     printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
     cout << "All done! Exit..." << endl;
+
 }

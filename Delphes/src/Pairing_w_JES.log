@@ -38,31 +38,31 @@ Calibration all done! Quit...
 Results of pairing algorithm:
 
 Run gaussian fit for the leading anti-KT jet pair...
- FCN=109.384 FROM MIGRAD    STATUS=CONVERGED     250 CALLS         251 TOTAL
-                     EDM=7.99384e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+ FCN=153.497 FROM MIGRAD    STATUS=CONVERGED     330 CALLS         331 TOTAL
+                     EDM=6.50502e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
   EXT PARAMETER                                   STEP         FIRST   
   NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
-   1  p0           1.83706e+02   9.31872e+00   2.24192e-04  -1.26365e-02
-   2  p1           1.19932e+02   2.69473e-01   6.64501e-05  -1.85885e-02
-   3  p2           7.54674e+00   6.11774e-01   1.73150e-04   4.31588e-03
-   4  p3           7.45241e+01   7.32820e+00   5.34402e-04  -1.51449e-03
-   5  p4           2.51569e+01   9.86068e-01   1.16309e-04   3.26339e-03
+   1  p0           1.15601e+02   3.42080e+00   1.05698e-04  -1.46440e-04
+   2  p1           1.09239e+02   4.76228e-01   1.63822e-04   1.49604e-03
+   3  p2           3.00000e+01   2.72449e-01   1.26936e-03** at limit **
+   4  p3           4.78722e+01   6.33479e+00   5.45301e-04   3.09699e-04
+   5  p4           1.11102e+01   1.20369e+00   4.09770e-04  -9.50333e-04
 
 Run gaussian fit for the sub-leading anti-KT jet pair...
- FCN=177.747 FROM MIGRAD    STATUS=CONVERGED     642 CALLS         643 TOTAL
-                     EDM=4.30813e-08    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   3.9 per cent
+ FCN=351.128 FROM MIGRAD    STATUS=CONVERGED     351 CALLS         352 TOTAL
+                     EDM=8.42123e-09    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   1.4 per cent
   EXT PARAMETER                                   STEP         FIRST   
   NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
-   1  p0           8.40775e+01   3.77138e+00   1.93987e-05  -3.66802e-03
-   2  p1           1.02588e+02   5.94724e-01   5.26439e-05   3.33646e-03
-   3  p2           2.24199e+01   1.09501e+00  -7.13373e-05   1.29503e-03
-   4  p3           4.44804e+01   2.12464e+00  -7.80886e-05  -1.10612e-03
-   5  p4           2.24196e+01   1.93024e+00   1.38772e-04  -6.38141e-04
-   6  p5           3.11474e+00   1.41591e-01  -6.11283e-06  -6.52043e-03
-   7  p6          -1.85063e-02   2.92214e-03   7.75300e-06  -8.15554e-03
+   1  p0           1.20000e+02   1.98635e-01  -4.98745e-06** at limit **
+   2  p1           1.13872e+02   4.00923e-01  -3.25963e-05   2.20276e-03
+   3  p2           2.34869e+01   4.34007e-01   4.28232e-05  -5.16024e-06
+   4  p3           5.00000e+01   2.55272e-01  -8.72754e-06** at limit **
+   5  p4           1.22202e+01   8.60991e-01  -2.09473e-05  -8.91755e-04
+   6  p5           9.07574e-01   3.68173e-01   5.63030e-05  -1.27502e-03
+   7  p6          -3.95242e-03   2.88205e-03  -4.11495e-05  -4.07255e-03
 
 Output in TTree...
 
 Saving...
-Time taken: 449.55s
+Time taken: 454.49s
 All done! Exit...
