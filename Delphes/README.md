@@ -17,8 +17,9 @@ exit
 ```
 ### Simulation
 ```bash
+cd ~/MG5_aMC_v2_7_2/
 pushd /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6; cmsenv;popd
-cd MG5_aMC_v2_7_2
+export PYTHIA8DATA=$PWD/HEPTools/pythia8/share/Pythia8/xmldoc/
 ./bin/mg5_aMC
 ```
 Here is a example for generating the signal for diHiggs channel, similar for background or other channel 
