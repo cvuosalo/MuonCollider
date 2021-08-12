@@ -38,7 +38,7 @@ python /usr/local/bin/runWiscJobs.py \
   --OutputDir=testMuCol \
   --HDFSProdDir None \
   --Experiment mucol \
-  --Requirements INFN_CVMFS_Exists
+  --Requirements MUONCOLL_CVMFS_Exists
   
 The "Workflow" argument should be a unique name that changes every time you submit jobs.
 "Executable" should be the full path to your mucoljob.sh script.
