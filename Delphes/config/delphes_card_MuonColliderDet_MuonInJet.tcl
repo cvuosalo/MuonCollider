@@ -187,6 +187,9 @@ set ExecutionPath {
     JetFlavorAssociation_R12_inclusive
     JetFlavorAssociation_R15_inclusive
 
+    AKT_BTagging_WP50_R05_inclusive
+    AKT_BTagging_WP70_R05_inclusive
+    AKT_BTagging_WP90_R05_inclusive
 
     BTagging_WP50_R02N2
     BTagging_WP70_R02N2
