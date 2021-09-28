@@ -1,4 +1,3 @@
-//Usage: root -l Delphes_HH.C\(\"delphes_dhiggs_sig_10k.root\"\,\"delphes_dhiggs_bkg2v4b_10k.root\"\,\"delphes_dhiggs_bkgvvbbh_10k.root\"\,\"delphes_dhiggs_bkgvvbbz_10k.root\"\,\"delphes_dhiggs_sig+bkg_pairmass.root\"\,\"/nfs_scratch/hjia38/ttbar_w_hadron.root\"\,\"ttbar_w_hadron_Cali.root\"\)
 #ifdef __CLING__
 
 R__LOAD_LIBRARY(libDelphes)
@@ -22,6 +21,8 @@ R__LOAD_LIBRARY(libDelphes)
 #include "external/ExRootAnalysis/ExRootTreeWriter.h"
 
 #include "external/ExRootAnalysis/ExRootTask.h"
+
+#include <string.h>
 
 #endif
 
@@ -51,7 +52,7 @@ void JetEnergyFix(Double_t AKTjeteta,
     Double_t AKTjetPt,
 	Double_t JER[10][10]) { // Double_t MuonwJER[10][10], Double_t MuonwoJER[10][10], bool MuonTagging){
     
-    Double_t AKTjetTheta = 2 * atan(exp(-AKTjeteta));
+    Double_t AKTjetTheta = 2 *atan(exp(-AKTjeteta));
     Int_t ThetaGrid;
     Int_t PTGrid;
 
@@ -1942,6 +1943,32 @@ void Pairing_w_JES(const char *inputFile,
             };
 
 
+			    if (AKTBTag[0] >=4){
+				BDTjet1BTag1 = 1;
+			    } else {
+				BDTjet1BTag1 = 0;
+			    }
+
+			    if (AKTBTag[1] >=4){
+				BDTjet1BTag2 = 1;
+			    } else {
+				BDTjet1BTag2 = 0;
+			    }
+
+			    if (AKTBTag[2] >=4){
+				BDTjet2BTag1 = 1;
+			    } else {
+				BDTjet2BTag1 = 0;
+			    }
+
+			    if (AKTBTag[3] >=4){
+				BDTjet2BTag2 = 1;
+			    } else {
+				BDTjet2BTag2 = 0;
+			    }
+
+			    NBTag = BDTjet1BTag1 + BDTjet1BTag2 + BDTjet2BTag1 + BDTjet2BTag2;
+
             /*
             //sort pt
             for (int i = 0; i < 3; i++) {
@@ -1997,6 +2024,7 @@ void Pairing_w_JES(const char *inputFile,
          */
 
             //if (AKT1jet1flag == true and AKT1jet2flag == true and AKT2jet1flag == true and AKT2jet2flag == true){
+	    if (NBTag>=4){
             	AKTGenPt1Comp -> Fill(AKTGenPt1diff);
             	AKTGenPt2Comp -> Fill(AKTGenPt2diff);
             	AKTGenPt3Comp -> Fill(AKTGenPt3diff);
@@ -2108,7 +2136,7 @@ void Pairing_w_JES(const char *inputFile,
 			    BDTdihiggseta = AKTdiH.Eta();
 			    BDTdihiggsphi = AKTdiH.Phi();
 			    BDTdihiggsinvm = AKTdiH.Mag();
-
+/*
 			    if (AKTBTag[0] >=4){
 				BDTjet1BTag1 = 1;
 			    } else {
@@ -2134,6 +2162,7 @@ void Pairing_w_JES(const char *inputFile,
 			    }
 
 			    NBTag = BDTjet1BTag1 + BDTjet1BTag2 + BDTjet2BTag1 + BDTjet2BTag2;
+*/
 			    DiHiggsMETDeltaTheta = TMath::Abs(2*TMath::ATan(TMath::Exp(-BDTdihiggseta))-2*TMath::ATan(TMath::Exp(-BDTMissingETEta)));
 
 			    tree_BDT -> Fill();
@@ -2144,7 +2173,7 @@ void Pairing_w_JES(const char *inputFile,
                     //}
                 //}
             //}
-
+            }
             //AKTjetMass1->Fill(AKTjetpair1Mass);
             //AKTjetMass2->Fill(AKTjetpair2Mass);
 
@@ -2321,17 +2350,17 @@ void trainBDT(const char *BDToutputFileName) {
     dataloader -> AddVariable("BDTjet1phi2",'F');
     dataloader -> AddVariable("BDTjet2phi1",'F');
     dataloader -> AddVariable("BDTjet2phi2",'F');
-    
+/*   
     dataloader -> AddVariable("BDTjet1BTag1",'I');
     dataloader -> AddVariable("BDTjet1BTag2",'I');
     dataloader -> AddVariable("BDTjet2BTag1",'I');
     dataloader -> AddVariable("BDTjet2BTag2",'I');
-
+*/
     dataloader -> AddVariable("BDTMissingETMET", 'F');
     dataloader -> AddVariable("BDTMissingETEta", 'F');
     dataloader -> AddVariable("BDTMissingETPhi", 'F');
 
-    dataloader -> AddVariable("NBTag",'I');
+    //dataloader -> AddVariable("NBTag",'I');
 
     dataloader -> AddVariable("DiHiggsMETDeltaTheta", 'F');
     
@@ -2399,12 +2428,12 @@ void applyBDTindividual(TTree* theTree,
     Float_t BDTjet1phi2;
     Float_t BDTjet2phi1;
     Float_t BDTjet2phi2;
-
+/*
     Float_t BDTjet1BTag1;
     Float_t BDTjet1BTag2;
     Float_t BDTjet2BTag1;
     Float_t BDTjet2BTag2;
-
+*/
     Float_t BDTMissingETMET;
     Float_t BDTMissingETEta;
     Float_t BDTMissingETPhi;
@@ -2424,7 +2453,7 @@ void applyBDTindividual(TTree* theTree,
     Float_t BDTdihiggseta;
     Float_t BDTdihiggsinvm;
 
-    Float_t NBTag;
+    //Float_t NBTag;
     Float_t DiHiggsMETDeltaTheta;
 
     Int_t BDTNjets_d;
@@ -2443,12 +2472,12 @@ void applyBDTindividual(TTree* theTree,
     Double_t BDTjet1phi2_d;
     Double_t BDTjet2phi1_d;
     Double_t BDTjet2phi2_d;
-
+/*
     Int_t BDTjet1BTag1_d;
     Int_t BDTjet1BTag2_d;
     Int_t BDTjet2BTag1_d;
     Int_t BDTjet2BTag2_d;
-
+*/
     Double_t BDTMissingETMET_d;
     Double_t BDTMissingETEta_d;
     Double_t BDTMissingETPhi_d;
@@ -2488,17 +2517,17 @@ void applyBDTindividual(TTree* theTree,
     reader -> AddVariable("BDTjet1phi2", &BDTjet1phi2);
     reader -> AddVariable("BDTjet2phi1", &BDTjet2phi1);
     reader -> AddVariable("BDTjet2phi2", &BDTjet2phi2);
-
+/*
     reader -> AddVariable("BDTjet1BTag1", &BDTjet1BTag1);
     reader -> AddVariable("BDTjet1BTag2", &BDTjet1BTag2);
     reader -> AddVariable("BDTjet2BTag1", &BDTjet2BTag1);
     reader -> AddVariable("BDTjet2BTag2", &BDTjet2BTag2);
-
+*/
     reader -> AddVariable("BDTMissingETMET", &BDTMissingETMET);
     reader -> AddVariable("BDTMissingETEta", &BDTMissingETEta);
     reader -> AddVariable("BDTMissingETPhi", &BDTMissingETPhi);
 
-    reader -> AddVariable("NBTag", &NBTag);
+    //reader -> AddVariable("NBTag", &NBTag);
 
     reader -> AddVariable("DiHiggsMETDeltaTheta", &DiHiggsMETDeltaTheta);
 
@@ -2518,53 +2547,7 @@ void applyBDTindividual(TTree* theTree,
     reader -> AddVariable("BDTdihiggsinvm", &BDTdihiggsinvm);
 
     reader -> BookMVA("BDT_RealAdaBoost","dataset/weights/TMVAClassification_BDT_RealAdaBoost.weights.xml");
-    /*
-    theTree -> SetBranchAddress("BDTNjets", &BDTNjets_d);
-
-    theTree -> SetBranchAddress("BDTjet1pt1", &BDTjet1pt1_d);
-    theTree -> SetBranchAddress("BDTjet1pt2", &BDTjet1pt2_d);
-    theTree -> SetBranchAddress("BDTjet2pt1", &BDTjet2pt1_d);
-    theTree -> SetBranchAddress("BDTjet2pt2", &BDTjet2pt2_d);
-
-    theTree -> SetBranchAddress("BDTjet1eta1", &BDTjet1eta1_d);
-    theTree -> SetBranchAddress("BDTjet1eta2", &BDTjet1eta2_d);
-    theTree -> SetBranchAddress("BDTjet2eta1", &BDTjet2eta1_d);
-    theTree -> SetBranchAddress("BDTjet2eta2", &BDTjet2eta2_d);
-
-    theTree -> SetBranchAddress("BDTjet1phi1", &BDTjet1phi1_d);
-    theTree -> SetBranchAddress("BDTjet1phi2", &BDTjet1phi2_d);
-    theTree -> SetBranchAddress("BDTjet2phi1", &BDTjet2phi1_d);
-    theTree -> SetBranchAddress("BDTjet2phi2", &BDTjet2phi2_d);
-
-    theTree -> SetBranchAddress("BDTjet1BTag1", &BDTjet1BTag1_d);
-    theTree -> SetBranchAddress("BDTjet1BTag2", &BDTjet1BTag2_d);
-    theTree -> SetBranchAddress("BDTjet2BTag1", &BDTjet2BTag1_d);
-    theTree -> SetBranchAddress("BDTjet2BTag2", &BDTjet2BTag2_d);
-
-    theTree -> SetBranchAddress("NBTag", &NBTag_d);
-
-    theTree -> SetBranchAddress("BDTMissingETMET", &BDTMissingETMET_d);
-    theTree -> SetBranchAddress("BDTMissingETEta", &BDTMissingETEta_d);
-    theTree -> SetBranchAddress("BDTMissingETPhi", &BDTMissingETPhi_d);
-
-    theTree -> SetBranchAddress("DiHiggsMETDeltaTheta", &DiHiggsMETDeltaTheta_d);
-
-    theTree -> SetBranchAddress("BDThiggsdeltaPhi", &BDThiggsdeltaPhi_d);
-    theTree -> SetBranchAddress("BDThiggsdeltaEta", &BDThiggsdeltaEta_d);
-
-    theTree -> SetBranchAddress("BDThiggs1pt", &BDThiggs1pt_d);
-    theTree -> SetBranchAddress("BDThiggs1eta", &BDThiggs1eta_d);
-    theTree -> SetBranchAddress("BDThiggs1invm", &BDThiggs1invm_d);
-
-    theTree -> SetBranchAddress("BDThiggs2pt", &BDThiggs2pt_d);
-    theTree -> SetBranchAddress("BDThiggs2eta", &BDThiggs2eta_d);
-    theTree -> SetBranchAddress("BDThiggs2invm", &BDThiggs2invm_d);
-
-    theTree -> SetBranchAddress("BDTdihiggspt", &BDTdihiggspt_d);
-    theTree -> SetBranchAddress("BDTdihiggseta", &BDTdihiggseta_d);
-    theTree -> SetBranchAddress("BDTdihiggsinvm", &BDTdihiggsinvm_d);
-    */
-
+      
     TLeaf *Njets = theTree -> GetLeaf("BDTNjets");
 
     TLeaf *jet1pt1 = theTree -> GetLeaf("BDTjet1pt1");
@@ -2581,13 +2564,13 @@ void applyBDTindividual(TTree* theTree,
     TLeaf *jet1phi2 = theTree -> GetLeaf("BDTjet1phi2");
     TLeaf *jet2phi1 = theTree -> GetLeaf("BDTjet2phi1");
     TLeaf *jet2phi2 = theTree -> GetLeaf("BDTjet2phi2");
-
+/*
     TLeaf *jet1BTag1 = theTree -> GetLeaf("BDTjet1BTag1");
     TLeaf *jet1BTag2 = theTree -> GetLeaf("BDTjet1BTag2");
     TLeaf *jet2BTag1 = theTree -> GetLeaf("BDTjet2BTag1");
     TLeaf *jet2BTag2 = theTree -> GetLeaf("BDTjet2BTag2");
-
-    TLeaf *NBTagLeaf = theTree -> GetLeaf("NBTag");
+*/
+    //TLeaf *NBTagLeaf = theTree -> GetLeaf("NBTag");
 
     TLeaf *MissingETMET = theTree -> GetLeaf("BDTMissingETMET");
     TLeaf *MissingETEta = theTree -> GetLeaf("BDTMissingETEta");
@@ -2612,52 +2595,6 @@ void applyBDTindividual(TTree* theTree,
 
     for (Long64_t entry=0; entry < theTree->GetEntries(); entry++) {
         if (entry%1000 == 0) std::cout << "--- ... Processing event: " << entry << std::endl;
-/*
-	BDTNjets = BDTNjets_d;
-
-        BDTjet1pt1 = (Float_t) BDTjet1pt1_d;
-	BDTjet1pt2 = (Float_t) BDTjet1pt2_d;
-	BDTjet2pt1 = (Float_t) BDTjet2pt1_d;
-	BDTjet2pt2 = (Float_t) BDTjet2pt2_d;
-
-	BDTjet1eta1 = (Float_t) BDTjet1eta1_d;
-	BDTjet1eta2 = (Float_t) BDTjet1eta2_d;
-	BDTjet2eta1 = (Float_t) BDTjet2eta1_d;
-	BDTjet2eta2 = (Float_t) BDTjet2eta2_d;
-
-	BDTjet1phi1 = (Float_t) BDTjet1phi1_d;
-	BDTjet1phi2 = (Float_t) BDTjet1phi2_d;
-	BDTjet2phi1 = (Float_t) BDTjet2phi1_d;
-	BDTjet2phi2 = (Float_t) BDTjet2phi2_d;
-
-	BDTjet1BTag1 = (Float_t) BDTjet1BTag1_d;
-	BDTjet1BTag2 = (Float_t) BDTjet1BTag2_d;
-	BDTjet2BTag1 = (Float_t) BDTjet2BTag1_d;
-	BDTjet2BTag2 = (Float_t) BDTjet2BTag2_d;
-
-	BDTMissingETMET = (Float_t) BDTMissingETMET_d;
-	BDTMissingETEta = (Float_t) BDTMissingETEta_d;
-	BDTMissingETPhi = (Float_t) BDTMissingETPhi_d;
-
-	BDThiggsdeltaEta = 0;
-	BDThiggsdeltaPhi = (Float_t) BDThiggsdeltaPhi_d;
-
-
-	BDThiggs1pt = (Float_t) BDThiggs1pt_d;
-	BDThiggs1eta = (Float_t) BDThiggs1eta_d;
-	BDThiggs1invm = (Float_t) BDThiggs1invm_d;
-
-	BDThiggs2pt = (Float_t) BDThiggs2pt_d;
-	BDThiggs2eta = (Float_t) BDThiggs2eta_d;
-	BDThiggs2invm = (Float_t) BDThiggs2invm_d;
-
-	BDTdihiggspt = (Float_t) BDTdihiggspt_d;
-	BDTdihiggseta = (Float_t) BDTdihiggseta_d;
-	BDTdihiggsinvm = (Float_t) BDTdihiggsinvm_d;
-
-	NBTag = (Float_t) NBTag_d;
-	DiHiggsMETDeltaTheta = (Float_t) DiHiggsMETDeltaTheta_d;
-*/
         theTree -> GetEntry(entry);
 
         BDTNjets = Njets -> GetValue();
@@ -2676,12 +2613,12 @@ void applyBDTindividual(TTree* theTree,
         BDTjet1phi2 =  jet1phi2 -> GetValue();
         BDTjet2phi1 =  jet2phi1 -> GetValue();
         BDTjet2phi2 =  jet2phi2 -> GetValue();
-
+/*
         BDTjet1BTag1 = jet1BTag1 -> GetValue();
         BDTjet1BTag2 = jet1BTag2 -> GetValue();
         BDTjet2BTag1 = jet2BTag1 -> GetValue();
         BDTjet2BTag2 = jet2BTag2 -> GetValue();
-
+*/
         BDTMissingETMET = MissingETMET -> GetValue();
         BDTMissingETEta = MissingETEta -> GetValue();
         BDTMissingETPhi = MissingETPhi -> GetValue();
@@ -2701,7 +2638,7 @@ void applyBDTindividual(TTree* theTree,
         BDTdihiggseta = dihiggseta -> GetValue();
         BDTdihiggsinvm = dihiggsinvm -> GetValue();
 
-        NBTag =  NBTagLeaf -> GetValue();
+        //NBTag =  NBTagLeaf -> GetValue();
         DiHiggsMETDeltaTheta = HiggsMetDeltaTheta -> GetValue();
 
         histBdt -> Fill(reader -> EvaluateMVA("BDT_RealAdaBoost"));
@@ -2726,24 +2663,34 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     TH1F *histBdt_bkg2 = new TH1F("MVA_BDT_bkg2", "MVA_BDT_bkg2", nbin, 0.35, 0.65);
     TH1F *histBdt_bkg3 = new TH1F("MVA_BDT_bkg3", "MVA_BDT_bkg3", nbin, 0.35, 0.65);
 
+    Int_t SigEntries = sigTree -> GetEntries();
+    Int_t bkg1Entries = bkg1Tree -> GetEntries();
+    Int_t bkg2Entries = bkg2Tree -> GetEntries();
+    Int_t bkg3Entries = bkg3Tree -> GetEntries();
+
     THStack* JetPair1BDT = new THStack("JetPair1BDT", "");
     THStack* JetPair2BDT = new THStack("JetPair2BDT", "");
-    TH1F *AKTjetMass1_sigBDT = new TH1F("AKTjetMass1_sigBDT", "Anti_KTjet leading jets pair invariant mass", 50, 60, 190);
-    TH1F *AKTjetMass2_sigBDT = new TH1F("AKTjetMass2_sigBDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 60, 190);
+    TH1F *AKTjetMass1_sigBDT = new TH1F("AKTjetMass1_sigBDT", "Anti_KTjet leading jets pair invariant mass", 50, 80, 160);
+    TH1F *AKTjetMass2_sigBDT = new TH1F("AKTjetMass2_sigBDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 80, 160);
 
-    TH1F *AKTjetMass1_bkg1BDT = new TH1F("AKTjetMass1_bkg1BDT", "Anti_KTjet leading jets pair invariant mass", 50, 60, 190);
-    TH1F *AKTjetMass2_bkg1BDT = new TH1F("AKTjetMass2_bkg1BDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 60, 190);
+    TH1F *AKTjetMass1_bkg1BDT = new TH1F("AKTjetMass1_bkg1BDT", "Anti_KTjet leading jets pair invariant mass", 50, 80, 160);
+    TH1F *AKTjetMass2_bkg1BDT = new TH1F("AKTjetMass2_bkg1BDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 80, 160);
 
-    TH1F *AKTjetMass1_bkg2BDT = new TH1F("AKTjetMass1_bkg2BDT", "Anti_KTjet leading jets pair invariant mass", 50, 60, 190);
-    TH1F *AKTjetMass2_bkg2BDT = new TH1F("AKTjetMass2_bkg2BDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 60, 190);
+    TH1F *AKTjetMass1_bkg2BDT = new TH1F("AKTjetMass1_bkg2BDT", "Anti_KTjet leading jets pair invariant mass", 50, 80, 160);
+    TH1F *AKTjetMass2_bkg2BDT = new TH1F("AKTjetMass2_bkg2BDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 80, 160);
 
-    TH1F *AKTjetMass1_bkg3BDT = new TH1F("AKTjetMass1_bkg3BDT", "Anti_KTjet leading jets pair invariant mass", 50, 60, 190);
-    TH1F *AKTjetMass2_bkg3BDT = new TH1F("AKTjetMass2_bkg3BDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 60, 190);
+    TH1F *AKTjetMass1_bkg3BDT = new TH1F("AKTjetMass1_bkg3BDT", "Anti_KTjet leading jets pair invariant mass", 50, 80, 160);
+    TH1F *AKTjetMass2_bkg3BDT = new TH1F("AKTjetMass2_bkg3BDT", "Anti_KTjet sub-leading jets pair invariant mass", 50, 80, 160);
 
-    Double_t weight1 = 10*0.0008201/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
-    Double_t weight2 = 10*0.0009227/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
-    Double_t weight3 = 10*0.003743/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
-    Double_t weight4 = 10*0.03168/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
+    Double_t weight1 = 100*0.0008201/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
+    Double_t weight2 = 100*0.0009227/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
+    Double_t weight3 = 100*0.003743/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
+    Double_t weight4 = 100*0.03168/(0.0008201 + 0.0009227 + 0.003743 + 0.03168);
+
+    Double_t SigStrength = SigEntries * weight1/TMath::Sqrt(SigEntries * weight1 + bkg1Entries * weight2 + bkg2Entries * weight3 + bkg3Entries * weight4);
+
+    cout << SigStrength << endl;
+
 
     applyBDTindividual(sigTree, histBdt_sig, AKTjetMass1_sigBDT, AKTjetMass2_sigBDT);
     applyBDTindividual(bkg1Tree, histBdt_bkg1, AKTjetMass1_bkg1BDT, AKTjetMass2_bkg1BDT);
@@ -2780,6 +2727,18 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     AKTjetMass2_bkg3BDT-> SetFillColor(kAzure+8);
     JetPair2BDT -> Add(AKTjetMass2_bkg3BDT);
 
+    TF1 *fSignal = new TF1("fSignal", "[0]*exp(-0.5*((x-[1])/[2])^2)", 80, 160);
+    TF1 *f1Signal = new TF1("Signal1", "[0]*exp(-0.5*((x-[1])/[2])^2)", 80, 160);
+    TF1 *f2Bkg = new TF1("Bkg2", "[0]*exp(-0.5*((x-[1])/[2])^2)", 80, 160);
+    TF1 *f3Bkg = new TF1("Bkg3", "[0]*exp(-0.5*((x-[1])/[2])^2)", 80, 160);
+    //TF1 *fAll = new TF1("All", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)+[6]*exp(-0.5*((x-[7])/[8])^2)", 80, 160);
+
+    Double_t param1[3];
+    Double_t param2[3];
+    Double_t param3[3];
+
+    fSignal -> SetParameters(70, 120, 40);
+
     TCanvas *totalcanvas = new TCanvas("totalcanvas", "Canvas", 300, 300, 1200, 1200);
     gStyle->SetHistMinimumZero();
     totalcanvas -> SetLogy();
@@ -2787,24 +2746,55 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     totalcanvas -> SetCanvasSize(1200,1200);
     JetPair1BDT -> Draw("HIST");
     AKTjetMass1_sigBDT -> Draw("sameHIST");
+
+    AKTjetMass1_sigBDT -> Fit("fSignal", "R");
+    fSignal -> GetParameters(param1);
+    f1Signal -> SetParameters(&param1[0]);
+    f1Signal -> SetLineColor(2);
+    f1Signal -> Draw("sameHIST");
+
+/*
+    AKTjetMass1_bkg2BDT -> Fit("fSignal", "R");
+    fSignal -> GetParameters(param2);
+
+    AKTjetMass1_bkg3BDT -> Fit("fSignal", "R");
+    fSignal -> GetParameters(param3);
+*/
+/*
+    fAll -> SetParameters(param1[0],param1[1],param1[2],param2[0],param2[1],param2[2],param3[0],param3[1],param3[2]);
+    fAll -> SetLineColor(kAzure+8);
+    fAll -> Draw("same");
+*/
     TLegend *legend = new TLegend(0.65, 0.65, 0.875, 0.85);
-    legend -> AddEntry(AKTjetMass1_sigBDT, "signal HH", "l");
+    legend -> AddEntry(AKTjetMass1_sigBDT, "signal HH data", "l");
     legend -> AddEntry(AKTjetMass1_bkg1BDT, "QCD", "f");
     legend -> AddEntry(AKTjetMass1_bkg2BDT, "single Higgs", "f");
-    legend -> AddEntry(AKTjetMass1_bkg3BDT, "Z + jets", "f");
+    legend -> AddEntry(AKTjetMass1_bkg3BDT, "Z + bb", "f");
+    legend -> AddEntry(f1Signal, "Sig HH fit", "L");
+    //legend -> AddEntry(fAll, "Sig+Bkg fit", "L");
     legend -> SetBorderSize(0);
     legend -> Draw();
+    totalcanvas -> cd();
     JetPair1BDT -> GetXaxis() -> SetTitle("m_{H_1} [GeV]");
     JetPair1BDT -> SetMaximum(1e5);
+    JetPair1BDT -> SetMinimum(4);
     JetPair1BDT -> GetYaxis() -> SetTitle("events");
-    TLatex title1(85, 2.4e5, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    TLatex title1(95, 2.4e5, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
     title1.SetTextSize(0.04);
-    TLatex latexUp1(70, 5e4, "\\sqrt{s} = 3 TeV}");
-    TLatex latexDown1(75, 2e4, "#font[52]{L} #font[42]{=} #font[52]{1 ab^{-1}}");
+    TLatex latexUp1(85, 5e4, "\\sqrt{s} = 3 TeV}");
+    TLatex latexDown1(88, 2e4, "#font[52]{L} #font[42]{=} #font[52]{1 ab^{-1}}");
+    string init("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
+    string add = to_string(SigStrength);
+    string end("}");
+    init = init + add + end;
+    const char * latex = init.c_str();
+    TLatex latexSigStrength(83, 8e3, latex);
     latexUp1.SetTextSize(0.04);
     latexDown1.SetTextSize(0.04);
+    latexSigStrength.SetTextSize(0.04);
     latexUp1.Draw("same");
     latexDown1.Draw("same");
+    latexSigStrength.Draw("same");
     title1.Draw("same");
     totalcanvas -> SaveAs("JetPairs1_sig+bkgBDT.png");
 
@@ -2814,16 +2804,17 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     legend2 -> AddEntry(AKTjetMass2_sigBDT, "signal HH", "l");
     legend2 -> AddEntry(AKTjetMass2_bkg1BDT, "QCD", "f");
     legend2 -> AddEntry(AKTjetMass2_bkg2BDT, "single Higgs ", "f");
-    legend2 -> AddEntry(AKTjetMass2_bkg3BDT, "Z + jets", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg3BDT, "Z + bb", "f");
     legend2 -> SetBorderSize(0);
     legend2 -> Draw();
     JetPair2BDT -> GetXaxis() -> SetTitle("m_{H_2} [GeV]");
     JetPair2BDT -> GetYaxis() -> SetTitle("events");
     JetPair2BDT -> SetMaximum(1e5);
-    TLatex title2(85, 2.5e5, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    JetPair2BDT -> SetMinimum(1);
+    TLatex title2(95, 2.5e5, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
     title2.SetTextSize(0.04);
-    TLatex latexUp2(70, 5e4, "\\sqrt{s} = 3 TeV}");
-    TLatex latexDown2(75, 1.75e4, "#font[52]{L} #font[42]{=} #font[52]{1 ab^{-1}}");
+    TLatex latexUp2(85, 5e4, "\\sqrt{s} = 3 TeV}");
+    TLatex latexDown2(90, 1.75e4, "#font[52]{L} #font[42]{=} #font[52]{1 ab^{-1}}");
     latexUp2.SetTextSize(0.04);
     latexDown2.SetTextSize(0.04);
     latexUp2.Draw("same");
@@ -2850,21 +2841,22 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     histBdt_bkg3 -> SetFillColor(kAzure+8);
     BDTs_b -> Add(histBdt_bkg3);
 
-    BDTs_b-> Draw("HIST");
+    BDTs_b -> Draw("HIST");
+    BDTs_b -> SetMaximum(1e4);
     histBdt_sig -> Draw("sameHIST");
     TLegend *legendBdt = new TLegend(0.65, 0.65, 0.875, 0.85);
     legendBdt -> AddEntry(histBdt_sig, "signal HH", "l");
     legendBdt -> AddEntry(histBdt_bkg1, "QCD", "f");
     legendBdt -> AddEntry(histBdt_bkg2, "single Higgs", "f");
-    legendBdt -> AddEntry(histBdt_bkg3, "Z + jets", "f");
+    legendBdt -> AddEntry(histBdt_bkg3, "Z + bb", "f");
     legendBdt -> SetBorderSize(0);
     legendBdt -> Draw();
-    BDTs_b -> GetXaxis() -> SetTitle("BDT_{Z+jet} score");
+    BDTs_b -> GetXaxis() -> SetTitle("BDT_{Z+bb} score");
     BDTs_b -> GetYaxis() -> SetTitle("events");
-    TLatex titleBdt(0.41, 3800, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    TLatex titleBdt(0.41, 2.15e4, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
     titleBdt.SetTextSize(0.04);
-    TLatex latexUpBdt(0.365, 1500, "\\sqrt{s} = 3 TeV}");
-    TLatex latexDownBdt(0.375, 900, "#font[52]{L = 1 ab^{-1}}");
+    TLatex latexUpBdt(0.365, 5000, "\\sqrt{s} = 3 TeV}");
+    TLatex latexDownBdt(0.375, 3000, "#font[52]{L = 1 ab^{-1}}");
     latexUpBdt.SetTextSize(0.04);
     latexDownBdt.SetTextSize(0.04);
     latexUpBdt.Draw("same");
