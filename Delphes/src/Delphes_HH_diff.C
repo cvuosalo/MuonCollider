@@ -2069,7 +2069,7 @@ void Pairing_w_JES(const char *inputFile,
             	} else {
                     goodjet4theta -> Fill(AKTjet2theta2);
             	}
-
+/*
 		AKT1jet1.SetPtEtaPhiM(AKTpt[0], AKTeta[0], AKTphi[0], AKTmass[0]);
 		AKT1jet2.SetPtEtaPhiM(AKTpt[1], AKTeta[1], AKTphi[1], AKTmass[1]);
 		AKT2jet1.SetPtEtaPhiM(AKTpt[2], AKTeta[2], AKTphi[2], AKTmass[2]);
@@ -2078,7 +2078,7 @@ void Pairing_w_JES(const char *inputFile,
 		AKTh1 = AKT1jet1 + AKT1jet2;
 		AKTh2 = AKT2jet1 + AKT2jet2;
 		TLorentzVector AKTdiH = AKTh1 + AKTh2;
-                
+               */ 
 
             	//if (abs(AKTGenPt1diff) < 0.15 and abs(AKTGenPt2diff) < 0.15 and abs(AKTGenPt3diff) < 0.15 and abs(AKTGenPt4diff) < 0.15) {
                     //if (AKT1jet1edgeflag==true and AKT1jet2edgeflag==true and AKT2jet1edgeflag==true and AKT2jet2edgeflag==true) {
@@ -2103,6 +2103,17 @@ void Pairing_w_JES(const char *inputFile,
 				    }
 				}
 			    }
+
+			    AKT1jet1.SetPtEtaPhiM(AKTpt[0], AKTeta[0], AKTphi[0], AKTmass[0]);
+			    AKT1jet2.SetPtEtaPhiM(AKTpt[3], AKTeta[3], AKTphi[3], AKTmass[3]);
+			    AKT2jet1.SetPtEtaPhiM(AKTpt[1], AKTeta[1], AKTphi[1], AKTmass[1]);
+			    AKT2jet2.SetPtEtaPhiM(AKTpt[2], AKTeta[2], AKTphi[2], AKTmass[2]);
+
+			    AKTh1 = AKT1jet1 + AKT1jet2;
+			    AKTh2 = AKT2jet1 + AKT2jet2;
+			    TLorentzVector AKTdiH = AKTh1 + AKTh2;
+                
+
 			    BDTjet1pt1 = AKTpt[0];
 			    BDTjet1pt2 = AKTpt[1];
 			    BDTjet2pt1 = AKTpt[2];
@@ -2993,7 +3004,7 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     dataFile -> Close();
 }
 
-void Delphes_HH(const char *inputSigFile,
+void Delphes_HH_diff(const char *inputSigFile,
     const char *inputBkg1File,
     	const char *inputBkg2File,
 	    const char *inputBkg3File,
