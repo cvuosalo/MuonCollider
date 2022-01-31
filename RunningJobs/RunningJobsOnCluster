@@ -5,7 +5,8 @@ https://www.hep.wisc.edu/cms/comp/accountSetup.html#grid_cert
 
 If you don't have a grid certificate and are not joining CMS, you can join the GLOW Virtual Organization. Email help@hep.wisc.edu and ask for instructions.
 
-Start with the scripts "mucoljob.sh" and "ilcsoft.sh", found in this directory. You may need to revise them for your task. 
+Start with the scripts "mucoljob.sh" and "ilcsoft.sh", found in this directory. You may need to revise them for your task. To run the v02-07MC version of
+of the muon collider software, use "mucoljobv7.sh" instead of "mucoljob.sh".
 
 Log into one the of login nodes: ssh login.hep.wisc.edu
 Set up your files in /nfs_scratch in a directory under your user name. For example, my user name is "cvuosalo",
