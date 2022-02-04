@@ -5,8 +5,7 @@ https://www.hep.wisc.edu/cms/comp/accountSetup.html#grid_cert
 
 If you don't have a grid certificate and are not joining CMS, you can join the GLOW Virtual Organization. Email help@hep.wisc.edu and ask for instructions.
 
-Start with the scripts "mucoljob.sh" and "ilcsoft.sh", found in this directory. You may need to revise them for your task. To run the v02-07MC version of
-of the muon collider software, use "mucoljobv7.sh" instead of "mucoljob.sh".
+Start with the scripts "mucoljob.sh" and "ilcsoft.sh", found in this directory. You may need to revise them for your task.
 
 Log into one the of login nodes: ssh login.hep.wisc.edu
 Set up your files in /nfs_scratch in a directory under your user name. For example, my user name is "cvuosalo",
@@ -39,13 +38,16 @@ python /usr/local/bin/runWiscJobs.py \
   --OutputDir=testMuCol \
   --HDFSProdDir None \
   --Experiment mucol \
-  --Requirements MUONCOLL_CVMFS_Exists
+  --MemoryRequirements 2048
   
 The "Workflow" argument should be a unique name that changes every time you submit jobs.
 "Executable" should be the full path to your mucoljob.sh script.
 "Arguments" are arguments passed to the mucoljob.sh script, which might not be needed by the script.
 "nJobs" is the number of jobs to run on the cluster.
 "TransferInputFile" should be the full path to your ilcsoft.sh script.
+"MemoryRequirements" is optional. It specifies the RAM in MB needed by the program.
+To run a program that has very large RAM requirments (greater than 10 GB), add this parameter:
+--ExtraAttributes +BIG_MEMORY_JOB=True
 
 This command will give more information about the arguments to "runWiscJobs.py": python /usr/local/bin/runWiscJobs.py --help
 
