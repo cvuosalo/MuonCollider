@@ -1,6 +1,7 @@
 #!/bin/bash
 
-mkdir jobHome$$
-cp ilcsoft.sh jobHome$$
+mkdir jobHome
+cp ilcsoft.sh jobHome
+WORKDIR=`pwd`/jobHome
 
-singularity exec -B jobHome$$:$HOME  /cvmfs/muoncoll.infn.it/sw/singularity/MuonColl_v02-05-MC.sif /bin/bash $HOME/ilcsoft.sh $*
+singularity exec -B /cvmfs --contain --home=$WORKDIR --workdir=$WORKDIR /cvmfs/cms.hep.wisc.edu/mucol/reference/mucoll_1.6_v02-07MC.sif /bin/bash ilcsoft.sh $*
