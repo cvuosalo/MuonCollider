@@ -32,8 +32,18 @@ cp tag_1_pythia8_events.hepmc ../../../../tag_1_pythia8_events.hepmc
 cd ../../../../
 rm -r MG5_aMC_v3_3_1
 
+#Install Delphes
+git clone git://github.com/delphes/delphes.git Delphes
+cd Delphes
+cp ../Makefile ./Makefile
+pushd /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6; cmsenv;popd
+make -j 8
+
 #Run Delphes simulation for each job result from MadGraph
+cp ../delphes_card_MuonColliderDet_MuonInJetShort.tcl ./cards/delphes_card_MuonColliderDet_MuonInJetShort.tcl
 mkdir $WORKDIR/jobHome/bkgvvqqz_10TeV
-~/Delphes/DelphesHepMC cards/delphes_card_MuonColliderDet_MuonInJetShort.tcl bkgvvqqz_10TeV_${jobHome}.root /nfs_scratch/bkgvvqqz_10TeV/bkgvvqqz_10TeV_${jobHome}/Events/run_01/tag_1_pythia8_events.hepmc
+~/Delphes/DelphesHepMC cards/delphes_card_MuonColliderDet_MuonInJetShort.tcl ./bkgvvqqz_10TeV_${jobHome}.root $WORKDIR/jobHome/bkgvvqqz_10TeV/bkgvvqqz_10TeV_${jobHome}/Events/run_01/tag_1_pythia8_events.hepmc
+cp ./bkgvvqqz_10TeV_${jobHome}.root ../
+rm -r Delphes
 
 mv jobHome/*.out .
