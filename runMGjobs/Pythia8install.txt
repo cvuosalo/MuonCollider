@@ -1,2 +1,0 @@
-install Pythia8
-exit
