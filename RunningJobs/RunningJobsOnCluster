@@ -34,8 +34,7 @@ python /usr/local/bin/runWiscJobs.py \
   --Executable=/nfs_scratch/cvuosalo/MuColl/runjobs/mucoljob.sh \
   --Arguments=10 \
   --nJobs=2 \
-  --TransferInputFile=/nfs_scratch/cvuosalo/MuColl/runjobs/ilcsoft.sh \
-  --OutputDir=testMuCol \
+  --TransferInputFiles=/nfs_scratch/cvuosalo/MuColl/runjobs/ilcsoft.sh \
   --HDFSProdDir None \
   --Experiment mucol \
   --MemoryRequirements 2048
