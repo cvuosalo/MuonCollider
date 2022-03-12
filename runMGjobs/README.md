@@ -1,14 +1,14 @@
 ## Command for running MadGraph and Delphes on the cluster
-transferInputFile.tar.gz contains pre-installed package of MadGraph and Delphes
+transferInputFile.tar.gz contains pre-installed package of MadGraph with Pythia8 and Delphes, and also the modified mucol collider detector card for Delphes
 Command:
 ```
-python /usr/local/bin/runWiscJobs.py \
+/usr/local/bin/runWiscJobs.py \
   --WorkFlow run_MG \
-  --Executable=/nfs_scratch/hjia38/MG_job.sh \
+  --Executable=/path/to/runMG_Del.sh \
   --Arguments=10 \
   --nJobs=1000 \
-  --TransferInputFile=/nfs_scratch/hjia38/transferInputFile.tar.gz \
-  --OutputDir=/nfs_scratch/hjia38 \
+  --TransferInputFile=/path/to/MG5zipDir/transferInputFile.tar.gz \
+  --OutputDir=/nfs_scratch/$USER \
   --HDFSProdDir None \
   --Experiment mucol \
   --MemoryRequirements 2048
