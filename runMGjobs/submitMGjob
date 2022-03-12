@@ -1,0 +1,1 @@
+/usr/local/bin/runWiscJobs.py   --WorkFlow KennyMG   --Executable=/nfs_scratch/hjia38/runMG_Del.sh   --Arguments=vvqqz.txt   --nJobs=2   --TransferInputFile=/nfs_scratch/hjia38/transferInputFiles.tar.gz   --OutputDir=/nfs_scratch/$USER   --HDFSProdDir None   --Experiment mucol   --MemoryRequirements 2048
