@@ -1,0 +1,12 @@
+#!/bin/bash
+
+runWiscJobs.py \
+  --WorkFlow KennyMG_vvqqz_30TeV \
+  --Executable=runMG_Del.sh \
+  --Arguments=mc-bkgvvqqz_30TeV.txt \
+  --nJobs=1 \
+  --TransferInputFile=/nfs_scratch/hjia38/transferInputFiles.tar.gz,mc-bkgvvqqz_30TeV.txt\
+  --OutputDir=/nfs_scratch/$USER \
+  --HDFSProdDir None \
+  --Experiment mucol \
+
