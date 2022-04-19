@@ -2705,15 +2705,15 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     TH2F *AKTjetPairsMass_bkg4BDT = new TH2F("AKTjetPairMass_bkg4BDT", "Anti_KTjet diHiggs invariant mass", nbins, mmin, 160, nbins, mmin, 160);
 
 
-    Double_t weight1 = 0.003099*20; 
-    Double_t weight2 = 0.001265*20/8.41305;
-    Double_t weight3 = 0.01434*20*100000/39270;
-    Double_t weight4 = 0.20*20*100000/97900;
-    Double_t weight5 = 0.2755*20*100000/97000;
+    Double_t weight1 = 0.07351; 
+    Double_t weight2 = 0.09689;
+    Double_t weight3 = 0.47722;
+    Double_t weight4 = 0.69595;
+    Double_t weight5 = 5.38193;
     
     Double_t SigStrength = SigEntries * weight1/TMath::Sqrt(SigEntries * weight1 + bkg1Entries * weight2 + bkg2Entries * weight3 + bkg3Entries * weight4 + bkg4Entries * weight5);
 
-    SigStrength = 4.96339;
+    SigStrength = 4.571;
     cout << "Signal strength =" << SigStrength << endl;
 
 
@@ -2904,8 +2904,8 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     TLegend *legend3 = new TLegend(0.65, 0.65, 0.875, 0.85);
     legend3 -> AddEntry(AKTjetPairMass_sigBDT, "signal HH", "f");
     legend3 -> AddEntry(AKTjetPairMass_bkg1BDT, "QCD", "f");
-    legend3 -> AddEntry(AKTjetPairMass_bkg2BDT, "Higgs + bb", "f");
-    legend3 -> AddEntry(AKTjetPairMass_bkg3BDT, "ZZ", "f");
+    legend3 -> AddEntry(AKTjetPairMass_bkg2BDT, "Higgs + qq", "f");
+    legend3 -> AddEntry(AKTjetPairMass_bkg3BDT, "HZ", "f");
     legend3 -> AddEntry(AKTjetPairMass_bkg4BDT, "Z + qq", "f");
     legend3 -> AddEntry(AKTjetPairMass_sigBDT_clone, "signal HH", "l");
     legend3 -> SetBorderSize(0);
@@ -2941,8 +2941,8 @@ void applyBDT(const char *BDTApplyOutputFileName) {
     TLegend *legend4 = new TLegend(0.65, 0.15, 0.875, 0.35);
     legend4 -> AddEntry(AKTjetPairsMass_sigBDT, "signal HH data", "p");
     legend4 -> AddEntry(AKTjetPairsMass_bkg1BDT, "QCD", "p");
-    legend4 -> AddEntry(AKTjetPairsMass_bkg2BDT, "Higgs + bb", "p");
-    legend4 -> AddEntry(AKTjetPairsMass_bkg3BDT, "ZZ", "p");
+    legend4 -> AddEntry(AKTjetPairsMass_bkg2BDT, "Higgs + qq", "p");
+    legend4 -> AddEntry(AKTjetPairsMass_bkg3BDT, "HZ", "p");
     legend4 -> AddEntry(AKTjetPairsMass_bkg4BDT, "Z + qq", "p");
     legend4 -> SetBorderSize(0);
     legend4 -> Draw("same");
@@ -3096,12 +3096,19 @@ void Delphes_HH_10TeV(const char *inputSigFile,
     Int_t N2bkg3 = AKTjetMass2_bkg3 -> GetEntries(); 
     Int_t N2bkg4 = AKTjetMass2_bkg4 -> GetEntries(); 
 
+    Double_t weight1 = 0.07351; 
+    Double_t weight2 = 0.09689;
+    Double_t weight3 = 0.47722;
+    Double_t weight4 = 0.69595;
+    Double_t weight5 = 5.38193;
+    
+/*
     Double_t weight1 = 0.003099*20; 
     Double_t weight2 = 0.001265*20/8.41305;
     Double_t weight3 = 0.01434*20*100000/39270;
     Double_t weight4 = 0.20*20*100000/97900;
     Double_t weight5 = 0.2755*20*100000/97000;
-
+*/
     AKTjetMass1_bkg1 -> Scale(weight2);
     AKTjetMass1_bkg1 -> SetFillColor(kBlue+3);
     JetPair1 -> Add(AKTjetMass1_bkg1);
@@ -3143,6 +3150,7 @@ void Delphes_HH_10TeV(const char *inputSigFile,
     totalcanvas -> SetCanvasSize(1200,1200);
     //totalcanvas -> SetLogy();
     JetPair1 -> Draw("HIST");
+    JetPair1 -> SetMaximum(2400);
     TH1* AKTjetMass1_sig_clone= new TH1D(*AKTjetMass1_sig);
     AKTjetMass1_sig_clone -> SetLineColor(kPink-1);
     AKTjetMass1_sig_clone -> SetLineWidth(4);
@@ -3150,26 +3158,26 @@ void Delphes_HH_10TeV(const char *inputSigFile,
     TLegend *legend = new TLegend(0.6, 0.65, 0.85, 0.85);
     legend -> AddEntry(AKTjetMass1_sig, "signal HH", "f");
     legend -> AddEntry(AKTjetMass1_bkg1, "QCD", "f");
-    legend -> AddEntry(AKTjetMass1_bkg2, "single Higgs", "f");
-    legend -> AddEntry(AKTjetMass1_bkg3, "ZZ", "f");
+    legend -> AddEntry(AKTjetMass1_bkg2, "Higgs + qq", "f");
+    legend -> AddEntry(AKTjetMass1_bkg3, "HZ", "f");
     legend -> AddEntry(AKTjetMass1_bkg4, "Z + qq", "f");
     legend -> AddEntry(AKTjetMass1_sig_clone, "signal HH", "l");
     legend -> SetBorderSize(0);
     legend -> Draw();
     //JetPair1 -> GetXaxis() -> SetTitle("m_{H_1} [GeV]");
     //JetPair1 -> GetYaxis() -> SetTitle("Events");
-    TLatex title1(75, 3050, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    TLatex title1(75, 2550, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
     title1.SetTextSize(0.04); 
-    TLatex latexup1(110, 1750, "#font[52]{#sqrt{s}} #font[42]{=} #font[52]{10 TeV}");
+    TLatex latexup1(110, 1600, "#font[52]{#sqrt{s}} #font[42]{=} #font[52]{10 TeV}");
     latexup1.SetTextSize(0.025); 
-    TLatex latexdown1(110, 1600, "#font[52]{L} #font[42]{=} #font[52]{10 ab^{-1}}");
+    TLatex latexdown1(110, 1450, "#font[52]{L} #font[42]{=} #font[52]{10 ab^{-1}}");
     latexdown1.SetTextSize(0.025);
     string init3("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
-    string add3 = to_string(4.96339);
+    string add3 = to_string(4.571);
     string end3("} #font[52]{(95#leqm_{H}#leq130)}");
     init3 = init3 + add3.substr(0, 5) + end3;
     const char * latex_1 = init3.c_str();
-    TLatex latexSigstrength1(110, 1450, latex_1);
+    TLatex latexSigstrength1(110, 1300, latex_1);
     latexSigstrength1.SetTextSize(0.025);
     latexSigstrength1.Draw("same");
     latexup1.Draw("same");
@@ -3210,8 +3218,8 @@ void Delphes_HH_10TeV(const char *inputSigFile,
     TLegend *legend2 = new TLegend(0.6, 0.65, 0.85, 0.85);
     legend2 -> AddEntry(AKTjetMass2_sig, "signal HH", "f");
     legend2 -> AddEntry(AKTjetMass2_bkg1, "QCD", "f");
-    legend2 -> AddEntry(AKTjetMass2_bkg2, "single Higgs", "f");
-    legend2 -> AddEntry(AKTjetMass2_bkg3, "ZZ", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg2, "Higgs + qq", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg3, "HZ", "f");
     legend2 -> AddEntry(AKTjetMass2_bkg4, "Z + qq", "f");
     legend2 -> AddEntry(AKTjetMass2_sig_clone, "signal HH", "l");
     //legend2 -> AddEntry(fsum, "fit", "l");
@@ -3219,14 +3227,14 @@ void Delphes_HH_10TeV(const char *inputSigFile,
     legend2 -> Draw();
     //JetPair2 -> GetXaxis() -> SetTitle("m_{H_2} [GeV]");
     //JetPair2 -> GetYaxis() -> SetTitle("Events");
-    TLatex title2(75, 3100, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    TLatex title2(75, 2460, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
     title2.SetTextSize(0.04); 
     TLatex latexup2(110, 1500, "#font[52]{#sqrt{s}} #font[42]{=} #font[52]{10 TeV}");
     latexup2.SetTextSize(0.025); 
     TLatex latexdown2(110, 1350, "#font[52]{L} #font[42]{=} #font[52]{10 ab^{-1}}");
     latexdown2.SetTextSize(0.025);
     string init4("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
-    string add4 = to_string(4.96339);
+    string add4 = to_string(4.571);
     string end4("} #font[52]{(95#leqm_{H}#leq130)}");
     init4 = init4 + add4.substr(0, 5) + end4;
     const char * latex_2 = init4.c_str();

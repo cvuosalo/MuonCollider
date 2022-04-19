@@ -1,0 +1,15 @@
+set run_mode 0
+import model sm
+set zerowidth_tchannel False
+generate mu+ mu- > vm vm~ h h 
+output sig_3TeV
+launch
+shower=Pythia8
+detector=Delphes
+set mh 125.0
+set wh 0.004
+set ebeam1 1500.
+set ebeam2 1500.
+set nevents 100
+set iseed 0
+0

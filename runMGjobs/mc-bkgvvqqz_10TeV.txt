@@ -4,14 +4,14 @@ define q~ = u~ d~ s~ c~ t~ b~
 import model sm
 set zerowidth_tchannel False
 generate mu+ mu- > vm vm~ q q~ z 
-output bkgvvqqz_30TeV
+output bkgvvqqz_10TeV
 launch
 shower=Pythia8
 detector=Delphes
 set mh 125.0
 set wh 0.004
-set ebeam1 15000.
-set ebeam2 15000.
+set ebeam1 5000.
+set ebeam2 5000.
 set mmjj 5.0
 set drjj 0.1
 set drbb 0.1

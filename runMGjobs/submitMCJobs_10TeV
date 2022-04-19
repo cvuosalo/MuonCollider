@@ -1,0 +1,59 @@
+#!/bin/bash
+
+runWiscJobs.py \
+  --WorkFlow KennyMG_sig_10TeV \
+  --Executable=runMG_Del.sh \
+  --Arguments=mc-sig_10TeV.txt \
+  --nJobs=1000 \
+  --TransferInputFile=/nfs_scratch/hjia38/transferInputFiles.tar.gz,mc-sig_10TeV.txt\
+  --OutputDir=/nfs_scratch/$USER \
+  --HDFSProdDir None  \
+  --Experiment mucol \
+  --DiskRequirements 50000
+
+runWiscJobs.py \
+  --WorkFlow KennyMG_vvzh_10TeV \
+  --Executable=runMG_Del.sh \
+  --Arguments=mc-bkgvvzh_10TeV.txt \
+  --nJobs=1000 \
+  --TransferInputFile=/nfs_scratch/hjia38/transferInputFiles.tar.gz,mc-bkgvvzh_10TeV.txt\
+  --OutputDir=/nfs_scratch/$USER \
+  --OutputDir=/hdfs/store/user/hjia38 \
+  --HDFSProdDir None \
+  --Experiment mucol \
+  --DiskRequirements 50000
+
+runWiscJobs.py \
+  --WorkFlow KennyMG_vvqqz_10TeV \
+  --Executable=runMG_Del.sh \
+  --Arguments=mc-bkgvvqqz_10TeV.txt \
+  --nJobs=1000 \
+  --TransferInputFile=/nfs_scratch/hjia38/transferInputFiles.tar.gz,mc-bkgvvqqz_10TeV.txt\
+  --OutputDir=/nfs_scratch/$USER \
+  --OutputDir=/hdfs/store/user/hjia38 \
+  --HDFSProdDir None \
+  --Experiment mucol \
+  --DiskRequirements 50000
+
+runWiscJobs.py \
+  --WorkFlow KennyMG_vvqqh_10TeV \
+  --Executable=runMG_Del.sh \
+  --Arguments=mc-bkgvvqqh_10TeV.txt \
+  --nJobs=1000 \
+  --TransferInputFile=/nfs_scratch/hjia38/transferInputFiles.tar.gz,mc-bkgvvqqh_10TeV.txt\
+  --OutputDir=/nfs_scratch/$USER \
+  --HDFSProdDir None \
+  --Experiment mucol \
+  --DiskRequirements 50000
+
+runWiscJobs.py \
+  --WorkFlow KennyMG_2v4q_10TeV \
+  --Executable=runMG_Del.sh \
+  --Arguments=mc-bkg2v4q_10TeV.txt \
+  --nJobs=1000 \
+  --TransferInputFile=/nfs_scratch/hjia38/transferInputFiles.tar.gz,mc-bkg2v4q_10TeV.txt\
+  --OutputDir=/nfs_scratch/$USER \
+  --HDFSProdDir None \
+  --Experiment mucol \
+  --DiskRequirements 50000
+

@@ -3,8 +3,8 @@ define q = u d s c t b
 define q~ = u~ d~ s~ c~ t~ b~  
 import model sm
 set zerowidth_tchannel False
-generate mu+ mu- > vm vm~ q q~ z 
-output bkgvvqqz_30TeV
+generate mu+ mu- > vm vm~ q q~ q q~ 
+output bkg2v4q_30TeV
 launch
 shower=Pythia8
 detector=Delphes

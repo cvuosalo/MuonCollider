@@ -1,0 +1,16 @@
+set run_mode 0
+import model sm
+define q = u c t d s b
+define q~ = u~ c~ t~ d~ s~ b~
+generate mu+ mu- > t t~ , (t > w+ b , w+ > q q~), (t~ > w- b~ , w- > q q~)
+output ttbar_6TeV
+launch
+shower=Pythia8
+detector=Delphes
+set mh 125.0
+set wh 0.004
+set ebeam1 3000.
+set ebeam2 3000.
+set nevents 100
+set iseed 0
+0
