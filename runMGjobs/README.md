@@ -1,15 +1,14 @@
 # Running MadGraph-Pythia8-Delphes on cluster
 Since UW machine does not allows the built-in running-on-cluster mode, this instruction contains a specific approach to
-1) Generate hard event by MadGraph,
+1) Generate hard events by MadGraph,
 2) Shower by Pythia 8,
-3) Run fast simulation for ATLAS/CMS/C^3/MuonCollider detector's response using Delphes
+3) Run fast simulation for ATLAS/CMS/C3/MuonCollider detector's response using Delphes
 4) Submit jobs to Condor in UW-Madison HEP group computing environment to produce large number of events.
 ## Installation
 If you install MadGraph from the official site, this instruction will not work (especially for Muon Collider). There are modifications hard-code in this package.
 
 ```
 git clone https://github.com/cvuosalo/MuonCollider/tree/main/runMGjobs runMGjobs
-
 ```
 ## Configuration
 Configuration files includes a card for MadGraph command and a detector card for Delphes. In our example, we have modified Muon Collider card without VLC jets and adding anti-kt jets with flavor association, B-Tagging, and Tau-Tagging modules. You could change with your preference and change the detector card name inside script "runMG\_Del.sh" and also when preparing the package.
@@ -68,7 +67,7 @@ condor_q -nobatch
 
 or accessing "https://www.hep.wisc.edu/cms/comp/jobs/".
 
-Results are a large number of ".root", ".log", and ".html" files, feel free to modify "runMG\_Del.sh" to change what will be send back. Use "hadd" command to combine root files (syntax are inthe Detailed Description of "https://root.cern/doc/master/hadd\_8cxx.html").
+Results are a large number of ".root", ".log", and ".html" files, feel free to modify "runMG\_Del.sh" to change what will be send back. Use "hadd" command to combine root files (syntax are in the Detailed Description of "https://root.cern/doc/master/hadd\_8cxx.html").
 
 ## Debugging and other Issues
 Notice that many things are hard-coding in the scripts. Please feel free to contact Kenny through email: hjia38@wisc.edu or haoyi.jia@cern.ch.
