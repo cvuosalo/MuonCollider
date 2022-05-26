@@ -21,7 +21,7 @@ Prepare package of pre-installed Madgraph with Pythia8 and Delphes:
 
 
 ```
-cd runMGjobs/runMG\_job
+cd runMGjobs/runMG_job
 tar -czvf transferInputFiles.tar.gz ./delphes_card_MuonColliderDet_HHstudy.tcl MG5_aMC_v3_3_1 MuonCollider
 ```
 ## Submit jobs to Condor
@@ -67,7 +67,7 @@ condor_q -nobatch
 
 or accessing "https://www.hep.wisc.edu/cms/comp/jobs/".
 
-Results are a large number of ".root", ".log", and ".html" files, feel free to modify "runMG\_Del.sh" to change what will be send back. Use "hadd" command to combine root files (syntax are in the Detailed Description of "https://root.cern/doc/master/hadd\_8cxx.html").
+Results are a large number of ".root", ".log", and ".html" files, feel free to modify "runMG_Del.sh" to change what will be send back. Use "hadd" command to combine root files (syntax are in the Detailed Description of "https://root.cern/doc/master/hadd_8cxx.html").
 
 ## How to Build Your Own
 This instruction uses MadGraph version 3.3.1 rather than the latest version. If you would like to change to the newest version. You could build from scratch by installing MadGraph from the official site and install LHAPDF6, Pythia8, Delphes inside MadGraph. 
@@ -78,7 +78,7 @@ For non-SM model, since the models are develop in python2 environment, it need t
 > convert model $PWD/models/heft
 
 ```
-Then we need to change the 33rd line of the executable calling Delphes inside MadGraph "$mg5dir/Template/LO/bin/internal/run\_delphes3" from:
+Then we need to change the 33rd line of the executable calling Delphes inside MadGraph "$mg5dir/Template/LO/bin/internal/run_delphes3" from:
 
 ```
 gunzip --stdout $file | $delphesdir/DelphesHepMC2 ../Cards/delphes_card.dat ${run}/${tag}_delphes_events.root
@@ -103,6 +103,6 @@ $delphesdir/DelphesHepMC ../Cards/delphes_card_default.dat  ${run}/${tag}_delphe
 ```
 
 ## Debugging and other Issues
-The scripts are written specifically for Muon Collider simulation, ATLAS/CMS/C3 compatibility are added later without any test. Please feel free to contact Kenny through email: hjia38@wisc.edu or haoyi.jia@cern.ch. I would be happy to help with the debugging process!
+The scripts are written specifically for Muon Collider simulation, other detectors (ATLAS/CMS/C3) compatibilities are added later without any test. Please feel free to contact Kenny through email: hjia38@wisc.edu or haoyi.jia@cern.ch. I would be happy to help with the debugging process!
 
 
