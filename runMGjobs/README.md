@@ -100,6 +100,19 @@ to:
 ```
 $delphesdir/DelphesHepMC ../Cards/delphes_card_default.dat  ${run}/${tag}_delphes_events.root $file
 ```
+Since the installation address are hard-coded in MadGraph, hence when sending to the Condor it need to be rewrite. Therefore, when making your own MadGraph package you would need to change the 8-9th lines of runMG_Del.sh from:
+
+```
+for file in `grep '/nfs_scratch/hjia38/runMG_job/' $mg5dir -Ilr`; do
+    cat $file | sed 's|/nfs_scratch/hjia38/runMG_job|'$PWD'|g' > $file
+```
+
+to:
+
+```
+for file in `grep '<your installation address>' $mg5dir -Ilr`; do
+    cat $file | sed 's|<your installation address>|'$PWD'|g' > $file
+```
 
 ## Debugging and other Issues
 The scripts are written specifically for Muon Collider simulation, other detectors (ATLAS/CMS/C3) compatibilities are added later without any test. Please feel free to contact Kenny through email: hjia38@wisc.edu or haoyi.jia@cern.ch. I would be happy to help with the debugging process!
