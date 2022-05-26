@@ -10,19 +10,26 @@ for file in `grep '/nfs_scratch/hjia38/runMG_job/' $mg5dir -Ilr`; do
 done
 if [[ $1 == cms-*  ]]; then
     cp $mg5dir/Delphes/cards/delphes_card_CMS.tcl $mg5dir/Template/Common/Cards/delphes_card_default.dat
+    cp $mg5dir/Delphes/cards/delphes_card_CMS.tcl $mg5dir/Template/LO/Cards/delphes_card_default.dat
     jobfilename2="$(echo ${jobfilename#c*-})"
     jobname="$(echo ${jobfilename2%.*t})"
 elif [[ $1 == mc-*  ]]; then
-    cp $PWD/delphes_card_MuonColliderDet_MuonInJetShort.tcl $mg5dir/Template/Common/Cards/delphes_card_default.dat
+    cp $PWD/delphes_card_MuonColliderDet_HHstudy.tcl $mg5dir/Template/Common/Cards/delphes_card_default.dat
+    cp $PWD/delphes_card_MuonColliderDet_HHstudy.tcl $mg5dir/Template/LO/Cards/delphes_card_default.dat
+    cp $PWD/MuonCollider/* $mg5dir/Template/Common/Cards/MuonCollider/
+    cp $PWD/MuonCollider/* $mg5dir/Template/LO/Cards/MuonCollider/
     cp -r $PWD/MuonCollider $mg5dir/Template/Common/Cards/
+    cp -r $PWD/MuonCollider $mg5dir/Template/LO/Cards/
     jobfilename2="$(echo ${jobfilename#m*-})"
     jobname="$(echo ${jobfilename2%.*t})"
 elif [[ $1 == c3-*  ]]; then
     cp $mg5dir/Delphes/cards/delphes_card_ILD.tcl $mg5dir/Template/Common/Cards/delphes_card_default.dat
+    cp $mg5dir/Delphes/cards/delphes_card_ILD.tcl $mg5dir/Template/LO/Cards/delphes_card_default.dat
     jobfilename2="$(echo ${jobfilename#c*-})"
     jobname="$(echo ${jobfilename2%.*t})"
 elif [[ $1 == atlas-*  ]]; then
     cp $mg5dir/Delphes/cards/delphes_card_ATLAS.tcl $mg5dir/Template/Common/Cards/delphes_card_default.dat
+    cp $mg5dir/Delphes/cards/delphes_card_ATLAS.tcl $mg5dir/Template/LO/Cards/delphes_card_default.dat
     jobfilename2="$(echo ${jobfilename#a*-})"
     jobname="$(echo ${jobfilename2%.*t})"
 fi
@@ -38,24 +45,25 @@ export LD_LIBRARY_PATH=$mg5dir/HEPTools/lib/:$mg5dir/HEPTools/lhapdf6_py3/lib/:$
 export PYTHIA8DATA=$mg5dir/HEPTools/pythia8/share/Pythia8/xmldoc
 export LHAPDF_DATA_PATH=$mg5dir/HEPTools/lhapdf6_py3/share/LHAPDF
 source $mg5dir/Delphes/DelphesEnv.sh
-RANDOM=$$
+export MyRANDOM=`date +"%8N"`
 
 #Edit script for each MadGraph job
 cd $mg5dir 
 cp $workdir/$1 $mg5dir/mg5-configure.txt
-cat $workdir/$1 | sed 's/set iseed 0/set iseed '"$RANDOM"'/g' > $mg5dir/mg5-configure.txt
+cat $workdir/$1 | sed 's/set iseed 0/set iseed '"$MyRANDOM"'/g' > $mg5dir/mg5-configure.txt
 
 #Run MadGraph job
 python $mg5dir/bin/mg5_aMC mg5-configure.txt
 ls -alh
 cd $mg5dir/${jobname}/Events/run_01
 ls -alh
-echo 'using random seed '"$RANDOM"''
+echo 'using random seed '"$MyRANDOM"''
 
 #Move the result file under jobHome and clean the MadGraph directory
-cp $mg5dir/${jobname}/index.html $workdir/index_${jobname}_${RANDOM}.html
-cp $mg5dir/${jobname}/crossx.html $workdir/crossx_${jobname}_${RANDOM}.html
-cp $mg5dir/${jobname}/Events/run_01/*.root $workdir/${jobname}_${RANDOM}.root
+cp $mg5dir/${jobname}/index.html $workdir/index_${jobname}_${MyRANDOM}.html
+cp $mg5dir/${jobname}/crossx.html $workdir/crossx_${jobname}_${MyRANDOM}.html
+cp $mg5dir/${jobname}/Events/run_01/*.root $workdir/${jobname}_${MyRANDOM}.root
+cp $mg5dir/${jobname}/Events/run_01/tag_1_delphes.log $workdir/${jobname}_${MyRANDOM}_delphes.log
 cd $workdir
 rm -r MG5_aMC_v3_3_1
 

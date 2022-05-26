@@ -1,0 +1,13 @@
+prefix=/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/lhapdf6_py3
+exec_prefix=${prefix}
+libdir=/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/lhapdf6_py3//lib
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+
+Name: lhapdf
+Description: LHAPDF parton density library
+URL: https://lhapdf.hepforge.org
+Version: 6.3.0
+Libs: -L/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/lhapdf6_py3//lib -lLHAPDF
+Cflags: -I${prefix}/include
+#-I@BOOST_CPPFLAGS@

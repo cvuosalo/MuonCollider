@@ -1,0 +1,5 @@
+------------------------------------------------
+MG5aMC_PY8_interface compilation output log:
+b'g++ MG5aMC_PY8_interface.cc -o MG5aMC_PY8_interface -I/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/hepmc/include -I/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/pythia8//include -ldl -fPIC -lstdc++ -std=c++11 -DHEPMC2HACK -DGZIP -I/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/zlib/include -L/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/zlib/lib -Wl,-rpath,/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/zlib/lib -lz -L/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/pythia8//lib -Wl,-rpath,/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/pythia8//lib -lpythia8 -ldl -L/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/hepmc/lib -Wl,-rpath,/nfs_scratch/hjia38/runMG_job/MG5_aMC_v3_3_1/HEPTools/hepmc/lib -lHepMC\n'
+------------------------------------------------
+Successful compilation of the MG5aMC_PY8_interface.

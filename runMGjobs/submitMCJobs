@@ -1,6 +1,0 @@
-#!/bin/bash
-
-source submitMCJobs_3TeV
-source submitMCJobs_6TeV
-source submitMCJobs_10TeV
-source submitMCJobs_30TeV
