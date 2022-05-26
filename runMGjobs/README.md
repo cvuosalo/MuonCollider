@@ -69,5 +69,40 @@ or accessing "https://www.hep.wisc.edu/cms/comp/jobs/".
 
 Results are a large number of ".root", ".log", and ".html" files, feel free to modify "runMG\_Del.sh" to change what will be send back. Use "hadd" command to combine root files (syntax are in the Detailed Description of "https://root.cern/doc/master/hadd\_8cxx.html").
 
+## How to Build Your Own
+This instruction uses MadGraph version 3.3.1 rather than the latest version. If you would like to change to the newest version. You could build from scratch by installing MadGraph from the official site and install LHAPDF6, Pythia8, Delphes inside MadGraph. 
+
+For non-SM model, since the models are develop in python2 environment, it need to by convert to python3 version inside MadGraph before packing the zip file. Take HEFT as an example:
+
+```
+> convert model $PWD/models/heft
+
+```
+Then we need to change the 33rd line of the executable calling Delphes inside MadGraph "$mg5dir/Template/LO/bin/internal/run\_delphes3" from:
+
+```
+gunzip --stdout $file | $delphesdir/DelphesHepMC2 ../Cards/delphes_card.dat ${run}/${tag}_delphes_events.root
+```
+
+to:
+
+```
+gunzip --stdout $file | $delphesdir/DelphesHepMC ../Cards/delphes_card_default.dat ${run}/${tag}_delphes_events.root
+```
+
+also for the 40th line from:
+
+```
+$delphesdir/DelphesHepMC2 ../Cards/delphes_card.dat  ${run}/${tag}_delphes_events.root $file
+```
+
+to:
+
+```
+$delphesdir/DelphesHepMC ../Cards/delphes_card_default.dat  ${run}/${tag}_delphes_events.root $file
+```
+
 ## Debugging and other Issues
-Notice that many things are hard-coding in the scripts. Please feel free to contact Kenny through email: hjia38@wisc.edu or haoyi.jia@cern.ch.
+The scripts are written specifically for Muon Collider simulation, ATLAS/CMS/C3 compatibility are added later without any test. Please feel free to contact Kenny through email: hjia38@wisc.edu or haoyi.jia@cern.ch. I would be happy to help with the debugging process!
+
+
