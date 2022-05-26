@@ -76,7 +76,6 @@ For non-SM model, since the models are develop in python2 environment, it need t
 
 ```
 > convert model $PWD/models/heft
-
 ```
 Then we need to change the 33rd line of the executable calling Delphes inside MadGraph "$mg5dir/Template/LO/bin/internal/run_delphes3" from:
 
