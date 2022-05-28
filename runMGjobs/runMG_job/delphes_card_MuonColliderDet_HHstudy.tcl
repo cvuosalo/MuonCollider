@@ -66,6 +66,7 @@ set ExecutionPath {
 
     FastJetFinderKt
     FastJetFinderAKt
+    FastJetFinderAKtR02
     FastJetFinderVLC_R02_N2
     FastJetFinderVLC_R02_N3
     FastJetFinderVLC_R02_N4
@@ -188,10 +189,16 @@ set ExecutionPath {
     JetFlavorAssociation_R15_inclusive
     
     AKT_JetFlavorAssociation_R05_inclusive
+    AKT_JetFlavorAssociation_R02_inclusive
     
     AKT_BTagging_WP50_R05_inclusive
     AKT_BTagging_WP70_R05_inclusive
     AKT_BTagging_WP90_R05_inclusive
+ 
+    AKT_BTagging_WP50_R02_inclusive
+    AKT_BTagging_WP70_R02_inclusive
+    AKT_BTagging_WP90_R02_inclusive
+
 
     BTagging_WP50_R02N2
     BTagging_WP70_R02N2
@@ -304,6 +311,7 @@ set ExecutionPath {
 
 
     AKT_TauTagging_R05_inclusive
+    AKT_TauTagging_R02_inclusive
 
     TauTagging_R02N2
     TauTagging_R02N3
@@ -1654,6 +1662,19 @@ module FastJetFinder FastJetFinderAKt {
 
     set JetPTMin 20.0
 }
+module FastJetFinder FastJetFinderAKtR02 {
+    #  set InputArray Calorimeter/towers
+    set InputArray EFlowMerger/eflow
+
+    set OutputArray AKTR02jets
+
+    # algorithm: 1 CDFJetClu, 2 MidPoint, 3 SIScone, 4 kt, 5 Cambridge/Aachen, 6 antikt, 7 anti-kt with winner-take-all axis (for N-subjettiness), 8 N-jettiness, 9 Valencia
+    set JetAlgorithm 6
+    set ParameterR 0.2
+
+    set JetPTMin 15.0
+}
+
 ################
 # Jet finder VLC
 ################
@@ -1704,6 +1725,7 @@ module TreeWriter TreeWriter {
     add Branch FastJetFinderKt/KTjets KTjet Jet
     
     add Branch FastJetFinderAKt/AKTjets AKTjet Jet
+    add Branch FastJetFinderAKtR02/AKTR02jets AKTR02jet Jet
 
     add Branch GenMissingET/momentum GenMissingET MissingET
 

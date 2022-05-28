@@ -398,6 +398,18 @@ module JetFlavorAssociation JetFlavorAssociation_R05_inclusive {
 ##########################
 # AKT JetFlavorAssociation
 ########################## 
+module JetFlavorAssociation AKT_JetFlavorAssociation_R02_inclusive {
+
+    set PartonInputArray Delphes/partons
+    set ParticleInputArray Delphes/allParticles
+    set ParticleLHEFInputArray Delphes/allParticlesLHEF
+    set JetInputArray FastJetFinderAKtR02/AKTR02jets
+
+    set DeltaR 0.2
+    set PartonPTMin 1.0
+    set PartonEtaMax 2.5
+
+}
 module JetFlavorAssociation AKT_JetFlavorAssociation_R05_inclusive {
 
     set PartonInputArray Delphes/partons
@@ -410,7 +422,6 @@ module JetFlavorAssociation AKT_JetFlavorAssociation_R05_inclusive {
     set PartonEtaMax 2.5
 
 }
-
 module JetFlavorAssociation JetFlavorAssociation_R07_inclusive {
 
     set PartonInputArray Delphes/partons

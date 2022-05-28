@@ -16,6 +16,22 @@ module TauTagging AKT_TauTagging_R05_inclusive {
  }
  }
 
+module TauTagging AKT_TauTagging_R02_inclusive {
+ set ParticleInputArray Delphes/allParticles
+ set PartonInputArray Delphes/partons
+ set JetInputArray FastJetFinderAKtR02/AKTR02jets
+ set DeltaR 05.
+ set TauPTMin 1.0
+ set TauEtaMax 2.5
+ add EfficiencyFormula {0} {0}
+ add EfficiencyFormula {11} {0.001}
+ add EfficiencyFormula {15} {
+ (pt < 10) * (0.0) +
+ (pt >=10) * (0.80)
+ }
+ }
+
+
 module TauTagging TauTagging_R02N2 {
  set ParticleInputArray Delphes/allParticles
  set PartonInputArray Delphes/partons
