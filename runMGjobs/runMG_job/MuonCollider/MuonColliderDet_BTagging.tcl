@@ -522,6 +522,23 @@ module BTagging AKT_BTagging_WP90_R02_inclusive {
  source MuonCollider/MuonColliderDet_BTag_90.tcl
 }
 
+module BTagging AKT_BTagging_WP50_R01_inclusive {
+ set JetInputArray FastJetFinderAKtR01/AKTR01jets
+ set BitNumber 0
+ source MuonCollider/MuonColliderDet_BTag_50.tcl
+ }
+module BTagging AKT_BTagging_WP70_R01_inclusive {
+ set JetInputArray FastJetFinderAKtR01/AKTR01jets
+ set BitNumber 1
+ source MuonCollider/MuonColliderDet_BTag_70.tcl
+}
+module BTagging AKT_BTagging_WP90_R01_inclusive {
+ set JetInputArray FastJetFinderAKtR01/AKTR01jets
+ set BitNumber 2
+ source MuonCollider/MuonColliderDet_BTag_90.tcl
+}
+
+
 
 
 

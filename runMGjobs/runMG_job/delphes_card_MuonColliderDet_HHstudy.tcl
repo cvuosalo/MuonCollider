@@ -62,10 +62,11 @@ set ExecutionPath {
 
     NeutrinoFilter
     GenJetFinder
-
+    GenR02JetFinder
 
     FastJetFinderKt
     FastJetFinderAKt
+    FastJetFinderAKtR01
     FastJetFinderAKtR02
     FastJetFinderVLC_R02_N2
     FastJetFinderVLC_R02_N3
@@ -190,6 +191,7 @@ set ExecutionPath {
     
     AKT_JetFlavorAssociation_R05_inclusive
     AKT_JetFlavorAssociation_R02_inclusive
+    AKT_JetFlavorAssociation_R01_inclusive
     
     AKT_BTagging_WP50_R05_inclusive
     AKT_BTagging_WP70_R05_inclusive
@@ -198,7 +200,10 @@ set ExecutionPath {
     AKT_BTagging_WP50_R02_inclusive
     AKT_BTagging_WP70_R02_inclusive
     AKT_BTagging_WP90_R02_inclusive
-
+ 
+    AKT_BTagging_WP50_R01_inclusive
+    AKT_BTagging_WP70_R01_inclusive
+    AKT_BTagging_WP90_R01_inclusive
 
     BTagging_WP50_R02N2
     BTagging_WP70_R02N2
@@ -312,6 +317,7 @@ set ExecutionPath {
 
     AKT_TauTagging_R05_inclusive
     AKT_TauTagging_R02_inclusive
+    AKT_TauTagging_R01_inclusive
 
     TauTagging_R02N2
     TauTagging_R02N3
@@ -1618,6 +1624,17 @@ module FastJetFinder GenJetFinder {
     set JetPTMin 20.0
 }
 
+module FastJetFinder GenR02JetFinder {
+    set InputArray NeutrinoFilter/filteredParticles
+
+    set OutputArray R02jets
+
+    # algorithm: 1 CDFJetClu, 2 MidPoint, 3 SIScone, 4 kt, 5 Cambridge/Aachen, 6 antikt, 7 anti-kt with winner-take-all axis (for N-subjettiness), 8 N-jettiness, 9 Valencia
+    set JetAlgorithm 6
+    set ParameterR 0.2
+
+    set JetPTMin 20.0
+}
 #########################
 # Gen Missing ET merger
 ########################
@@ -1674,7 +1691,18 @@ module FastJetFinder FastJetFinderAKtR02 {
 
     set JetPTMin 15.0
 }
+module FastJetFinder FastJetFinderAKtR01 {
+    #  set InputArray Calorimeter/towers
+    set InputArray EFlowMerger/eflow
 
+    set OutputArray AKTR01jets
+
+    # algorithm: 1 CDFJetClu, 2 MidPoint, 3 SIScone, 4 kt, 5 Cambridge/Aachen, 6 antikt, 7 anti-kt with winner-take-all axis (for N-subjettiness), 8 N-jettiness, 9 Valencia
+    set JetAlgorithm 6
+    set ParameterR 01.
+
+    set JetPTMin 15.0
+}
 ################
 # Jet finder VLC
 ################
@@ -1721,11 +1749,13 @@ module TreeWriter TreeWriter {
     add Branch Delphes/allParticles Particle GenParticle
 
     add Branch GenJetFinder/jets GenJet Jet
+    add Branch GenR02JetFinder/R02jets GenR02Jet Jet
 
     add Branch FastJetFinderKt/KTjets KTjet Jet
     
     add Branch FastJetFinderAKt/AKTjets AKTjet Jet
     add Branch FastJetFinderAKtR02/AKTR02jets AKTR02jet Jet
+    add Branch FastJetFinderAKtR01/AKTR01jets AKTR01jet Jet
 
     add Branch GenMissingET/momentum GenMissingET MissingET
 
