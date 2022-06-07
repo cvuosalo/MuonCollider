@@ -1,18 +1,8 @@
 //usage: root -l macroExample.C\(\"inputfile.root\"\,\"outputfile.root\"\)
 #ifdef __CLING__
 R__LOAD_LIBRARY(libDelphes)
-#include "classes/DelphesClasses.h"
-#include "classes/DelphesFactory.h"
-#include "classes/DelphesStream.h"
-#include "classes/SortableObject.h"
-#include "modules/Delphes.h"
-#include "external/ExRootAnalysis/ExRootProgressBar.h"
-#include "external/ExRootAnalysis/ExRootTreeBranch.h"
-#include "external/ExRootAnalysis/ExRootTreeReader.h"
-#include "external/ExRootAnalysis/ExRootTreeWriter.h"
-#include "external/ExRootAnalysis/ExRootTask.h"
-#endif
 //put header files you need here
+#endif
 
 void macroExample(const char *inputFile, const char *outputFile){
      gSystem->Load("libDelphes.so");
@@ -22,11 +12,19 @@ void macroExample(const char *inputFile, const char *outputFile){
      TTree *tree_output = new TTree("tree_output","Delphes");
 
      Int_t nEntries = tree_sig->GetEntries();
-
+     //TLeaf * AKTjet_size = tree_sig -> GetLeaf("AKTjet_size");
+     //TLeaf * AKTjet_pt = tree_sig -> GetLeaf("AKTjet.PT");
      for(Long64_t entry=0; entry < nEntries; entry++){
 	 tree_sig->GetEntry(entry);
 	 tree_output->GetEntry(entry);
 	 //write macro algorithm here
+	 /*
+	 AKTjet_size -> GetBranch() -> GetEntry(entry);
+	 Int_t nAKTjet = AKTjet_size -> GetValue();
+	 for (Int_t aktentry = 0; aktentry < nAKTjet; aktentry++){
+	     AKTjetPt = AKTjet_pt -> GetValue(aktentry);
+	 }
+	 */
      }
      tree_output->Write();
      output->Close();
