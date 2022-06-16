@@ -630,6 +630,7 @@ void Pairing_w_JES(const char *inputFile,
 
     Int_t hasJet = 0;
     Int_t TauSelection = 0;
+    Int_t B2 = 0;
     Int_t BSelection = 0;
     Double_t AKTjet1eta1;
     Double_t AKTjet1theta1;
@@ -745,7 +746,10 @@ void Pairing_w_JES(const char *inputFile,
     Double_t BDTdihiggsinvm;
 
     Double_t BDThiggsAngle;
-    
+   
+   
+    Double_t BDTDiTauMETDeltaR;
+    Double_t dphi;
     Double_t DiHiggsMETDeltaTheta;
 
     Int_t NBTag;
@@ -800,7 +804,9 @@ void Pairing_w_JES(const char *inputFile,
     
     tree_BDT -> Branch("BDThiggsAngle", &BDThiggsAngle, "BDThiggsAngle/D");
     
+    tree_BDT -> Branch("BDTDiTauMETDeltaR", &BDTDiTauMETDeltaR, "BDTDiTauMETDeltaR/D");
     tree_BDT -> Branch("DiHiggsMETDeltaTheta", &DiHiggsMETDeltaTheta, "DiHiggsMETDeltaTheta/D");
+    tree_BDT -> Branch("dphi", &dphi, "dphi/D");
 
     tree_BDT -> Branch("BDTMissingETMET", &BDTMissingETMET, "BDTMissingETMET/D");
     tree_BDT -> Branch("BDTMissingETEta", &BDTMissingETEta, "BDTMissingETEta/D");
@@ -876,6 +882,12 @@ void Pairing_w_JES(const char *inputFile,
         BDTjet2TauTag1 = 0;
         BDTjet2TauTag2 = 0;
 
+	TVector3 MET;
+        TVector3 di_tau;
+	Double_t nu_pt=0; 
+	Double_t AKTh1Pt=0;
+	Double_t Ratio_col=0;
+	TLorentzVector Nu;
 
 	bool TauSelectFlag;
         //Pairing up Anti-kt jets
@@ -887,7 +899,7 @@ void Pairing_w_JES(const char *inputFile,
 	}
         AKTjetpaircnt = 0;
 
-        if (nAKTjet >= 2 and nAKTR02jet >= 2 ) {
+        if (nAKTjet >= 3 and nAKTR02jet >= 3 ) {
 	    hasJet++;
 /*
             for (Int_t aktentry = 0; aktentry < nAKTjet; aktentry++) {
@@ -940,7 +952,16 @@ void Pairing_w_JES(const char *inputFile,
                         AKT1jet1.SetPtEtaPhiM(AKTjet1pt1, AKTjet1eta1, AKTjet1phi1, AKTjet1mass1);
                         AKT1jet2.SetPtEtaPhiM(AKTjet1pt2, AKTjet1eta2, AKTjet1phi2, AKTjet1mass2);
                         AKTh1 = AKT1jet1 + AKT1jet2;
-                        AKTjetpairmass = AKTh1.Mag();
+	    
+			MET.SetPtEtaPhi(BDTMissingETMET, BDTMissingETEta, BDTMissingETPhi);
+			di_tau.SetPtEtaPhi(1.0, AKTh1.Eta(), AKTh1.Phi());
+			nu_pt = MET.Dot(di_tau); 
+			AKTh1Pt = AKTh1.Pt();
+			Ratio_col = TMath::Sqrt((nu_pt + AKTh1Pt)/AKTh1Pt);
+			Nu.SetPtEtaPhiM(nu_pt, AKTh1.Eta(), AKTh1.Phi(), 0);
+			AKTh1 = AKT1jet1 + AKT1jet2 + Nu;
+				
+                        AKTjetpairmass = /*Ratio_col **/ AKTh1.Mag();
 
                         AKTjetpair[AKTjetpaircnt][0] = AKTjetpairmass;
                         AKTjetpair[AKTjetpaircnt][1] = akt1entry;
@@ -968,6 +989,17 @@ void Pairing_w_JES(const char *inputFile,
 	    }
 	    
 	    //cout << "pair1jet1entry = " << pair1jet1entry << "; pair1jet2entry = " << pair1jet2entry ;
+	    Int_t BtagSum = 0;
+	    Int_t BtagInd = 0;
+	    for (Int_t aktentry = 0; aktentry < nAKTjet; aktentry++){
+		BtagInd = AKTjet_BTag -> GetValue(aktentry);
+		if (BtagInd >=4 ){
+		 BtagSum++;
+		}
+	    }
+	    if (BtagSum >= 2){
+	        B2++;
+	    }
 	    // Pairing up the bbbar pair
             AKTjetpair2Mass = 0;
             for (Int_t akt1entry2 = 0; akt1entry2 < nAKTjet; akt1entry2++) {
@@ -1013,7 +1045,9 @@ void Pairing_w_JES(const char *inputFile,
                             AKT2jet1.SetPtEtaPhiM(AKTjet2pt1, AKTjet2eta1, AKTjet2phi1, AKTjet2mass1);
                             AKT2jet2.SetPtEtaPhiM(AKTjet2pt2, AKTjet2eta2, AKTjet2phi2, AKTjet2mass2);
                             AKTh2 = AKT2jet1 + AKT2jet2;
-                            AKTjetpairmass = AKTh2.Mag();
+                             
+			    AKTjetpairmass = AKTh2.Mag();
+
 
                             if (abs(125 - AKTjetpairmass) < abs(125 - AKTjetpair2Mass)) {
                                 AKTjetpair2Mass = AKTjetpairmass;
@@ -1058,7 +1092,6 @@ void Pairing_w_JES(const char *inputFile,
 	    AKTjet2eta2 = AKTjet_eta -> GetValue(pair2jet2entry);
             AKTjet2phi2 = AKTjet_phi -> GetValue(pair2jet2entry);
             AKTjet2pt2 = AKTjet_pt -> GetValue(pair2jet2entry);
-            JetEnergyFix(AKTjet2eta2, AKTjet2pt2, JER);
             AKTjet2mass2 = AKTjet_mass -> GetValue(pair2jet2entry);
 
 	    AKTjet1BTag1 = AKTR02jet_BTag -> GetValue(pair1jet1entry);
@@ -1162,12 +1195,18 @@ void Pairing_w_JES(const char *inputFile,
 
 	    AKTh1 = AKT1jet1 + AKT1jet2;
 	    AKTh2 = AKT2jet1 + AKT2jet2;
-	     
-	    AKTjetpair1Mass = AKTh1.Mag();
+
+	    MET.SetPtEtaPhi(BDTMissingETMET, BDTMissingETEta, BDTMissingETPhi);
+	    di_tau.SetPtEtaPhi(1.0, AKTh1.Eta(), AKTh1.Phi());
+	    nu_pt = MET.Dot(di_tau); 
+	    AKTh1Pt = AKTh1.Pt();
+	    Ratio_col = TMath::Sqrt((nu_pt + AKTh1Pt)/AKTh1Pt);
+	    Nu.SetPtEtaPhiM(nu_pt, AKTh1.Eta(), AKTh1.Phi(), 0);
+	    AKTh1 = AKT1jet1 + AKT1jet2 + Nu;
+	    AKTjetpair1Mass = /*Ratio_col **/ AKTh1.Mag();
 	    AKTjetpair2Mass = AKTh2.Mag();
 
-	    TLorentzVector AKTdiH = AKTh1 + AKTh2;
-
+	    TLorentzVector AKTdiH = Ratio_col * AKTh1 + AKTh2;
 	    if (NBTag == 2 and NTauTag == 2 and BDTjetpairCharge == -1 /*and disCutFlag == true */){
 
 	 	AKTjetMass1 -> Fill(AKTjetpair1Mass);
@@ -1187,10 +1226,10 @@ void Pairing_w_JES(const char *inputFile,
 		BDTjet2phi2 = AKTphi[3];
 
 		BDTNjets = nAKTjet;
-		BDThiggs1pt = AKTh1.Pt();
+		BDThiggs1pt = /*Ratio_col **/ AKTh1.Pt();
 		BDThiggs1eta = AKTh1.Eta();
 		BDThiggs1phi = AKTh1.Phi();
-		BDThiggs1invm = AKTh1.Mag()/**125/75*/;
+		BDThiggs1invm = /*Ratio_col **/ AKTh1.Mag()/**125/75*/;
 	
 		BDThiggs2pt = AKTh2.Pt();
 		BDThiggs2eta = AKTh2.Eta();
@@ -1207,6 +1246,8 @@ void Pairing_w_JES(const char *inputFile,
 	        BDTdihiggsphi = AKTdiH.Phi();
 	        BDTdihiggsinvm = AKTdiH.Mag();
 
+		dphi = TVector2::Phi_mpi_pi(BDThiggs1phi - BDTMissingETPhi);
+		BDTDiTauMETDeltaR = TMath::Sqrt((BDThiggs1eta - BDTMissingETEta) * (BDThiggs1eta - BDTMissingETEta) + dphi * dphi);
   	        DiHiggsMETDeltaTheta = TMath::Abs(2*TMath::ATan(TMath::Exp(-BDTdihiggseta))-2*TMath::ATan(TMath::Exp(-BDTMissingETEta)));
 
     	        NBTag = /*BDTjet1BTag1 + BDTjet1BTag2 +*/ BDTjet2BTag1 + BDTjet2BTag2;
@@ -1218,20 +1259,21 @@ void Pairing_w_JES(const char *inputFile,
         }
     }	    
     file_sig -> Close();
-    file_BDT -> cd();
-    tree_BDT -> Write();
-    file_BDT -> Close();
+    //file_BDT -> cd();
+    //tree_BDT -> Write();
+    //file_BDT -> Close();
     cout << "hasJet = " << hasJet << endl;
     cout << "TauSelection = " << TauSelection << endl;
+    cout << "B2 = " << B2 << endl;
     cout << "BSelection = " << BSelection << endl;
     //printf("Time taken: %.2fs\n", (Double_t)(clock() - tStart)/CLOCKS_PER_SEC);
     cout << "Create dataset for Boosting Decision Tress training...." << endl;
     cout << "Done" << endl;
 }
 void Pairing_tau_had(const char *inputSigFile,
-    /*const char *inputBkg1File,
+    const char *inputBkg1File,
     	const char *inputBkg2File,
-	    const char *inputBkg3File,
+	    /*const char *inputBkg3File,
 	    	const char *inputBkg4File,*/
 	            const char *outputFile,
 		    	const char *inputFileForJES,
@@ -1255,8 +1297,8 @@ void Pairing_tau_had(const char *inputSigFile,
     TFile *output = new TFile(outputFile, "RECREATE");
     //TTree *tree_output = new TTree("tree_output", "Delphes");
     TTree *tree_BDT_sig = new TTree("tree_BDT_sig", "sig");
-    //TTree *tree_BDT_bkg1 = new TTree("tree_BDT_bkg1", "bkg1");
-    //TTree *tree_BDT_bkg2 = new TTree("tree_BDT_bkg2", "bkg2");
+    TTree *tree_BDT_bkg1 = new TTree("tree_BDT_bkg1", "bkg1");
+    TTree *tree_BDT_bkg2 = new TTree("tree_BDT_bkg2", "bkg2");
     //TTree *tree_BDT_bkg3 = new TTree("tree_BDT_bkg3", "bkg3");
     //TTree *tree_BDT_bkg4 = new TTree("tree_BDT_bkg4", "bkg4");
     
@@ -1266,12 +1308,12 @@ void Pairing_tau_had(const char *inputSigFile,
     TH1D *AKTjetMass1_sig = new TH1D("AKTjetMass1_sig", "Anti_KTjet leading jets pair invariant mass", 11, 50, 160);
     TH1D *AKTjetMass2_sig = new TH1D("AKTjetMass2_sig", "Anti_KTjet sub-leading jets pair invariant mass", 11, 50, 160); 
 
-    //TH1D *AKTjetMass1_bkg1 = new TH1D("AKTjetMass1_bkg1", "Anti_KTjet leading jets pair invariant mass", 11, 50, 160);
-    //TH1D *AKTjetMass2_bkg1 = new TH1D("AKTjetMass2_bkg1", "Anti_KTjet sub-leading jets pair invariant mass", 11, 50, 160); 
+    TH1D *AKTjetMass1_bkg1 = new TH1D("AKTjetMass1_bkg1", "Anti_KTjet leading jets pair invariant mass", 11, 50, 160);
+    TH1D *AKTjetMass2_bkg1 = new TH1D("AKTjetMass2_bkg1", "Anti_KTjet sub-leading jets pair invariant mass", 11, 50, 160); 
 
 
-    //TH1D *AKTjetMass1_bkg2 = new TH1D("AKTjetMass1_bkg2", "Anti_KTjet leading jets pair invariant mass", 11, 50, 160);
-    //TH1D *AKTjetMass2_bkg2 = new TH1D("AKTjetMass2_bkg2", "Anti_KTjet sub-leading jets pair invariant mass", 11, 50, 160); 
+    TH1D *AKTjetMass1_bkg2 = new TH1D("AKTjetMass1_bkg2", "Anti_KTjet leading jets pair invariant mass", 11, 50, 160);
+    TH1D *AKTjetMass2_bkg2 = new TH1D("AKTjetMass2_bkg2", "Anti_KTjet sub-leading jets pair invariant mass", 11, 50, 160); 
 
 /*
     TH1D *AKTjetMass1_bkg3 = new TH1D("AKTjetMass1_bkg3", "Anti_KTjet leading jets pair invariant mass", 11, 50, 160);
@@ -1282,18 +1324,21 @@ void Pairing_tau_had(const char *inputSigFile,
 */
 
     Pairing_w_JES(inputSigFile, JER, JERR02, AKTjetMass1_sig, AKTjetMass2_sig, tree_BDT_sig, output); 
-    //Pairing_w_JES(inputBkg1File, JER, AKTjetMass1_bkg1, AKTjetMass2_bkg1, tree_BDT_bkg1, output); 
-    //Pairing_w_JES(inputBkg2File, JER, AKTjetMass1_bkg2, AKTjetMass2_bkg2, tree_BDT_bkg2, output); 
+    Pairing_w_JES(inputBkg1File, JER, JERR02, AKTjetMass1_bkg1, AKTjetMass2_bkg1, tree_BDT_bkg1, output); 
+    Pairing_w_JES(inputBkg2File, JER, JERR02, AKTjetMass1_bkg2, AKTjetMass2_bkg2, tree_BDT_bkg2, output); 
     //Pairing_w_JES(inputBkg3File, JER, AKTjetMass1_bkg3, AKTjetMass2_bkg3, tree_BDT_bkg3, output); 
     //Pairing_w_JES(inputBkg4File, JER, AKTjetMass1_bkg4, AKTjetMass2_bkg4, tree_BDT_bkg4, output); 
 
-    //output -> cd();
+    output -> cd();
 
     //JetPair1 -> Write();
     //JetPair2 -> Write();
 
     //tree_output -> Write();
-    //output -> Close();
+    tree_BDT_sig -> Write();
+    tree_BDT_bkg1 -> Write();
+    tree_BDT_bkg2 -> Write();
+    output -> Close();
     //train BDT model
     cout << "Initating TMVA for Multi-Variate Analysis...." << endl;
     //apply BDT model
