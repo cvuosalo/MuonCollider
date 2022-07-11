@@ -19,6 +19,7 @@ module FastJetFinder <ModuleNameForJetsAlgo> {
 
 }
 ```
+
 Generator level jet algorithms is very similar, you only need to change the InputArray from "EFlowMerger/eflow" to "NeutrinoFilter/filteredParticles".
 ## B-tagging algorithm
 B-tagging module is dependent on the Jet Flavor Association modules. To implementing Jet Flavor Association module, adding module to "MuonColliderDet_JetFlavorAssociation.tcl" in the card/MuonCollider directory with following syntax:
@@ -47,7 +48,7 @@ module BTagging <ModuleNameForBTaggingWP50/70/90> {
 
 }
 ```
-Notice that here we did not apply Jet Smearing algorithm, if needed, change JetInputArray to "<JetMomentumSmearingModuleName>/<jetName>".
+Notice that here we did not apply Jet Smearing algorithm, if needed, change JetInputArray to "\<JetMomentumSmearingModuleName\>/\<jetName\>".
 ## Tau-tagging algorithm
 Similar to B-tagging, Tau-tagging also requires Jet Flavor Association. Then we can add the module to "MuonColliderDet_TauTagging.tcl" with following syntax:
 ```
