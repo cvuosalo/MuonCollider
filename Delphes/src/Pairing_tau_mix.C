@@ -546,45 +546,10 @@ void Pairing_w_JES(const char *inputFile,
     TH2D *AKTjetPT_Theta = new TH2D("AKTjetPT_Theta", "AKTjetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
     TH2D *GenJetPT_Theta = new TH2D("GenJetPT_Theta", "GenJetPT_Theta", 30, 0.1482, 3, 30, 0, 400);
 
-    TH2D *jet1Reso_Pt = new TH2D("jet1Reso_Pt", "jet1Reso_Pt", 70, 0, 400, 70, -1, 4);
-    TH2D *jet2Reso_Pt = new TH2D("jet2Reso_Pt", "jet2Reso_Pt", 70, 0, 400, 70, -1, 4);
-    TH2D *jet3Reso_Pt = new TH2D("jet3Reso_Pt", "jet3Reso_Pt", 70, 0, 400, 70, -1, 4);
-    TH2D *jet4Reso_Pt = new TH2D("jet4Reso_Pt", "jet4Reso_Pt", 70, 0, 400, 70, -1, 4);
-
-    TH1D *badjet1theta = new TH1D("badjet1theta", "badjet1theta", 50, 0, 3.1415);
-    TH1D *badjet2theta = new TH1D("badjet2theta", "badjet2theta", 50, 0, 3.1315);
-    TH1D *badjet3theta = new TH1D("badjet3theta", "badjet3theta", 50, 0, 3.1415);
-    TH1D *badjet4theta = new TH1D("badjet4theta", "badjet4theta", 50, 0, 3.1415);
-
-    TH1D *goodjet1theta = new TH1D("goodjet1theta", "goodjet1theta", 50, 0, 3.1415);
-    TH1D *goodjet2theta = new TH1D("goodjet2theta", "goodjet2theta", 50, 0, 3.1415);
-    TH1D *goodjet3theta = new TH1D("goodjet3theta", "goodjet3theta", 50, 0, 3.1415);
-    TH1D *goodjet4theta = new TH1D("goodjet4theta", "goodjet4theta", 50, 0, 3.1415);
-
-    TH1D *alljet1theta = new TH1D("alljet1theta", "alljet1theta", 50, 0, 3.1415);
-    TH1D *alljet2theta = new TH1D("alljet2theta", "alljet2theta", 50, 0, 3.1315);
-    TH1D *alljet3theta = new TH1D("alljet3theta", "alljet3theta", 50, 0, 3.1415);
-    TH1D *alljet4theta = new TH1D("alljet4theta", "alljet4theta", 50, 0, 3.1415);
-
-    TH2D *jet1Reso_DeltaR = new TH2D("jet1Reso_DeltaR", "jet1Reso_DeltaR", 50, 0, 0.5, 50, -1, 4);
-    TH2D *jet2Reso_DeltaR = new TH2D("jet2Reso_DeltaR", "jet2Reso_DeltaR", 50, 0, 0.5, 50, -1, 4);
-    TH2D *jet3Reso_DeltaR = new TH2D("jet3Reso_DeltaR", "jet3Reso_DeltaR", 50, 0, 0.5, 50, -1, 4);
-    TH2D *jet4Reso_DeltaR = new TH2D("jet4Reso_DeltaR", "jet4Reso_DeltaR", 50, 0, 0.5, 50, -1, 4);
-
-    TH1D *badjet1DeltaR = new TH1D("badjet1DeltaR", "badjet1DeltaR", 50, 0, 0.5);
-    TH1D *badjet2DeltaR = new TH1D("badjet2DeltaR", "badjet2DeltaR", 50, 0, 0.5);
-    TH1D *badjet3DeltaR = new TH1D("badjet3DeltaR", "badjet3DeltaR", 50, 0, 0.5);
-    TH1D *badjet4DeltaR = new TH1D("badjet4DeltaR", "badjet4DeltaR", 50, 0, 0.5);
-
-    TH1D *alljet1DeltaR = new TH1D("alljet1DeltaR", "alljet1DeltaR", 50, 0, 0.5);
-    TH1D *alljet2DeltaR = new TH1D("alljet2DeltaR", "alljet2DeltaR", 50, 0, 0.5);
-    TH1D *alljet3DeltaR = new TH1D("alljet3DeltaR", "alljet3DeltaR", 50, 0, 0.5);
-    TH1D *alljet4DeltaR = new TH1D("alljet4DeltaR", "alljet4DeltaR", 50, 0, 0.5);
-
     Double_t m_e;
-    m_e = 0.510999;
+    m_e = 1.777;
     Double_t m_mu;
-    m_mu = 105.658376;
+    m_mu = 1.777;
     Double_t LEPeta;
     Double_t LEPphi;
     Double_t LEPpt;
@@ -621,23 +586,12 @@ void Pairing_w_JES(const char *inputFile,
     Int_t AKTjet2TauTag1;
     Int_t AKTjet2TauTag2;
 
-    Double_t Gen1eta;
-    Double_t Gen1phi;
-    Double_t Gen2eta;
-    Double_t Gen2phi;
-    Double_t Gen1pt;
-    Double_t Gen2pt;
-    Double_t Gen1mass;
-    Double_t Gen2mass;
-
-    Double_t Gen3eta;
-    Double_t Gen3phi;
-    Double_t Gen4eta;
-    Double_t Gen4phi;
-    Double_t Gen3pt;
-    Double_t Gen4pt;
-    Double_t Gen3mass;
-    Double_t Gen4mass;
+    Double_t Tau1eta;
+    Double_t Tau1phi;
+    Double_t Tau1pt;
+    Double_t Tau2eta;
+    Double_t Tau2phi;
+    Double_t Tau2pt;
 
     Int_t Epair1jet1entry;
     Int_t Epair1jet2entry;
@@ -668,18 +622,6 @@ void Pairing_w_JES(const char *inputFile,
     TLorentzVector AKT1jet2;
     TLorentzVector AKT2jet1;
     TLorentzVector AKT2jet2;
-
-    Double_t GenJetMass = 0;
-    TLorentzVector Genh2;
-    TLorentzVector GenJet1;
-    TLorentzVector GenJet2;
-    TLorentzVector GenJet3;
-    TLorentzVector GenJet4;
-
-    Double_t jet1DeltaR;
-    Double_t jet2DeltaR;
-    Double_t jet3DeltaR;
-    Double_t jet4DeltaR;
 
     //Calibration variable
     Double_t AKTjetEta;
@@ -836,19 +778,20 @@ void Pairing_w_JES(const char *inputFile,
     for (Long64_t entry = 0; entry < nEntries; entry++) {
         //Initiation
 
-	cout << "Entry = " << entry << endl;
+	//cout << "Entry = " << entry << endl;
         tree_sig -> GetEntry(entry);
         //tree_output -> GetEntry(entry);
         AKTjet_size -> GetBranch() -> GetEntry(entry);
         Lep_e_size -> GetBranch() -> GetEntry(entry);
         Lep_mu_size -> GetBranch() -> GetEntry(entry);
-        GenJet_size -> GetBranch() -> GetEntry(entry);
+        GenParticleSize -> GetBranch() -> GetEntry(entry);
 
         Int_t nAKTjet = AKTjet_size -> GetValue();
         Int_t nElectron = Lep_e_size -> GetValue();
         Int_t nMuon = Lep_mu_size -> GetValue();
+        Int_t nParticle = GenParticleSize -> GetValue();
 
-	if (nMuon == 0 and nElectron ==0) {
+	if (nMuon == 0 and nElectron == 0) {
 	    continue;
 	}
 	//cout << "Event # = " << entry << "; AKTjet = " << nAKTjet << "; nElectron = " << nElectron << "; nMuon = " << nMuon << endl;
@@ -860,6 +803,11 @@ void Pairing_w_JES(const char *inputFile,
         AKTjet_BTag -> GetBranch() -> GetEntry(entry);
 	AKTjet_TauTag -> GetBranch() -> GetEntry(entry);
 	AKTjet_Charge -> GetBranch() -> GetEntry(entry);
+
+	PID -> GetBranch() -> GetEntry(entry);
+	GenParticleEta -> GetBranch() -> GetEntry(entry);
+	GenParticlePhi -> GetBranch() -> GetEntry(entry);
+	GenParticlePt -> GetBranch() -> GetEntry(entry);
 
 	Lep_e_eta -> GetBranch() -> GetEntry(entry);
 	Lep_e_phi -> GetBranch() -> GetEntry(entry);
@@ -922,18 +870,86 @@ void Pairing_w_JES(const char *inputFile,
 		
             }
     */
+
+  	    TVector3 bjet1;
+	    TVector3 bjet2;
+	    AKTjetpair2Mass = 0;
+            for (Int_t akt1entry2 = 0; akt1entry2 < nAKTjet; akt1entry2++) {
+		AKTjet2BTag1 = AKTjet_BTag -> GetValue(akt1entry2);
+                if (/*akt1entry2 != pair1jet2entry and*/ AKTjet2BTag1 >= 4) {
+                    for (Int_t akt2entry2 = 0; akt2entry2 < nAKTjet; akt2entry2++) {
+			AKTjet2BTag2 = AKTjet_BTag -> GetValue(akt2entry2);
+
+			AKTjet2eta1 = AKTjet_eta -> GetValue(pair2jet1entry);
+			AKTjet2phi1 = AKTjet_phi -> GetValue(pair2jet1entry);
+			AKTjet2eta2 = AKTjet_eta -> GetValue(pair2jet2entry);
+			AKTjet2phi2 = AKTjet_phi -> GetValue(pair2jet2entry);
+			bjet1.SetPtEtaPhi(1.0, AKTjet2eta1, AKTjet2phi1);
+			bjet2.SetPtEtaPhi(1.0, AKTjet2eta2, AKTjet2phi2);
+                        if (akt2entry2 != akt1entry2 and AKTjet2BTag2 >= 4) {
+
+                            AKTjet2eta1 = AKTjet_eta -> GetValue(akt1entry2);
+                            AKTjet2phi1 = AKTjet_phi -> GetValue(akt1entry2);
+                            AKTjet2pt1 = AKTjet_pt -> GetValue(akt1entry2);
+                            JetEnergyFix(AKTjet2eta1, AKTjet2pt1, JER);
+                            AKTjet2mass1 = AKTjet_mass -> GetValue(akt1entry2);
+		
+                            AKTjet2eta2 = AKTjet_eta -> GetValue(akt2entry2);
+                            AKTjet2phi2 = AKTjet_phi -> GetValue(akt2entry2);
+                            AKTjet2pt2 = AKTjet_pt -> GetValue(akt2entry2);
+                            JetEnergyFix(AKTjet2eta2, AKTjet2pt2, JER);
+                            AKTjet2mass2 = AKTjet_mass -> GetValue(akt2entry2);
+	
+                            AKT2jet1.SetPtEtaPhiM(AKTjet2pt1, AKTjet2eta1, AKTjet2phi1, AKTjet2mass1);
+                            AKT2jet2.SetPtEtaPhiM(AKTjet2pt2, AKTjet2eta2, AKTjet2phi2, AKTjet2mass2);
+                            AKTh2 = AKT2jet1 + AKT2jet2;
+                            AKTjetpairmass = AKTh2.Mag();
+
+                            if (TMath::Abs(125 - AKTjetpairmass) < TMath::Abs(125 - AKTjetpair2Mass)) {
+                                AKTjetpair2Mass = AKTjetpairmass;
+                                pair2jet1entry = akt1entry2;
+                                pair2jet2entry = akt2entry2;
+
+                            }
+                        }
+                    }
+                }
+            }
+
+	    if (pair2jet1entry == 0 and pair2jet1entry == 0) {
+	        continue;
+	    }
+	    AKTjet2eta1 = AKTjet_eta -> GetValue(pair2jet1entry);
+	    AKTjet2phi1 = AKTjet_phi -> GetValue(pair2jet1entry);
+	    AKTjet2eta2 = AKTjet_eta -> GetValue(pair2jet2entry);
+	    AKTjet2phi2 = AKTjet_phi -> GetValue(pair2jet2entry);
+
+	    bjet1.SetPtEtaPhi(1.0, AKTjet2eta1, AKTjet2phi1);
+	    bjet2.SetPtEtaPhi(1.0, AKTjet2eta2, AKTjet2phi2);
+
             //Pairing up leading Tau_Tagged anti-KT jet pair
             for (Int_t akt1entry = 0; akt1entry < nElectron; akt1entry++) {
                 for (Int_t akt2entry = 0; akt2entry < nAKTjet; akt2entry++) {
 		    
                     AKTjet1TauTag2 = AKTjet_TauTag -> GetValue(akt2entry);
                     AKTjet1BTag2 = AKTjet_BTag -> GetValue(akt2entry);
+		    AKTjet1eta2 = AKTjet_eta -> GetValue(akt2entry);
+                    AKTjet1phi2 = AKTjet_phi -> GetValue(akt2entry);
+
+		    TVector3 jet2;
+		    TVector3 lep2;
+
 		    LEPcharge = Lep_e_Charge -> GetValue(akt1entry);
 		    AKTjet1charge2 = AKTjet_Charge -> GetValue(akt2entry);
 		
 		    AKTpairCharge = LEPcharge * AKTjet1charge2;
 
-                    if (AKTjet1TauTag2 == 1 and AKTpairCharge == -1 and AKTjet1BTag2 < 4) {
+		    LEPeta = Lep_e_eta -> GetValue(akt1entry);
+		    LEPphi = Lep_e_phi -> GetValue(akt1entry);
+		    
+		    jet2.SetPtEtaPhi(1.0, AKTjet1eta2, AKTjet1phi2);
+		    lep2.SetPtEtaPhi(1.0, LEPeta, LEPphi);
+                    if (AKTjet1TauTag2 == 1 and AKTpairCharge == -1 and lep2.DeltaR(bjet1) > 1.0 and lep2.DeltaR(bjet2) > 1.0 and AKTjet1BTag2 == 0/* and akt2entry != pair2jet1entry and akt2entry != pair2jet2entry*/) {
 
                         LEPeta = Lep_e_eta -> GetValue(akt1entry);
                         LEPphi = Lep_e_phi -> GetValue(akt1entry);
@@ -971,12 +987,22 @@ void Pairing_w_JES(const char *inputFile,
 
                     AKTjet1TauTag2 = AKTjet_TauTag -> GetValue(akt2entry);
                     AKTjet1BTag2 = AKTjet_BTag -> GetValue(akt2entry);
+                    AKTjet1eta2 = AKTjet_eta -> GetValue(akt2entry);
+                    AKTjet1phi2 = AKTjet_phi -> GetValue(akt2entry);
+
+		    TVector3 jet1;
+		    TVector3 lep1;
 
                     LEPcharge = Lep_mu_Charge -> GetValue(akt1entry);
                     AKTjet1charge2 = AKTjet_Charge -> GetValue(akt2entry);
                     AKTpairCharge = LEPcharge * AKTjet1charge2;
 		
-                    if (AKTjet1TauTag2 == 1 and AKTpairCharge == -1 and AKTjet1BTag2 < 4) {
+		    LEPeta = Lep_mu_eta -> GetValue(akt1entry);
+		    LEPphi = Lep_mu_phi -> GetValue(akt1entry);
+		    
+		    jet1.SetPtEtaPhi(1.0, AKTjet1eta2, AKTjet1phi2);
+		    lep1.SetPtEtaPhi(1.0, LEPeta, LEPphi);
+                    if (AKTjet1TauTag2 == 1 and AKTpairCharge == -1 and lep1.DeltaR(bjet1) > 1.0 and lep1.DeltaR(bjet2) > 1.0 and AKTjet1BTag2 == 0/* and akt2entry != pair2jet1entry and akt2entry != pair2jet2entry*/) {
 
                         LEPeta = Lep_mu_eta -> GetValue(akt1entry);
                         LEPphi = Lep_mu_phi -> GetValue(akt1entry);
@@ -1040,11 +1066,15 @@ void Pairing_w_JES(const char *inputFile,
 	    } else {
 		continue;
 	    }
+
+	    /*
             AKTjetpair2Mass = 0;
             for (Int_t akt1entry2 = 0; akt1entry2 < nAKTjet; akt1entry2++) {
-                if (akt1entry2 != pair1jet2entry) {
+		AKTjet2BTag1 = AKTjet_BTag -> GetValue(akt1entry2);
+                if (akt1entry2 != pair1jet2entry and AKTjet2BTag1 >= 4) {
                     for (Int_t akt2entry2 = 0; akt2entry2 < nAKTjet; akt2entry2++) {
-                        if (((akt2entry2 != pair1jet2entry)) and (akt2entry2 != akt1entry2)) {
+			AKTjet2BTag2 = AKTjet_BTag -> GetValue(akt2entry2);
+                        if (akt2entry2 != pair1jet2entry and akt2entry2 != akt1entry2 and AKTjet2BTag2 >= 4) {
 
                             AKTjet2eta1 = AKTjet_eta -> GetValue(akt1entry2);
                             AKTjet2phi1 = AKTjet_phi -> GetValue(akt1entry2);
@@ -1062,26 +1092,20 @@ void Pairing_w_JES(const char *inputFile,
                             AKT2jet2.SetPtEtaPhiM(AKTjet2pt2, AKTjet2eta2, AKTjet2phi2, AKTjet2mass2);
                             AKTh2 = AKT2jet1 + AKT2jet2;
                             AKTjetpairmass = AKTh2.Mag();
-/*
-			    if (akt1entry2 == akt1entry) {
-			    	cout << "error inside" << endl;
-		    	    }
-*/
+
                             if (TMath::Abs(125 - AKTjetpairmass) < TMath::Abs(125 - AKTjetpair2Mass)) {
                                 AKTjetpair2Mass = AKTjetpairmass;
                                 pair2jet1entry = akt1entry2;
                                 pair2jet2entry = akt2entry2;
-/*
-					if (AKTjet2entry1 == akt1entry) {
-		   			    cout << "error inside at akt1entry = " << akt1entry << "with total of " << nAKTjet << endl;
-					}
-*/
+
                             }
                         }
                     }
                 }
             }
 
+	    */
+            
             if (LepFlag == 0) {
                 LEPeta = Lep_e_eta -> GetValue(pair1jet1entry);
                 LEPphi = Lep_e_phi -> GetValue(pair1jet1entry);
@@ -1130,7 +1154,6 @@ void Pairing_w_JES(const char *inputFile,
             AKTjet1TauTag2 = AKTjet_TauTag -> GetValue(pair1jet2entry);
             AKTjet2TauTag1 = AKTjet_TauTag -> GetValue(pair2jet1entry);
             AKTjet2TauTag2 = AKTjet_TauTag -> GetValue(pair2jet2entry);
-	
 
 /*
             bool AKT1jet1flag = false;
@@ -1268,7 +1291,38 @@ void Pairing_w_JES(const char *inputFile,
 
 	    TLorentzVector AKTdiH = AKTh1 + AKTh2;
 
-	    if (NBTag == 2 and NTauTag == 1 and BDTpairCharge == -1 and LepFlag != 2 /* and disCutFlag == true and TauFlag == true*/){
+	    
+	    if (AKTh2.Mag() < 50 and AKTh2.Mag() > 0) {
+		cout << "beta1 = " << AKTeta[2] << endl;
+		cout << "bphi1 = " << AKTphi[2] << endl;
+		cout << "bpt1 = " << AKTpt[2] << endl;
+		cout << "beta2 = " << AKTeta[3] << endl;
+		cout << "bphi2 = " << AKTphi[3] << endl;
+		cout << "bpt2 = " << AKTpt[3] << endl;
+		cout << "entry = " << entry<< endl;
+		/*
+		for (Int_t TauIndex = 0; TauIndex < nParticle; TauIndex++) {
+		    Int_t TauId = PID -> GetValue(TauIndex);
+		    if (TauId == 15 or TauId == -15){
+		        Tau1eta = GenParticleEta -> GetValue(TauIndex);
+		        Tau1phi = GenParticlePhi -> GetValue(TauIndex);
+		        Tau1pt = GenParticlePt -> GetValue(TauIndex);
+			    cout << "TauID:::" << "TauEta = " << Tau1eta << "; TauPhi = " << Tau1phi << "; TauPt = " << Tau1pt << endl; 
+		    }
+		}
+		cout << "BBbar mass = " << AKTh2.Mag() << endl;
+
+		cout << "lep1eta1 = " << AKTeta[0] << endl;
+		cout << "lep1phi1 = " << AKTphi[0] << endl;
+	:	cout << "lep1pt1 = " << AKTpt[0] << endl;
+		cout << "jet1eta2 = " << AKTeta[1] << endl;
+		cout << "jet1phi2 = " << AKTphi[1] << endl;
+		cout << "jet1pt2 = " << AKTpt[1] << endl;
+		*/
+
+	    }
+	    
+	    if (NBTag == 2 and NTauTag == 1 and BDTpairCharge == -1 /*and AKTjetpair2Mass > 50*/ and LepFlag != 2  /* and disCutFlag == true and TauFlag == true*/){
 
 	 	AKTjetMass1 -> Fill(AKTjetpair1Mass);
 	   	AKTjetMass2 -> Fill(AKTjetpair2Mass);
@@ -1296,6 +1350,8 @@ void Pairing_w_JES(const char *inputFile,
 		BDThiggs2eta = AKTh2.Eta();
 		BDThiggs2phi = AKTh2.Phi();
 		BDThiggs2invm = AKTh2.Mag();
+		
+		
 
 		BDThiggsAngle = AKTh1.Angle(AKTh2.Vect());
 
@@ -1315,7 +1371,9 @@ void Pairing_w_JES(const char *inputFile,
 		//cout << "BDTjet1charge1 = " << BDTjet1charge1 << "BDTjet1charge2 = " << BDTjet1charge2 << endl;
 		//cout << "LepFlag = " << LepFlag << "; pair1jet1entry = " << pair1jet1entry << "; pair1jet2entry = " << pair1jet2entry << endl;
 		
-	    	tree_BDT -> Fill();
+		if (BDThiggs2invm > 0){
+	    	    tree_BDT -> Fill();
+		}
 	    }
 	    
         }
