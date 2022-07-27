@@ -578,7 +578,8 @@ void Pairing_w_JES(const char *inputFile,
     	Double_t JERR02[10][10],
 	    TH1D* AKTjetMass1,
 	        TH1D* AKTjetMass2,
-	    	    TTree* tree_BDT,
+		    TH2F* AKTjetPairs,
+	    	        TTree* tree_BDT,
 		            TFile* file_BDT) {
     //clock_t tStart = clock();
     //Initiation
@@ -1014,7 +1015,7 @@ void Pairing_w_JES(const char *inputFile,
 			    if (ParticlePID == 16 and (Particle1eta - AKTjet1eta1) * (Particle1eta - AKTjet1eta1) + (Particle1phi - AKTjet1phi1) * (Particle1phi - AKTjet1phi1) <= 0.04 ){
 				Particle1pt = Particle_pt -> GetValue(nuindex);
 				Nu1.SetPtEtaPhiM(Particle1pt, Particle1eta, Particle1phi, 0);
-				AKTh1 = AKTh1 + Nu1;
+				//AKTh1 = AKTh1 + Nu1;
 				break;
 			    }
 			}
@@ -1026,7 +1027,7 @@ void Pairing_w_JES(const char *inputFile,
 			    if (ParticlePID == 16 and (Particle2eta - AKTjet1eta2) * (Particle2eta - AKTjet1eta2) + (Particle2phi - AKTjet1phi2) * (Particle2phi - AKTjet2phi1) <= 0.04 ){
 				Particle2pt = Particle_pt -> GetValue(nuindex);
 				Nu2.SetPtEtaPhiM(Particle2pt, Particle2eta, Particle2phi, 0);
-				AKTh1 = AKTh1 + Nu2;
+				//AKTh1 = AKTh1 + Nu2;
 				continue;
 			    }
 			}
@@ -1289,7 +1290,7 @@ void Pairing_w_JES(const char *inputFile,
 		if (ParticlePID == 16 and (Particle1eta - AKTjet1eta1) * (Particle1eta - AKTjet1eta1) + (Particle1phi - AKTjet1phi1) * (Particle1phi - AKTjet1phi1) <= 0.04 ){
 		    Particle1pt = Particle_pt -> GetValue(nuindex);
 		    Nu1.SetPtEtaPhiM(Particle1pt, Particle1eta, Particle1phi, 0);
-		    AKTh1 = AKTh1 + Nu1;
+		    //AKTh1 = AKTh1 + Nu1;
 		    break;
 		}
 	    }
@@ -1301,7 +1302,7 @@ void Pairing_w_JES(const char *inputFile,
 	        if (ParticlePID == 16 and (Particle2eta - AKTjet1eta2) * (Particle2eta - AKTjet1eta2) + (Particle2phi - AKTjet1phi2) * (Particle2phi - AKTjet2phi1) <= 0.04 ){
 	    	    Particle2pt = Particle_pt -> GetValue(nuindex);
 		    Nu2.SetPtEtaPhiM(Particle2pt, Particle2eta, Particle2phi, 0);
-		    AKTh1 = AKTh1 + Nu2;
+		    //AKTh1 = AKTh1 + Nu2;
 		    continue;
 		}
 	    }
@@ -1314,7 +1315,8 @@ void Pairing_w_JES(const char *inputFile,
 
 	 	AKTjetMass1 -> Fill(AKTjetpair1Mass);
 	   	AKTjetMass2 -> Fill(AKTjetpair2Mass);
-		
+		AKTjetPairs -> Fill(AKTjetpair1Mass, AKTjetpair2Mass);
+
 		BDTjet1pt1 = AKTpt[0];
 		BDTjet1pt2 = AKTpt[1];
 		BDTjet2pt1 = AKTpt[2];
@@ -1408,8 +1410,10 @@ void Pairing_tau_had(const char *inputSigFile,
     //TTree *tree_BDT_bkg3 = new TTree("tree_BDT_bkg3", "bkg3");
     //TTree *tree_BDT_bkg4 = new TTree("tree_BDT_bkg4", "bkg4");
     
-    //THStack* JetPair1 = new THStack("JetPair1", ";Leading b-jets Pair Invariant Mass [GeV];Events");
-    //THStack* JetPair2 = new THStack("JetPair2", ";Sub-Leading b-jets Pair Invariant Mass [GeV];Events");
+    THStack* JetPair1 = new THStack("JetPair1", ";Tau-jets Pair Invariant Mass [GeV];Events");
+    THStack* JetPair2 = new THStack("JetPair2", ";b-jets Pair Invariant Mass [GeV];Events");
+    THStack* JetPair2DBDT = new THStack("JetPair2DBDT", ";Tau-jets Pair Invariant Mass [GeV];b-jets Pair Invariant Mass [GeV]");
+
 
     TH1D *AKTjetMass1_sig = new TH1D("AKTjetMass1_sig", "Anti_KTjet leading jets pair invariant mass", 11, 50, 160);
     TH1D *AKTjetMass2_sig = new TH1D("AKTjetMass2_sig", "Anti_KTjet sub-leading jets pair invariant mass", 11, 50, 160); 
@@ -1429,16 +1433,188 @@ void Pairing_tau_had(const char *inputSigFile,
     TH1D *AKTjetMass2_bkg4 = new TH1D("AKTjetMass2_bkg4", "Anti_KTjet sub-leading jets pair invariant mass", 11, 50, 160); 
 */
 
-    Pairing_w_JES(inputSigFile, JER, JERR02, AKTjetMass1_sig, AKTjetMass2_sig, tree_BDT_sig, output); 
-    Pairing_w_JES(inputBkg1File, JER, JERR02, AKTjetMass1_bkg1, AKTjetMass2_bkg1, tree_BDT_bkg1, output); 
-    Pairing_w_JES(inputBkg2File, JER, JERR02, AKTjetMass1_bkg2, AKTjetMass2_bkg2, tree_BDT_bkg2, output); 
+    UInt_t nbins = 25;
+
+    UInt_t mmin = 50;
+    UInt_t mmax = 160;
+    UInt_t bins = 11;
+
+    TH2F *AKTjetPairsMass_sigBDT = new TH2F("AKTjetPairMass_sigBDT", "Anti_KTjet diHiggs invariant mass", nbins, mmin, 160, nbins, mmin, 160);
+
+    TH2F *AKTjetPairsMass_bkg1BDT = new TH2F("AKTjetPairMass_bkg1BDT", "Anti_KTjet diHiggs invariant mass", nbins, mmin, 160, nbins, mmin, 160);
+
+    TH2F *AKTjetPairsMass_bkg2BDT = new TH2F("AKTjetPairMass_bkg2BDT", "Anti_KTjet diHiggs invariant mass", nbins, mmin, 160, nbins, mmin, 160);
+
+    Pairing_w_JES(inputSigFile, JER, JERR02, AKTjetMass1_sig, AKTjetMass2_sig, AKTjetPairsMass_sigBDT, tree_BDT_sig, output); 
+    Pairing_w_JES(inputBkg1File, JER, JERR02, AKTjetMass1_bkg1, AKTjetMass2_bkg1, AKTjetPairsMass_bkg1BDT, tree_BDT_bkg1, output); 
+    Pairing_w_JES(inputBkg2File, JER, JERR02, AKTjetMass1_bkg2, AKTjetMass2_bkg2, AKTjetPairsMass_bkg2BDT, tree_BDT_bkg2, output); 
     //Pairing_w_JES(inputBkg3File, JER, AKTjetMass1_bkg3, AKTjetMass2_bkg3, tree_BDT_bkg3, output); 
     //Pairing_w_JES(inputBkg4File, JER, AKTjetMass1_bkg4, AKTjetMass2_bkg4, tree_BDT_bkg4, output); 
 
+    Int_t SigEntries = tree_BDT_sig -> GetEntries();
+    Int_t bkg1Entries = tree_BDT_bkg1 -> GetEntries();
+    Int_t bkg2Entries = tree_BDT_bkg2 -> GetEntries();
+
+    Double_t weight1 = 0.017985132;
+    Double_t weight2 = 0.787517628;
+    Double_t weight3 = 0.07093688;
+
+    Double_t SigStrength = SigEntries * weight1/TMath::Sqrt(SigEntries * weight1 + bkg1Entries * weight2 + bkg2Entries * weight3);
+
+    AKTjetMass1_bkg1 -> Scale(weight2);
+    AKTjetMass1_bkg1 -> SetFillColor(kAzure+7);
+    JetPair1 -> Add(AKTjetMass1_bkg1);
+    AKTjetMass1_bkg2 -> Scale(weight3);
+    AKTjetMass1_bkg2 -> SetFillColor(kAzure+10);
+    JetPair1 -> Add(AKTjetMass1_bkg2);
+
+    AKTjetMass1_sig -> Scale(weight1);
+    AKTjetMass1_sig -> SetFillColor(kPink-1);
+    JetPair1 -> Add(AKTjetMass1_sig);
+ 
+    AKTjetMass2_bkg1 -> Scale(weight2);
+    AKTjetMass2_bkg1-> SetFillColor(kAzure+7);
+    JetPair2 -> Add(AKTjetMass2_bkg1);
+    AKTjetMass2_bkg2 -> Scale(weight3);
+    AKTjetMass2_bkg2-> SetFillColor(kAzure+10);
+    JetPair2 -> Add(AKTjetMass2_bkg2);
+    
+    AKTjetMass2_sig -> Scale(weight1);
+    AKTjetMass2_sig -> SetFillColor(kPink-1);
+    JetPair2 -> Add(AKTjetMass2_sig);
+
+    AKTjetPairsMass_sigBDT -> Scale(weight1);
+    AKTjetPairsMass_sigBDT -> SetMarkerColor(kPink-1);
+    AKTjetPairsMass_sigBDT-> SetMarkerStyle(kFullDotLarge);
+    //AKTjetPairsMass_sigBDT-> SetMarkerSize(0.2);
+    JetPair2DBDT -> Add(AKTjetPairsMass_sigBDT);
+    AKTjetPairsMass_bkg1BDT -> Scale(weight2);
+    //AKTjetPairsMass_bkg1BDT-> SetFillColorAlpha(kAzure, 0.3);
+    AKTjetPairsMass_bkg1BDT-> SetMarkerColor(kAzure+7);
+    AKTjetPairsMass_bkg1BDT-> SetMarkerStyle(kFullDotLarge);
+    //AKTjetPairsMass_bkg1BDT-> SetMarkerSize(0.4);
+    JetPair2DBDT -> Add(AKTjetPairsMass_bkg1BDT);
+    AKTjetPairsMass_bkg2BDT -> Scale(weight3);
+    //AKTjetPairsMass_bkg2BDT-> SetFillColorAlpha(kAzure+1, 0.3);
+    AKTjetPairsMass_bkg2BDT-> SetMarkerColor(kAzure+10);
+    AKTjetPairsMass_bkg2BDT-> SetMarkerStyle(kFullDotLarge);
+    //AKTjetPairsMass_bkg2BDT-> SetMarkerSize(0.4);
+    JetPair2DBDT -> Add(AKTjetPairsMass_bkg2BDT);
+    
+    TCanvas *totalcanvas = new TCanvas("totalcanvas", "Canvas", 1400, 1400, 1400, 1400);
+    totalcanvas -> SetWindowSize(1204,1228);
+    totalcanvas -> SetCanvasSize(1200,1200);
+
+    JetPair1 -> Draw("HIST");
+    JetPair1 -> SetMaximum(170);
+    TH1* AKTjetMass1_sig_clone= new TH1D(*AKTjetMass1_sig);
+    AKTjetMass1_sig_clone -> SetLineColor(kPink-1);
+    AKTjetMass1_sig_clone -> SetLineWidth(4);
+    AKTjetMass1_sig_clone -> Draw("SAME");
+    TLegend *legend = new TLegend(0.6, 0.65, 0.85, 0.85);
+    legend -> AddEntry(AKTjetMass1_sig, "signal HH", "f");
+    legend -> AddEntry(AKTjetMass1_bkg1, "Z + Higgs", "f");
+    legend -> AddEntry(AKTjetMass1_bkg2, "Higgs + qq", "f");
+    //legend -> AddEntry(AKTjetMass1_bkg3, "HZ", "f");
+    //legend -> AddEntry(AKTjetMass1_bkg4, "Z + qq", "f");
+    legend -> AddEntry(AKTjetMass1_sig_clone, "signal HH", "l");
+    legend -> SetBorderSize(0);
+    legend -> Draw();
+    //JetPair1 -> GetXaxis() -> SetTitle("m_{H_1} [GeV]");
+    //JetPair1 -> GetYaxis() -> SetTitle("Events");
+    TLatex title1(75, 180, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    title1.SetTextSize(0.04); 
+    TLatex latexup1(115, 95, "#font[52]{#sqrt{s}} #font[42]{=} #font[52]{10 TeV}");
+    latexup1.SetTextSize(0.025); 
+    TLatex latexdown1(115, 80, "#font[52]{L} #font[42]{=} #font[52]{10 ab^{-1}}");
+    latexdown1.SetTextSize(0.025);
+    string init1("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
+    string add1 = to_string(SigStrength);
+    string end1("} #font[52]{(0#leqm_{H}#leq250)}");
+    init1 = init1 + add1.substr(0, 5) + end1;
+    const char * latex_1 = init1.c_str();
+    TLatex latexSigstrength1(115, 65, latex_1);
+    latexSigstrength1.SetTextSize(0.025);
+    latexSigstrength1.Draw("same");
+    latexup1.Draw("same");
+    latexdown1.Draw("same");
+    title1.Draw("same");
+    totalcanvas -> SaveAs("JetPairs1_sig+bkg_tau_10TeV.png");
+
+    JetPair2 -> Draw("HIST");
+    //AKTjetMass2_sum -> SetLineColor(kPink-1);
+    //AKTjetMass2_sum -> Draw("SAME");
+    TH1* AKTjetMass2_sig_clone = new TH1D(*AKTjetMass2_sig);
+    AKTjetMass2_sig_clone -> SetLineColor(kPink-1);  
+    AKTjetMass2_sig_clone -> SetLineWidth(4);  
+    AKTjetMass2_sig_clone -> Draw("SAME");
+    TLegend *legend2 = new TLegend(0.6, 0.65, 0.85, 0.85);
+    legend2 -> AddEntry(AKTjetMass2_sig, "signal HH", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg1, "Z + Higgs", "f");
+    legend2 -> AddEntry(AKTjetMass2_bkg2, "Higgs + qq", "f");
+    //legend2 -> AddEntry(AKTjetMass2_bkg3, "HZ", "f");
+    //legend2 -> AddEntry(AKTjetMass2_bkg4, "Z + qq", "f");
+    legend2 -> AddEntry(AKTjetMass2_sig_clone, "signal HH", "l");
+    //legend2 -> AddEntry(fsum, "fit", "l");
+    legend2 -> SetBorderSize(0);
+    legend2 -> Draw();
+    //JetPair2 -> GetXaxis() -> SetTitle("m_{H_2} [GeV]");
+    //JetPair2 -> GetYaxis() -> SetTitle("Events");
+    TLatex title2(75, 360, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    title2.SetTextSize(0.04); 
+    TLatex latexup2(110, 180, "#font[52]{#sqrt{s}} #font[42]{=} #font[52]{10 TeV}");
+    latexup2.SetTextSize(0.025); 
+    TLatex latexdown2(110, 150, "#font[52]{L} #font[42]{=} #font[52]{10 ab^{-1}}");
+    latexdown2.SetTextSize(0.025);
+    string init2("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
+    string add2 = to_string(SigStrength);
+    string end2("} #font[52]{(0#leqm_{H}#leq250)}");
+    init2 = init2 + add2.substr(0, 5) + end2;
+    const char * latex_2 = init2.c_str();
+    TLatex latexSigstrength2(110, 120, latex_2);
+    latexSigstrength2.SetTextSize(0.025);
+    latexSigstrength2.Draw("same");
+    latexup2.Draw("same");
+    latexdown2.Draw("same");
+    title2.Draw("same");
+    totalcanvas -> SaveAs("JetPairs2_sig+bkg_tau_10TeV.png");
+
+    totalcanvas -> SetCanvasSize(1300,1200);
+    totalcanvas -> SetLogy(0);
+    //totalcanvas -> SetLogz();
+    JetPair2DBDT -> Draw("SCAT=10");
+    TLegend *legend4 = new TLegend(0.65, 0.15, 0.875, 0.35);
+    legend4 -> AddEntry(AKTjetPairsMass_sigBDT, "signal HH data", "p");
+    legend4 -> AddEntry(AKTjetPairsMass_bkg1BDT, "Z + Higgs", "p");
+    legend4 -> AddEntry(AKTjetPairsMass_bkg2BDT, "Higgs + qq", "p");
+    legend4 -> SetBorderSize(0);
+    legend4 -> Draw("same");
+    totalcanvas -> cd();
+    //JetPair2DBDT -> GetXaxis() -> SetTitle("Leading Reconstructed Higgs Invariant Mass [GeV]");
+    //JetPair2DBDT -> GetYaxis() -> SetTitle("Sub-leading Reconstructed Higgs Invariant Mass [GeV]");
+    TLatex title4(80, 161, "#bf{#font[72]{Muon Collider Simulation (Delphes)}}");
+    title4.SetTextSize(0.04);
+    TLatex latexUp4(57, 151, "#font[52]{#sqrt{s}} #font[42]{=} #font[52]{10 TeV}");
+    TLatex latexDown4(57, 146, "#font[52]{L} #font[42]{=} #font[52]{10 ab^{-1}}");
+    string init3("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
+    string add3 = to_string(SigStrength);
+    string end3("} #font[52]{(0#leqm_{H}#leq250)}");
+    init3 = init3 + add3.substr(0, 5) + end3;
+    const char * latex3 = init3.c_str();
+    TLatex latexSigStrength3(57, 141, latex3);
+    latexUp4.SetTextSize(0.025);
+    latexDown4.SetTextSize(0.025);
+    latexSigStrength3.SetTextSize(0.025);
+    latexUp4.Draw("same");
+    latexDown4.Draw("same");
+    latexSigStrength3.Draw("same");
+    title4.Draw("same");
+    totalcanvas -> SaveAs("JetPair2D_sig+bkgBDT_tau_10TeV.png");
+
     output -> cd();
 
-    //JetPair1 -> Write();
-    //JetPair2 -> Write();
+    JetPair1 -> Write();
+    JetPair2 -> Write();
 
     //tree_output -> Write();
     tree_BDT_sig -> Write();
