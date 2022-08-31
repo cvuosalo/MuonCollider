@@ -1,0 +1,18 @@
+set run_mode 0
+set auto_convert_model T
+import model heft
+set zerowidth_tchannel False
+define q = u c s d t b
+define q~ = u~ c~ s~ d~ t~ b~
+generate mu+ mu- > vm vm~ h h, (h > q q~), (h > a a)
+output sig_bbaa_3TeV
+launch
+shower=Pythia8
+detector=Delphes
+set mh 125.0
+set wh 0.004
+set ebeam1 1500.
+set ebeam2 1500.
+set nevents 100
+set iseed 0
+0
