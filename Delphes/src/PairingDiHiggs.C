@@ -626,7 +626,7 @@ void PairingDiHiggs(const char *inputFile, const char *outputFile){
 	     MuonwoJER[ThetaEntry][PTentry]=0;
          } 
      }
-     TH1D* jetPT2darray[10][10];
+     TH1D* jetPT2darray[10][10][3];
      bool MuonTagging = false;
 
      jetPT2darray[0][0][0] = jetPTresponse00;

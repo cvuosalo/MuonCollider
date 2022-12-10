@@ -1,6 +1,6 @@
 nohup: ignoring input
 
-Processing Pairing_w_JES.C("delphes_dhiggs_sig_10k.root","delphes_dhiggs_sig_10k_pairMass.root","/nfs_scratch/hjia38/ttbar_w_hadron.root","ttbar_w_hadron_Cali.root")...
+Processing Pairing_w_JES.C("delphes_dhiggs_sig_10k.root","delphes_dhiggs_sig_10k_pairmass.root","/nfs_scratch/hjia38/ttbar_w_hadron.root","ttbar_w_hadron_Cali.root")...
 
 Initiating pairing algorithm...
 
@@ -38,31 +38,31 @@ Calibration all done! Quit...
 Results of pairing algorithm:
 
 Run gaussian fit for the leading anti-KT jet pair...
- FCN=153.497 FROM MIGRAD    STATUS=CONVERGED     330 CALLS         331 TOTAL
-                     EDM=6.50502e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+ FCN=141.433 FROM MIGRAD    STATUS=CONVERGED     463 CALLS         464 TOTAL
+                     EDM=4.4275e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
   EXT PARAMETER                                   STEP         FIRST   
   NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
-   1  p0           1.15601e+02   3.42080e+00   1.05698e-04  -1.46440e-04
-   2  p1           1.09239e+02   4.76228e-01   1.63822e-04   1.49604e-03
-   3  p2           3.00000e+01   2.72449e-01   1.26936e-03** at limit **
-   4  p3           4.78722e+01   6.33479e+00   5.45301e-04   3.09699e-04
-   5  p4           1.11102e+01   1.20369e+00   4.09770e-04  -9.50333e-04
+   1  p0           5.84704e+01   5.25208e+00   4.60399e-04   1.67608e-03
+   2  p1           1.09616e+02   5.09873e-01   1.57298e-04  -1.84577e-03
+   3  p2           1.37233e+01   1.28487e+00   4.39400e-04  -7.89115e-03
+   4  p3           1.00000e+02   2.41781e+00   1.81708e-03** at limit **
+   5  p4           3.16666e+01   3.69545e-01   1.36953e-04  -1.57068e-02
 
 Run gaussian fit for the sub-leading anti-KT jet pair...
- FCN=351.128 FROM MIGRAD    STATUS=CONVERGED     351 CALLS         352 TOTAL
-                     EDM=8.42123e-09    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   1.4 per cent
+ FCN=328.539 FROM MIGRAD    STATUS=CONVERGED     301 CALLS         302 TOTAL
+                     EDM=5.58428e-07    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   1.3 per cent
   EXT PARAMETER                                   STEP         FIRST   
   NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
-   1  p0           1.20000e+02   1.98635e-01  -4.98745e-06** at limit **
-   2  p1           1.13872e+02   4.00923e-01  -3.25963e-05   2.20276e-03
-   3  p2           2.34869e+01   4.34007e-01   4.28232e-05  -5.16024e-06
-   4  p3           5.00000e+01   2.55272e-01  -8.72754e-06** at limit **
-   5  p4           1.22202e+01   8.60991e-01  -2.09473e-05  -8.91755e-04
-   6  p5           9.07574e-01   3.68173e-01   5.63030e-05  -1.27502e-03
-   7  p6          -3.95242e-03   2.88205e-03  -4.11495e-05  -4.07255e-03
+   1  p0           1.20000e+02   2.51681e-01   3.71316e-05** at limit **
+   2  p1           1.14065e+02   3.88904e-01  -5.67577e-05  -1.54504e-02
+   3  p2           2.34620e+01   4.30414e-01  -7.55238e-05   3.98248e-03
+   4  p3           5.00000e+01   2.73322e-01  -1.09608e-05** at limit **
+   5  p4           1.16410e+01   8.18967e-01   5.66567e-05   7.05131e-03
+   6  p5           1.45748e+00   2.69809e-01   5.62185e-05  -2.17064e-02
+   7  p6          -5.97277e-03   2.16240e-03   6.72161e-05   6.17933e-03
 
 Output in TTree...
 
 Saving...
-Time taken: 454.49s
+Time taken: 464.97s
 All done! Exit...

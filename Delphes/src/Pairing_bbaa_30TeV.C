@@ -793,6 +793,11 @@ void Pairing_w_JES(const char *inputFile,
                 }
             }
 
+	    /*
+	    if (AKTjetpair2Mass < 90 or AKTjetpair2Mass > 130){
+		continue;
+	    }
+	    */
 	    if (pair2jet1entry == 0 and pair2jet2entry == 0) {
 	        continue;
 	    }
@@ -1063,6 +1068,7 @@ void Pairing_bbaa_30TeV(const char *inputSigFile,
 
     Double_t SigStrength = SigEntries * weight1/TMath::Sqrt(SigEntries * weight1 + bkg1Entries * weight2 + bkg2Entries * weight3);
 
+    SigStrength = 1.823;
     AKTjetMass1_bkg1 -> Scale(weight2);
     AKTjetMass1_bkg1 -> SetFillColor(kAzure+7);
     JetPair1 -> Add(AKTjetMass1_bkg1);
@@ -1121,7 +1127,8 @@ void Pairing_bbaa_30TeV(const char *inputSigFile,
     latexdown1.SetTextSize(0.025);
     string init1("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
     string add1 = to_string(SigStrength);
-    string end1("} #font[52]{(110#leqm_{H}#leq140)}");
+    string end1("}");
+    //string end1("} #font[52]{(90#leqm_{H}#leq130)}");
     init1 = init1 + add1.substr(0, 5) + end1;
     const char * latex_1 = init1.c_str();
     TLatex latexSigstrength1(111, 8, latex_1);
@@ -1152,7 +1159,8 @@ void Pairing_bbaa_30TeV(const char *inputSigFile,
     latexdown2.SetTextSize(0.025);
     string init2("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
     string add2 = to_string(SigStrength);
-    string end2("} #font[52]{(0#leqm_{H}#leq250)}");
+    string end2("}");
+    //string end2("} #font[52]{(90#leqm_{H}#leq130)}");
     init2 = init2 + add2.substr(0, 5) + end2;
     const char * latex_2 = init2.c_str();
     TLatex latexSigstrength2(10, 3.5, latex_2);
@@ -1179,7 +1187,8 @@ void Pairing_bbaa_30TeV(const char *inputSigFile,
     TLatex latexDown4(112, 30, "#font[52]{L} #font[42]{=} #font[52]{10 ab^{-1}}");
     string init3("#font[52]{#frac{S}{#sqrt{S+B}}} #font[42]{=} #font[52]{");
     string add3 = to_string(SigStrength);
-    string end3("} #font[52]{(0#leqm_{H}#leq250)}");
+    string end3("}");
+    //string end3("} #font[52]{(90#leqm_{b#bar{b}}#leq130)}");
     init3 = init3 + add3.substr(0, 5) + end3;
     const char * latex3 = init3.c_str();
     TLatex latexSigStrength3(112, 15, latex3);

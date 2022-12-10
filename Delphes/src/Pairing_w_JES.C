@@ -1918,7 +1918,7 @@ void Pairing_w_JES(const char *inputFile,
 
     //Fitting and plotting
     cout << endl << "Results of pairing algorithm:" << endl;
-    TCanvas *mycanvas = new TCanvas("mycanvas", "My Canvas", 1400, 1800);
+    TCanvas *mycanvas = new TCanvas("mycanvas", "My Canvas", 1400, 2000);
     TF1 *jetpair1fit = new TF1("jetpair1fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)", 25, 600);
     TF1 *jetpair2fit = new TF1("jetpair2fit", "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[1])/[4])^2)+expo(5)", 25, 600);
     TF1 *fSignal = new TF1("fSignal", "gaus+gaus(3)", 20, 600);
@@ -1989,12 +1989,12 @@ void Pairing_w_JES(const char *inputFile,
     //AKTjetMass2Signal->Draw("SAME"); fSignal->Draw("SAME");
     mycanvas -> SaveAs("AKTjetpair2Mass.png");
     
-    AKTJetPair -> GetXaxis() ->SetTitleOffset(1.9);
-    AKTJetPair -> GetYaxis() ->SetTitleOffset(1.9);
+    //AKTJetPair -> GetXaxis() ->SetTitleOffset(1.9);
+    //AKTJetPair -> GetYaxis() ->SetTitleOffset(1.9);
     AKTJetPair -> GetXaxis() -> SetTitle("Lead Higgs inv mass [GeV]");
     AKTJetPair -> GetYaxis() -> SetTitle("Sub-lead Higgs inv mass [GeV]");
-    AKTJetPair -> Draw("LEGO2");
-    //AKTJetPair -> Draw("COLZ");
+    //AKTJetPair -> Draw("LEGO2");
+    AKTJetPair -> Draw("COLZ");
     mycanvas -> SaveAs("AKTJetPair.png");
     /*
     cout << endl << "Run gaussian fit for the sub-leading GenJet pair under selection of AKT..." << endl;

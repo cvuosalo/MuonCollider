@@ -1,0 +1,781 @@
+nohup: ignoring input
+
+Processing Pairing_w_bkg+JES.C("delphes_dhiggs_sig_10k.root","delphes_dhiggs_bkg2v4b.root","delphes_dhiggs_bkgvvbbh.root","delphes_dhiggs_bkgvvbbz.root","delphes_dhiggs_sig+bkg_pairmass.root","/nfs_scratch/hjia38/ttbar_w_hadron.root","ttbar_w_hadron_Cali.root")...
+In file included from input_line_112:1:
+/afs/hep.wisc.edu/user/hjia38/Delphes/Pairing_w_bkg+JES.C:2252:17: error: no viable overloaded '='
+    HiggsArr[0] = AKTjetpair1Mass;
+    ~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/lcg/root/6.20.06-bcolbf/include/TH1.h:623:10: note: candidate function not viable: no known conversion from 'Double_t' (aka 'double') to 'const TH1D' for 1st argument
+   TH1D& operator=(const TH1D &h1);
+         ^
+In file included from input_line_112:1:
+/afs/hep.wisc.edu/user/hjia38/Delphes/Pairing_w_bkg+JES.C:2253:17: error: no viable overloaded '='
+    HiggsArr[1] = AKTjetpair2Mass;
+    ~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/lcg/root/6.20.06-bcolbf/include/TH1.h:623:10: note: candidate function not viable: no known conversion from 'Double_t' (aka 'double') to 'const TH1D' for 1st argument
+   TH1D& operator=(const TH1D &h1);
+         ^
+In file included from input_line_112:1:
+/afs/hep.wisc.edu/user/hjia38/Delphes/Pairing_w_bkg+JES.C:2255:12: warning: address of stack memory associated with local variable 'HiggsArr' returned [-Wreturn-stack-address]
+    return HiggsArr;
+           ^~~~~~~~
+/afs/hep.wisc.edu/user/hjia38/Delphes/Pairing_w_bkg+JES.C:2260:6: error: variable has incomplete type 'void'
+void Pairing_w_bkg+JES(const char *inputSigFile,
+     ^
+/afs/hep.wisc.edu/user/hjia38/Delphes/Pairing_w_bkg+JES.C:2260:19: error: expected ';' after top level declarator
+void Pairing_w_bkg+JES(const char *inputSigFile,
+                  ^
+                  ;
+Error in <TInterpreter::AutoParse>: Error parsing payload code for class edm::ValueMap with content:
+
+#line 1 "DataFormatsCommon_xr dictionary payload"
+
+#ifndef CMS_DICT_IMPL
+  #define CMS_DICT_IMPL 1
+#endif
+#ifndef _REENTRANT
+  #define _REENTRANT 1
+#endif
+#ifndef GNUSOURCE
+  #define GNUSOURCE 1
+#endif
+#ifndef __STRICT_ANSI__
+  #define __STRICT_ANSI__ 1
+#endif
+#ifndef GNU_GCC
+  #define GNU_GCC 1
+#endif
+#ifndef _GNU_SOURCE
+  #define _GNU_SOURCE 1
+#endif
+#ifndef TBB_USE_GLIBCXX_VERSION
+  #define TBB_USE_GLIBCXX_VERSION 80400
+#endif
+#ifndef BOOST_SPIRIT_THREADSAFE
+  #define BOOST_SPIRIT_THREADSAFE 1
+#endif
+#ifndef PHOENIX_THREADSAFE
+  #define PHOENIX_THREADSAFE 1
+#endif
+#ifndef BOOST_MATH_DISABLE_STD_FPCLASSIFY
+  #define BOOST_MATH_DISABLE_STD_FPCLASSIFY 1
+#endif
+#ifndef BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX
+  #define BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX 1
+#endif
+#ifndef CMSSW_GIT_HASH
+  #define CMSSW_GIT_HASH "CMSSW_11_1_6"
+#endif
+#ifndef PROJECT_NAME
+  #define PROJECT_NAME "CMSSW"
+#endif
+#ifndef PROJECT_VERSION
+  #define PROJECT_VERSION "CMSSW_11_1_6"
+#endif
+#ifndef CMSSW_REFLEX_DICT
+  #define CMSSW_REFLEX_DICT 1
+#endif
+
+#define _BACKWARD_BACKWARD_WARNING_H
+// Inline headers
+#include "DataFormats/Common/interface/RefProd.h"
+#include "DataFormats/Common/interface/RefToBaseProd.h"
+#include "DataFormats/Common/interface/RefVector.h"
+#include "DataFormats/Common/interface/PtrVector.h"
+#include "DataFormats/Common/interface/Ptr.h"
+#include "DataFormats/Common/interface/CopyPolicy.h"
+#include "DataFormats/Common/interface/EndPathStatus.h"
+#include "DataFormats/Common/interface/HLTGlobalStatus.h"
+#include "DataFormats/Common/interface/HLTPathStatus.h"
+#include "DataFormats/Common/interface/OwnVector.h"
+#include "DataFormats/Common/interface/RangeMap.h"
+#include "DataFormats/Common/interface/RefToBaseVector.h"
+#include "DataFormats/Common/interface/VectorHolder.h"
+#include "DataFormats/Common/interface/RefVectorBase.h"
+#include "DataFormats/Common/interface/TriggerResults.h"
+#include "DataFormats/Common/interface/Wrapper.h"
+#include "DataFormats/Common/interface/FillView.h"
+#include "DataFormats/Common/interface/DataFrame.h"
+#include "DataFormats/Common/interface/DataFrameContainer.h"
+#include "DataFormats/Common/interface/DetSetVectorNew.h"
+#include "DataFormats/Common/interface/ConstPtrCache.h"
+#include "DataFormats/Common/interface/BoolCache.h"
+#include "DataFormats/Common/interface/PtrVectorBase.h"
+#include "DataFormats/Common/interface/ValueMap.h"
+#include "DataFormats/Common/interface/MergeableCounter.h"
+#include "DataFormats/Common/interface/ConditionsInEdm.h"
+#include "DataFormats/Common/interface/RefCore.h"
+#include "DataFormats/Common/interface/RefCoreWithIndex.h"
+#include "DataFormats/Common/interface/IntValues.h"
+#include "DataFormats/Common/interface/ThinnedAssociation.h"
+#include "DataFormats/Common/interface/SecondaryEventIDAndFileInfo.h"
+#include "DataFormats/Provenance/interface/EventAuxiliary.h"
+#include "DataFormats/Provenance/interface/ParameterSetBlob.h"
+#include "DataFormats/Provenance/interface/ParameterSetID.h"
+#include "FWCore/MessageLogger/interface/ErrorSummaryEntry.h"
+#include "DataFormats/Common/interface/RandomNumberGeneratorState.h"
+
+#include <vector>
+#include <map>
+
+#undef  _BACKWARD_BACKWARD_WARNING_H
+
+In file included from DataFormatsHepMCCandidate_xr dictionary payload:53:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/HepMCCandidate/interface/GenParticle.h:10:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CompositeRefCandidateT.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/LeafCandidate.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:12:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/const_iterator.h:9:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CandidateFwd.h:14:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:264:5: error: use of undeclared identifier 'checkTypeCompatibility'
+    checkTypeCompatibility<T, typename REF::value_type>();
+    ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:264:28: error: 'T' does not refer to a value
+    checkTypeCompatibility<T, typename REF::value_type>();
+                           ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:255:19: note: declared here
+  template <class T>
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:48: error: use of undeclared identifier 'convertTo'
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                               ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:58: error: 'T' does not refer to a value
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                         ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:255:19: note: declared here
+  template <class T>
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:61: error: expected unqualified-id
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                            ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:60: error: expected ';' at end of declaration
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                           ^
+                                                           ;
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:85: error: expected unqualified-id
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                                                    ^
+In file included from DataFormatsHepMCCandidate_xr dictionary payload:53:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/HepMCCandidate/interface/GenParticle.h:10:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CompositeRefCandidateT.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/LeafCandidate.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:12:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/const_iterator.h:9:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CandidateFwd.h:23:32: error: typedef redefinition with different types ('View<...>' vs 'View<...>')
+  typedef edm::View<Candidate> CandidateView;
+                               ^
+DataFormatsCandidate_xr dictionary forward declarations' payload:61:45: note: previous definition is here
+namespace reco{typedef edm::View<Candidate> CandidateView __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/CandidateFwd.h")))  __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/Candidate.h"))) ;}
+                                            ^
+In file included from DataFormatsHepMCCandidate_xr dictionary payload:53:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/HepMCCandidate/interface/GenParticle.h:10:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CompositeRefCandidateT.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/LeafCandidate.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:12:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/const_iterator.h:9:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CandidateFwd.h:25:31: error: typedef redefinition with different types ('Ptr<...>' vs 'Ptr<...>')
+  typedef edm::Ptr<Candidate> CandidatePtr;
+                              ^
+DataFormatsBTauReco_xr dictionary forward declarations' payload:69:44: note: previous definition is here
+namespace reco{typedef edm::Ptr<Candidate> CandidatePtr __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/CandidateFwd.h")))  __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/Candidate.h"))) ;}
+                                           ^
+In file included from DataFormatsHepMCCandidate_xr dictionary payload:53:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/HepMCCandidate/interface/GenParticle.h:10:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CompositeRefCandidateT.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/LeafCandidate.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:12:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/const_iterator.h:9:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CandidateFwd.h:31:37: error: typedef redefinition with different types ('RefToBase<...>' vs 'RefToBase<...>')
+  typedef edm::RefToBase<Candidate> CandidateBaseRef;
+                                    ^
+DataFormatsCandidate_xr dictionary forward declarations' payload:60:50: note: previous definition is here
+namespace reco{typedef edm::RefToBase<Candidate> CandidateBaseRef __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/CandidateFwd.h")))  __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/Candidate.h"))) ;}
+                                                 ^
+Error in <TInterpreter::AutoParse>: Error parsing payload code for class edm::FwdPtr with content:
+
+#line 1 "DataFormatsHepMCCandidate_xr dictionary payload"
+
+#ifndef CMS_DICT_IMPL
+  #define CMS_DICT_IMPL 1
+#endif
+#ifndef _REENTRANT
+  #define _REENTRANT 1
+#endif
+#ifndef GNUSOURCE
+  #define GNUSOURCE 1
+#endif
+#ifndef __STRICT_ANSI__
+  #define __STRICT_ANSI__ 1
+#endif
+#ifndef GNU_GCC
+  #define GNU_GCC 1
+#endif
+#ifndef _GNU_SOURCE
+  #define _GNU_SOURCE 1
+#endif
+#ifndef EIGEN_DONT_PARALLELIZE
+  #define EIGEN_DONT_PARALLELIZE 1
+#endif
+#ifndef TBB_USE_GLIBCXX_VERSION
+  #define TBB_USE_GLIBCXX_VERSION 80400
+#endif
+#ifndef BOOST_SPIRIT_THREADSAFE
+  #define BOOST_SPIRIT_THREADSAFE 1
+#endif
+#ifndef PHOENIX_THREADSAFE
+  #define PHOENIX_THREADSAFE 1
+#endif
+#ifndef BOOST_MATH_DISABLE_STD_FPCLASSIFY
+  #define BOOST_MATH_DISABLE_STD_FPCLASSIFY 1
+#endif
+#ifndef BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX
+  #define BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX 1
+#endif
+#ifndef CMSSW_GIT_HASH
+  #define CMSSW_GIT_HASH "CMSSW_11_1_6"
+#endif
+#ifndef PROJECT_NAME
+  #define PROJECT_NAME "CMSSW"
+#endif
+#ifndef PROJECT_VERSION
+  #define PROJECT_VERSION "CMSSW_11_1_6"
+#endif
+#ifndef CMSSW_REFLEX_DICT
+  #define CMSSW_REFLEX_DICT 1
+#endif
+
+#define _BACKWARD_BACKWARD_WARNING_H
+// Inline headers
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "DataFormats/Common/interface/Wrapper.h"
+#include "DataFormats/Common/interface/RefHolder.h"
+#include "DataFormats/Common/interface/Holder.h"
+#include "DataFormats/Common/interface/RefVectorHolder.h"
+#include "DataFormats/Common/interface/VectorHolder.h"
+#include "DataFormats/Common/interface/ValueMap.h"
+#include "DataFormats/Common/interface/FwdPtr.h"
+#include "DataFormats/HepMCCandidate/interface/PdfInfo.h"
+#include "DataFormats/HepMCCandidate/interface/FlavorHistory.h"
+#include "DataFormats/HepMCCandidate/interface/FlavorHistoryEvent.h"
+#include <vector>
+
+#undef  _BACKWARD_BACKWARD_WARNING_H
+
+In file included from DataFormatsBTauReco_xr dictionary payload:62:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/AssociationMap.h:36:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/OneToOne.h:3:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/OneToOneGeneric.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/MapRefViewTrait.h:5:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:264:5: error: use of undeclared identifier 'checkTypeCompatibility'
+    checkTypeCompatibility<T, typename REF::value_type>();
+    ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:264:28: error: 'T' does not refer to a value
+    checkTypeCompatibility<T, typename REF::value_type>();
+                           ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:255:19: note: declared here
+  template <class T>
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:48: error: use of undeclared identifier 'convertTo'
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                               ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:58: error: 'T' does not refer to a value
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                         ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:255:19: note: declared here
+  template <class T>
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:61: error: expected unqualified-id
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                            ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:60: error: expected ';' at end of declaration
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                           ^
+                                                           ;
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Common/interface/RefToBase.h:279:85: error: expected unqualified-id
+    typename REF::value_type const* newValue = convertTo<T, typename REF::value_type>(value);
+                                                                                    ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:11:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/component.h:57:10: error: redefinition of 'component'
+  struct component {};
+         ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/component.h:57:10: note: previous definition is here
+  struct component {};
+         ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:12:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/const_iterator.h:9:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CandidateFwd.h:23:32: error: typedef redefinition with different types ('View<...>' vs 'View<...>')
+  typedef edm::View<Candidate> CandidateView;
+                               ^
+DataFormatsCandidate_xr dictionary forward declarations' payload:61:45: note: previous definition is here
+namespace reco{typedef edm::View<Candidate> CandidateView __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/CandidateFwd.h")))  __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/Candidate.h"))) ;}
+                                            ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:12:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/const_iterator.h:9:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CandidateFwd.h:25:31: error: typedef redefinition with different types ('Ptr<...>' vs 'Ptr<...>')
+  typedef edm::Ptr<Candidate> CandidatePtr;
+                              ^
+DataFormatsCandidate_xr dictionary forward declarations' payload:59:44: note: previous definition is here
+namespace reco{typedef edm::Ptr<Candidate> CandidatePtr __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/CandidateFwd.h")))  __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/Candidate.h"))) ;}
+                                           ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:12:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/const_iterator.h:9:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/CandidateFwd.h:31:37: error: typedef redefinition with different types ('RefToBase<...>' vs 'RefToBase<...>')
+  typedef edm::RefToBase<Candidate> CandidateBaseRef;
+                                    ^
+DataFormatsCandidate_xr dictionary forward declarations' payload:60:50: note: previous definition is here
+namespace reco{typedef edm::RefToBase<Candidate> CandidateBaseRef __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/CandidateFwd.h")))  __attribute__((annotate("$clingAutoload$DataFormats/Candidate/interface/Candidate.h"))) ;}
+                                                 ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:6:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic2DVector.h:10:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:176:23: error: redefinition of 'operator<<'
+inline std::ostream & operator<<( std::ostream& s, const Basic2DVector<T>& v) {
+                      ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:176:23: note: previous definition is here
+inline std::ostream & operator<<( std::ostream& s, const Basic2DVector<T>& v) {
+                      ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:6:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic2DVector.h:10:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:201:10: error: redefinition of 'operator*'
+inline T operator*( const Basic2DVector<T>& v1, const Basic2DVector<T>& v2) {
+         ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:201:10: note: previous definition is here
+inline T operator*( const Basic2DVector<T>& v1, const Basic2DVector<T>& v2) {
+         ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:6:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic2DVector.h:10:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:216:25: error: redefinition of 'operator*'
+inline Basic2DVector<T> operator*( const Basic2DVector<T>& v, const Scalar& s) {
+                        ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:216:25: note: previous definition is here
+inline Basic2DVector<T> operator*( const Basic2DVector<T>& v, const Scalar& s) {
+                        ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:6:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic2DVector.h:10:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:223:25: error: redefinition of 'operator*'
+inline Basic2DVector<T> operator*( const Scalar& s, const Basic2DVector<T>& v) {
+                        ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:223:25: note: previous definition is here
+inline Basic2DVector<T> operator*( const Scalar& s, const Basic2DVector<T>& v) {
+                        ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:6:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic2DVector.h:10:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:232:25: error: redefinition of 'operator/'
+inline Basic2DVector<T> operator/( const Basic2DVector<T>& v, const Scalar& s) {
+                        ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic2DVector.h:232:25: note: previous definition is here
+inline Basic2DVector<T> operator/( const Basic2DVector<T>& v, const Scalar& s) {
+                        ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:277:23: error: redefinition of 'operator<<'
+inline std::ostream & operator<<( std::ostream& s, const Basic3DVector<T>& v) {
+                      ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:277:23: note: previous definition is here
+inline std::ostream & operator<<( std::ostream& s, const Basic3DVector<T>& v) {
+                      ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:299:10: error: redefinition of 'operator*'
+inline T operator*( const Basic3DVector<T>& v1, const Basic3DVector<T>& v2) {
+         ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:299:10: note: previous definition is here
+inline T operator*( const Basic3DVector<T>& v1, const Basic3DVector<T>& v2) {
+         ^
+In file included from DataFormatsBTauReco_xr dictionary payload:69:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Candidate.h:19:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/Particle.h:13:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Candidate/interface/ParticleState.h:16:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/GlobalVector.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Vector3DBase.h:5:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/PV3DBase.h:4:
+In file included from /cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/Basic3DVector.h:11:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:314:25: error: redefinition of 'operator*'
+inline Basic3DVector<T> operator*( const Basic3DVector<T>& v, T t) {
+                        ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/GeometryVector/interface/private/oldBasic3DVector.h:314:25: note: previous definition is here
+inline Basic3DVector<T> operator*( const Basic3DVector<T>& v, T t) {
+                        ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+Error in <TInterpreter::AutoParse>: Error parsing payload code for class reco::FeaturesTagInfo with content:
+
+#line 1 "DataFormatsBTauReco_xr dictionary payload"
+
+#ifndef CMS_DICT_IMPL
+  #define CMS_DICT_IMPL 1
+#endif
+#ifndef _REENTRANT
+  #define _REENTRANT 1
+#endif
+#ifndef GNUSOURCE
+  #define GNUSOURCE 1
+#endif
+#ifndef __STRICT_ANSI__
+  #define __STRICT_ANSI__ 1
+#endif
+#ifndef GNU_GCC
+  #define GNU_GCC 1
+#endif
+#ifndef _GNU_SOURCE
+  #define _GNU_SOURCE 1
+#endif
+#ifndef EIGEN_DONT_PARALLELIZE
+  #define EIGEN_DONT_PARALLELIZE 1
+#endif
+#ifndef TBB_USE_GLIBCXX_VERSION
+  #define TBB_USE_GLIBCXX_VERSION 80400
+#endif
+#ifndef BOOST_SPIRIT_THREADSAFE
+  #define BOOST_SPIRIT_THREADSAFE 1
+#endif
+#ifndef PHOENIX_THREADSAFE
+  #define PHOENIX_THREADSAFE 1
+#endif
+#ifndef BOOST_MATH_DISABLE_STD_FPCLASSIFY
+  #define BOOST_MATH_DISABLE_STD_FPCLASSIFY 1
+#endif
+#ifndef BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX
+  #define BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX 1
+#endif
+#ifndef CMSSW_GIT_HASH
+  #define CMSSW_GIT_HASH "CMSSW_11_1_6"
+#endif
+#ifndef PROJECT_NAME
+  #define PROJECT_NAME "CMSSW"
+#endif
+#ifndef PROJECT_VERSION
+  #define PROJECT_VERSION "CMSSW_11_1_6"
+#endif
+#ifndef CMSSW_REFLEX_DICT
+  #define CMSSW_REFLEX_DICT 1
+#endif
+
+#define _BACKWARD_BACKWARD_WARNING_H
+// Inline headers
+#include <utility>
+#include <vector>
+
+#include "Rtypes.h"
+#include "Math/Cartesian3D.h"
+#include "Math/CylindricalEta3D.h"
+#include "Math/Polar3D.h"
+#include "Math/PxPyPzE4D.h"
+#include "DataFormats/Common/interface/Wrapper.h"
+#include "DataFormats/Common/interface/AssociationMap.h"
+#include "DataFormats/Common/interface/RefProd.h"
+#include "DataFormats/Common/interface/RefToBase.h"
+#include "DataFormats/Common/interface/FwdRef.h"
+#include "DataFormats/Common/interface/FwdPtr.h"
+#include "DataFormats/Common/interface/OwnVector.h"
+#include "DataFormats/Common/interface/ValueMap.h"
+#include "DataFormats/Candidate/interface/Candidate.h"
+#if defined __has_feature
+#if __has_feature(modules)
+// Workaround the missing CLHEP.modulemap
+#include "CLHEP/Vector/LorentzVector.h"
+#include "DataFormats/BTauReco/interface/CombinedTauTagInfo.h"
+#endif
+#endif
+#include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/TrackReco/interface/TrackFwd.h"
+#include "DataFormats/JetReco/interface/PFJet.h"
+#include "DataFormats/JetReco/interface/PFJetCollection.h"
+#include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
+#include "DataFormats/EgammaReco/interface/BasicCluster.h"
+#include "DataFormats/EgammaReco/interface/BasicClusterFwd.h"
+#include "DataFormats/BTauReco/interface/JetTag.h"
+#include "DataFormats/BTauReco/interface/TaggingVariable.h"
+#include "DataFormats/BTauReco/interface/TrackCountingTagInfo.h"
+#include "DataFormats/BTauReco/interface/TrackProbabilityTagInfo.h"
+#include "DataFormats/BTauReco/interface/IsolatedTauTagInfo.h"
+#include "DataFormats/BTauReco/interface/CombinedTauTagInfo.h"
+#include "DataFormats/BTauReco/interface/SecondaryVertexTagInfo.h"
+#include "DataFormats/BTauReco/interface/CandSecondaryVertexTagInfo.h"
+#include "DataFormats/BTauReco/interface/BoostedDoubleSVTagInfo.h"
+#include "DataFormats/BTauReco/interface/BoostedDoubleSVTagInfoFeatures.h"
+#include "DataFormats/BTauReco/interface/ShallowTagInfo.h"
+#include "DataFormats/BTauReco/interface/SoftLeptonTagInfo.h"
+#include "DataFormats/BTauReco/interface/CandSoftLeptonTagInfo.h"
+#include "DataFormats/BTauReco/interface/TauImpactParameterInfo.h"
+#include "DataFormats/BTauReco/interface/TauMassTagInfo.h"
+#include "DataFormats/BTauReco/interface/JetEisolAssociation.h"
+#include "DataFormats/BTauReco/interface/TrackIPTagInfo.h"
+#include "DataFormats/BTauReco/interface/CandIPTagInfo.h"
+#include "DataFormats/BTauReco/interface/BaseTagInfo.h"
+#include "DataFormats/BTauReco/interface/JTATagInfo.h"
+#include "DataFormats/BTauReco/interface/JetTagInfo.h"
+#include "DataFormats/BTauReco/interface/CATopJetTagInfo.h"
+#include "DataFormats/BTauReco/interface/HTTTopJetTagInfo.h"
+#include "DataFormats/BTauReco/interface/JetFeatures.h"
+#include "DataFormats/BTauReco/interface/SecondaryVertexFeatures.h"
+#include "DataFormats/BTauReco/interface/ShallowTagInfoFeatures.h"
+#include "DataFormats/BTauReco/interface/NeutralCandidateFeatures.h"
+#include "DataFormats/BTauReco/interface/ChargedCandidateFeatures.h"
+#include "DataFormats/BTauReco/interface/TrackPairFeatures.h"
+#include "DataFormats/BTauReco/interface/SeedingTrackFeatures.h"
+#include "DataFormats/BTauReco/interface/DeepFlavourFeatures.h"
+#include "DataFormats/BTauReco/interface/DeepFlavourTagInfo.h"
+#include "DataFormats/BTauReco/interface/DeepDoubleXFeatures.h"
+#include "DataFormats/BTauReco/interface/DeepDoubleXTagInfo.h"
+#include "DataFormats/BTauReco/interface/DeepBoostedJetTagInfo.h"
+#include "DataFormats/BTauReco/interface/PixelClusterTagInfo.h"
+
+namespace reco {
+  typedef TrackTauImpactParameterAssociationCollection::map_type TrackTauImpactParameterAssociationMapType;
+  typedef TrackTauImpactParameterAssociationCollection::ref_type TrackTauImpactParameterAssociationRefType;
+  typedef TauMassTagInfo::ClusterTrackAssociationCollection::map_type TauMassTagInfo_ClusterTrackAssociationMapType;
+  typedef TauMassTagInfo::ClusterTrackAssociationCollection::ref_type TauMassTagInfo_ClusterTrackAssociationRefType;
+}  // namespace reco
+
+#undef  _BACKWARD_BACKWARD_WARNING_H
+
+In module 'std' imported from input_line_1:1:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_tree.h:2113:34: error: no viable conversion from 'pair<...>' to 'pair<...>'
+      pair<_Base_ptr, _Base_ptr> __res
+                                 ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_set.h:512:9: note: in instantiation of function template specialization 'std::_Rb_tree<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::_Identity<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_insert_unique<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > &>' requested here
+          _M_t._M_insert_unique(__x);
+               ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Provenance/interface/BranchDescription.h:118:71: note: in instantiation of member function 'std::set<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::insert' requested here
+    void insertBranchAlias(std::string const& alias) { branchAliases_.insert(alias); }
+                                                                      ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:303:17: note: candidate constructor not viable: no known conversion from 'pair<std::_Rb_tree::_Base_ptr, std::_Rb_tree::_Base_ptr>' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'const std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &' for 1st argument
+      constexpr pair(const pair&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:304:17: note: candidate constructor not viable: no known conversion from 'pair<std::_Rb_tree::_Base_ptr, std::_Rb_tree::_Base_ptr>' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &&' for 1st argument
+      constexpr pair(pair&&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:291:19: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _ConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(const pair<_U1, _U2>& __p)
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:360:12: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _MoveConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(pair<_U1, _U2>&& __p)
+                  ^
+In module 'std' imported from input_line_1:1:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_tree.h:2068:13: error: no viable conversion from returned value of type 'pair<...>' to function return type 'pair<...>'
+            return _Res(__x, __y);
+                   ^~~~~~~~~~~~~~
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_tree.h:2114:4: note: in instantiation of member function 'std::_Rb_tree<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::_Identity<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_insert_unique_pos' requested here
+        = _M_get_insert_unique_pos(_KeyOfValue()(__v));
+          ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_set.h:512:9: note: in instantiation of function template specialization 'std::_Rb_tree<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::_Identity<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_insert_unique<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > &>' requested here
+          _M_t._M_insert_unique(__x);
+               ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_6/src/DataFormats/Provenance/interface/BranchDescription.h:118:71: note: in instantiation of member function 'std::set<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::insert' requested here
+    void insertBranchAlias(std::string const& alias) { branchAliases_.insert(alias); }
+                                                                      ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:303:17: note: candidate constructor not viable: no known conversion from '_Res' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'const std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &' for 1st argument
+      constexpr pair(const pair&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:304:17: note: candidate constructor not viable: no known conversion from '_Res' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &&' for 1st argument
+      constexpr pair(pair&&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:291:19: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _ConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(const pair<_U1, _U2>& __p)
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:360:12: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _MoveConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(pair<_U1, _U2>&& __p)
+                  ^
+In module 'std' imported from input_line_1:1:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_tree.h:2073:9: error: no viable conversion from returned value of type 'pair<...>' to function return type 'pair<...>'
+        return _Res(__x, __y);
+               ^~~~~~~~~~~~~~
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:303:17: note: candidate constructor not viable: no known conversion from '_Res' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'const std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &' for 1st argument
+      constexpr pair(const pair&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:304:17: note: candidate constructor not viable: no known conversion from '_Res' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &&' for 1st argument
+      constexpr pair(pair&&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:291:19: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _ConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(const pair<_U1, _U2>& __p)
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:360:12: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _MoveConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(pair<_U1, _U2>&& __p)
+                  ^
+In module 'std' imported from input_line_1:1:
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_tree.h:2074:14: error: no viable conversion from returned value of type 'pair<...>' to function return type 'pair<...>'
+      return _Res(__j._M_node, 0);
+             ^~~~~~~~~~~~~~~~~~~~
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:303:17: note: candidate constructor not viable: no known conversion from '_Res' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'const std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &' for 1st argument
+      constexpr pair(const pair&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:304:17: note: candidate constructor not viable: no known conversion from '_Res' (aka 'pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>') to 'std::pair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *> &&' for 1st argument
+      constexpr pair(pair&&) = default;
+                ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:291:19: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _ConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(const pair<_U1, _U2>& __p)
+                  ^
+/cvmfs/cms.cern.ch/slc7_amd64_gcc820/external/gcc/8.2.0-bcolbf/bin/../lib/gcc/x86_64-unknown-linux-gnu/8.4.0/../../../../include/c++/8.4.0/bits/stl_pair.h:360:12: note: candidate template ignored: requirement '_PCCFP<_Rb_tree_node_base *, _Rb_tree_node_base *>::template _MoveConstructiblePair<std::_Rb_tree_node_base *, std::_Rb_tree_node_base *>()' was not satisfied [with _U1 = std::_Rb_tree_node_base *, _U2 = std::_Rb_tree_node_base *]
+        constexpr pair(pair<_U1, _U2>&& __p)
+                  ^
+Error in <TInterpreter::AutoParse>: Error parsing payload code for class edm::Hash with content:
+
+#line 1 "DataFormatsProvenance_xr dictionary payload"
+
+#ifndef CMS_DICT_IMPL
+  #define CMS_DICT_IMPL 1
+#endif
+#ifndef _REENTRANT
+  #define _REENTRANT 1
+#endif
+#ifndef GNUSOURCE
+  #define GNUSOURCE 1
+#endif
+#ifndef __STRICT_ANSI__
+  #define __STRICT_ANSI__ 1
+#endif
+#ifndef GNU_GCC
+  #define GNU_GCC 1
+#endif
+#ifndef _GNU_SOURCE
+  #define _GNU_SOURCE 1
+#endif
+#ifndef TBB_USE_GLIBCXX_VERSION
+  #define TBB_USE_GLIBCXX_VERSION 80400
+#endif
+#ifndef BOOST_SPIRIT_THREADSAFE
+  #define BOOST_SPIRIT_THREADSAFE 1
+#endif
+#ifndef PHOENIX_THREADSAFE
+  #define PHOENIX_THREADSAFE 1
+#endif
+#ifndef BOOST_MATH_DISABLE_STD_FPCLASSIFY
+  #define BOOST_MATH_DISABLE_STD_FPCLASSIFY 1
+#endif
+#ifndef BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX
+  #define BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX 1
+#endif
+#ifndef CMSSW_GIT_HASH
+  #define CMSSW_GIT_HASH "CMSSW_11_1_6"
+#endif
+#ifndef PROJECT_NAME
+  #define PROJECT_NAME "CMSSW"
+#endif
+#ifndef PROJECT_VERSION
+  #define PROJECT_VERSION "CMSSW_11_1_6"
+#endif
+#ifndef CMSSW_REFLEX_DICT
+  #define CMSSW_REFLEX_DICT 1
+#endif
+
+#define _BACKWARD_BACKWARD_WARNING_H
+// Inline headers
+#include "DataFormats/Provenance/interface/BranchDescription.h"
+#include "DataFormats/Provenance/interface/BranchChildren.h"
+#include "DataFormats/Provenance/interface/BranchID.h"
+#include "DataFormats/Provenance/interface/BranchKey.h"
+#include "DataFormats/Provenance/interface/ElementID.h"
+#include "DataFormats/Provenance/interface/EventAuxiliary.h"
+#include "DataFormats/Provenance/interface/EventID.h"
+#include "DataFormats/Provenance/interface/FileFormatVersion.h"
+#include "DataFormats/Provenance/interface/FileID.h"
+#include "DataFormats/Provenance/interface/FileIndex.h"
+#include "DataFormats/Provenance/interface/IndexIntoFile.h"
+#include "DataFormats/Provenance/interface/Hash.h"
+#include "DataFormats/Provenance/interface/HashedTypes.h"
+#include "DataFormats/Provenance/interface/History.h"
+#include "DataFormats/Provenance/interface/LuminosityBlockAuxiliary.h"
+#include "DataFormats/Provenance/interface/LuminosityBlockID.h"
+#include "DataFormats/Provenance/interface/LuminosityBlockRange.h"
+#include "DataFormats/Provenance/interface/EventRange.h"
+#include "DataFormats/Provenance/interface/ParameterSetBlob.h"
+#include "DataFormats/Provenance/interface/ParameterSetID.h"
+#include "DataFormats/Provenance/interface/Parentage.h"
+#include "DataFormats/Provenance/interface/ParentageID.h"
+#include "DataFormats/Provenance/interface/ProcessConfiguration.h"
+#include "DataFormats/Provenance/interface/ProcessConfigurationID.h"
+#include "DataFormats/Provenance/interface/ProcessHistory.h"
+#include "DataFormats/Provenance/interface/ProcessHistoryID.h"
+#include "DataFormats/Provenance/interface/ProductID.h"
+#include "DataFormats/Provenance/interface/ProductProvenance.h"
+#include "DataFormats/Provenance/interface/StoredMergeableRunProductMetadata.h"
+#include "DataFormats/Provenance/interface/StoredProductProvenance.h"
+#include "DataFormats/Provenance/interface/ProductRegistry.h"
+#include "DataFormats/Provenance/interface/RunAuxiliary.h"
+#include "DataFormats/Provenance/interface/RunID.h"
+#include "DataFormats/Provenance/interface/ThinnedAssociationsHelper.h"
+#include "DataFormats/Provenance/interface/Timestamp.h"
+#include "DataFormats/Provenance/interface/ESRecordAuxiliary.h"
+#include "DataFormats/Provenance/interface/ViewTypeChecker.h"
+#include "FWCore/Utilities/interface/typedefs.h"
+#include "FWCore/Utilities/interface/VecArray.h"
+#include <map>
+#include <set>
+#include <vector>
+#include "Rtypes.h"
+#include "TSchemaHelper.h"
+#include "TFormula.h"
+
+// These below are for backward compatibility only
+// Note: ModuleDescription is still used, but is no longer persistent
+#include "DataFormats/Provenance/interface/EventEntryInfo.h"
+#include "DataFormats/Provenance/interface/EventEntryDescription.h"
+#include "DataFormats/Provenance/interface/EntryDescriptionID.h"
+#include "DataFormats/Provenance/interface/EventAux.h"
+#include "DataFormats/Provenance/interface/EventProcessHistoryID.h"
+#include "DataFormats/Provenance/interface/LuminosityBlockAux.h"
+#include "DataFormats/Provenance/interface/ModuleDescription.h"
+#include "DataFormats/Provenance/interface/RunAux.h"
+#include "DataFormats/Provenance/interface/RunLumiEntryInfo.h"
+
+namespace edm {
+  typedef Hash<ModuleDescriptionType> ModuleDescriptionID;
+}
+
+#undef  _BACKWARD_BACKWARD_WARNING_H
+

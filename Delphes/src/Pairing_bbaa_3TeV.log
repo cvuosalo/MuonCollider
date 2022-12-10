@@ -1,0 +1,265 @@
+nohup: ignoring input
+
+Processing Pairing_bbaa_3TeV.C("/nfs_scratch/hjia38/Delphes_bbaa_3TeV/sig_bbaa_3TeV.root","/nfs_scratch/hjia38/Delphes_bbaa_3TeV/bkgvvzh_bbaa_3TeV.root","/nfs_scratch/hjia38/Delphes_bbaa_3TeV/bkgvvqqh_bbaa_3TeV.root","delphes_dhiggs_sig+bkg_pairmass_bbaa_3TeV.root","/nfs_scratch/hjia38/Delphes_tau_3TeV/ttbar_tau_3TeV.root","ttbar_bbaa_Cali_3TeV.root")...
+
+Calling Calibration algorithm...
+Warning in <TStreamerInfo::BuildCheck>: 
+   The StreamerInfo of class Track read from file /nfs_scratch/hjia38/Delphes_tau_3TeV/ttbar_tau_3TeV.root
+   has the same version (=3) as the active class but a different checksum.
+   You should update the version to ClassDef(Track,4).
+   Do not try to write objects with the current class definition,
+   the files will not be readable.
+
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float C; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float Mass; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float EtaOuter; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float PhiOuter; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float T; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float X; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float Y; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float Z; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float TOuter; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float XOuter; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float YOuter; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ZOuter; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float Xd; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float Yd; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float Zd; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float L; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float D0; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float DZ; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float Nclusters; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float dNdx; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorP; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorPT; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorPhi; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorCtgTheta; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorT; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorD0; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorDZ; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorC; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorD0Phi; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorD0C; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorD0DZ; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorD0CtgTheta; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorPhiC; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorPhiDZ; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorPhiCtgTheta; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorCDZ; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorCCtgTheta; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   float ErrorDZCtgTheta; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   TRef Particle; //
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 3 of class 'Track' is missing from 
+the on-file layout version 3:
+   int VertexIndex; //
+
+Initiating Calibration...
+
+Calibration's result:
+Jet Energy Calibration gives following Jet Energy Response:
+1, 0.98, 0.96, 0.96, 0.96, 0.96, 0.96, 0.96, 0.97, 1.01, 
+1, 0.96, 0.94, 0.95, 0.97, 0.97, 0.97, 0.95, 0.93, 0.98, 
+1.01, 0.95, 0.92, 0.97, 0.96, 0.96, 0.96, 0.95, 0.93, 0.97, 
+0.99, 0.95, 0.93, 0.96, 0.97, 0.98, 0.96, 0.98, 0.95, 0.97, 
+1, 0.95, 0.96, 0.98, 0.96, 0.98, 0.96, 0.96, 0.95, 0.96, 
+0.97, 0.95, 0.95, 0.96, 0.98, 0.97, 0.98, 1, 0.96, 0.96, 
+0.96, 0.97, 0.98, 0.98, 0.98, 1.01, 0.98, 0.96, 0.97, 0.96, 
+0.95, 0.96, 0.99, 0.99, 0.99, 0.99, 0.98, 0.97, 0.97, 0.95, 
+0.92, 0.98, 0.98, 1, 1, 0.99, 1, 0.99, 0.98, 0.94, 
+0.89, 0.97, 0.97, 0.98, 0.99, 0.98, 0.98, 0.98, 0.97, 0.9, 
+
+Number of Jets included in calculation
+0, 1108, 1806, 1549, 1318, 1343, 1420, 1674, 1767, 213, 
+1, 357, 109, 62, 71, 64, 65, 91, 213, 167, 
+18, 319, 102, 75, 80, 79, 82, 88, 198, 238, 
+47, 345, 112, 81, 89, 84, 92, 93, 175, 300, 
+99, 355, 140, 113, 111, 114, 107, 114, 180, 319, 
+186, 372, 163, 169, 121, 158, 124, 144, 245, 421, 
+302, 505, 230, 219, 202, 240, 226, 209, 348, 619, 
+474, 803, 483, 362, 361, 322, 341, 422, 567, 912, 
+772, 1452, 1047, 837, 769, 762, 834, 950, 1175, 1423, 
+773, 1525, 1361, 1219, 1146, 1096, 1151, 1327, 1510, 1458, 
+
+Calibration all done! Quit...
+Warning in <TStreamerInfo::BuildCheck>: 
+   The StreamerInfo for version 2 of class GenParticle read from the file /nfs_scratch/hjia38/Delphes_bbaa_3TeV/sig_bbaa_3TeV.root
+   has a different checksum than the previously loaded StreamerInfo.
+   Reading objects of type GenParticle from the file /nfs_scratch/hjia38/Delphes_bbaa_3TeV/sig_bbaa_3TeV.root 
+   (and potentially other files) might not work correctly.
+   Most likely the version number of the class was not properly
+   updated [See ClassDef(GenParticle,2)].
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the on-file layout version 2 of class 'GenParticle' differs from 
+the in-memory layout version 2:
+   float T; //number
+vs
+   float CtgTheta; //number
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the on-file layout version 2 of class 'GenParticle' differs from 
+the in-memory layout version 2:
+   float X; //number
+vs
+   float D0; //number
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the on-file layout version 2 of class 'GenParticle' differs from 
+the in-memory layout version 2:
+   float Y; //number
+vs
+   float DZ; //number
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the on-file layout version 2 of class 'GenParticle' differs from 
+the in-memory layout version 2:
+   float Z; //number
+vs
+   float T; //number
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 2 of class 'GenParticle' is missing from 
+the on-file layout version 2:
+   float X; //number
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 2 of class 'GenParticle' is missing from 
+the on-file layout version 2:
+   float Y; //number
+Warning in <TStreamerInfo::CompareContent>: The following data member of
+the in-memory layout version 2 of class 'GenParticle' is missing from 
+the on-file layout version 2:
+   float Z; //number
+
+///////////////////////////////////////////////////
+Initiating pairing algorithm...
+Create dataset for Boosting Decision Tress training....
+Done
+
+///////////////////////////////////////////////////
+Initiating pairing algorithm...
+Create dataset for Boosting Decision Tress training....
+Done
+
+///////////////////////////////////////////////////
+Initiating pairing algorithm...
+Create dataset for Boosting Decision Tress training....
+Done
+
+0.389
+Initating TMVA for Multi-Variate Analysis....
+Start Boosting Decision Trees application...
+Time taken: 390.163 seconds.
+All done! Exit...
