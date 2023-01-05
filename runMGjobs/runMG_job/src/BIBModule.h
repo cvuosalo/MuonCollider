@@ -36,9 +36,11 @@ private:
   TObjArray *fOutputArray; //!
   TObjArray *fStableOutputArray; //!
 
-  TH1D *fEnergyHist; //!
-
-  TH2D *fPositionHist; //!
+  TH3F *fPositionHist; //!
+  TH2F *fAngPosHist; //!
+  TH1F *fEnergyHist; //!
+  TH3F *fMomentumHist; //!
+  TH1F *fPdgIDHist; //!
 
   TFile *file; //!
 

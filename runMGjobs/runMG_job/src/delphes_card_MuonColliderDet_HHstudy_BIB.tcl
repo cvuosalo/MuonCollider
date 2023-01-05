@@ -161,10 +161,13 @@ module BIBModule BIBModule {
     set OutArray allParticles
     set StableOutArray stableParticles
 
-    set NumParticles 10000
-    set PositionHistName name
-    set EnergyHistName name
-    set FileName name
+    set NumParticles 30000000 
+    set FileName histograms_MCPar_muComb_files1To8_Allevts.root
+    set PositionHistName xyz
+    set AngPosHistName etaphi
+    set EnergyHistName energy 
+    set MomentumHistName pxpypz
+    set PdgIDHistName pdgid
     
 }
 #################################

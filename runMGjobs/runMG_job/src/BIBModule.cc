@@ -58,10 +58,13 @@ BIBModule::~BIBModule()
 
 void BIBModule::Init()
 {
-  fNumParticles = GetInt("NumParticles", 100);
+  fNumParticles = GetInt("NumParticles", 30000000);
 
-  fPositionHistName = GetString("PositionHistName", "position_histogram");
-  fEnergyHistName = GetString("EnergyHistName", "energy_histogram");
+  fPositionHistName = GetString("PositionHistName", "xyz");
+  fAngPosHistName = GetString("AndPosHistName", "thetaphi");
+  fEnergyHistName = GetString("EnergyHistName", "energy");
+  fMomentumHistName = GetString("EnergyHistName", "pxpypz");
+  fPdgIDHistName = GetString("PdgIDHistName", "pdgid");
   
   fileName = GetString("FileName", "file");
 
@@ -75,9 +78,11 @@ void BIBModule::Init()
 
   file = TFile::Open(fileName);
   
-  fEnergyHist = (TH1D*) file->Get(fEnergyHistName);
-
-  fPosistionHist = (TH2D*) file->Get(fPositionHistName);
+  fPosistionHist = (TH3F*) file->Get(fPositionHistName);
+  fAngPosHist = (TH2F*) file->Get(fAngPosHistName);
+  fEnergyHist = (TH1F*) file->Get(fEnergyHistName);
+  fMomentumHist = (TH3F*) file->Get(fPositionHistName);
+  fPdgIDHist = (TH1F*) file->Get(fPdgIDHistName);
 }
 
 void BIBModule::Finish()
@@ -88,38 +93,53 @@ void BIBModule::Finish()
 
 void Process()
 {
-  Candidate *original, *bib;
-  Double_t pt, energy, eta, phi, m;
+  GenParticle *original, *bib;
+  Float_t px, py, pz, energy, eta, phi, m, charge, pdgid, x, y, z;
 
-  if (!fEnergyHist) return;
   if (!fPositionHist) return;
+  if (!fAngPosHist) return;
+  if (!fEnergyHist) return;
+  if (!fMomentumHist) return;
+  if (!fPdgIDHist) return;
 
   fItInputArray->Reset();
   fItStableInputArray->Reset();
 
-  while((original = static_cast<Candidate *>(fItInputArray->Next())))
+  while((original = static_cast<GenParticle *>(fItInputArray->Next())))
   {
-    original = static_cast<Candidate *>(original->Clone());
+    original = static_cast<GenParticle *>(original->Clone());
     fOutputArray->Add(original);
   }
 
 
-  while((original = static_cast<Candidate *>(fItStableInputArray->Next())))
+  while((original = static_cast<GenParticle *>(fItStableInputArray->Next())))
   {
-    original = static_cast<Candidate *>(original->Clone());
+    original = static_cast<GenParticle *>(original->Clone());
     fStableOutputArray->Add(original);
   }
 
   for (UInt i = 0; i < fNumParticles; i++)
   {
-    fEnergyHist->GetRandom(energy);
-    fPositionHist->GetRandom2(eta,phi);
+    fEnergyHist -> GetRandom(energy);
+    fAngPosHist -> GetRandom2(eta, phi);
+    fPositionHist -> GetRandom3(x, y, z);
+    fMomentumHist -> GetRandom3(px, py, pz);
+    fPdgIDHist -> GetRandom(pdgid);
     
     if(energy <= 0.0) continue;
-    pt = TMath::Sqrt(energy*energy - m*m)/TMath::CosH(eta);
-    bib->Momentum.SetPtEtaPhiE(pt, eta, phi, energy);
-    bib->Charge = ?;
-    bib->PdgCode = ?;
+    x = bib.X;
+    y = bib.Y;
+    z = bib.Z;
+    eta = bib.Eta;
+    phi = bib.Phi;
+    energy = bib.E;
+    px = bib.Px;
+    py = bib.Py;
+    pz = bib.Pz;
+
+    pdgid = bib.PID; 
+
+    //assign mass and charge by pdgID here
 
     fOutputArray->Add(bib);
     fStableOutputArray->Add(bib);
