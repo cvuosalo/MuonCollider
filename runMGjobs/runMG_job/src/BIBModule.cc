@@ -44,7 +44,7 @@ using namespace std;
 //------------------------------------------------------------------------------
 
 BIBModule::BIBModule() :
-  fItInputArray(0)
+  fItInputArray(0), fItStableInputArray(0)
 {
 }
 
@@ -60,23 +60,30 @@ void BIBModule::Init()
 {
   fNumParticles = GetInt("NumParticles", 100);
 
-  fHistogramName = GetString("HistogramName", "energy_histogram");
-
-  fInputArray = ImportArray(GetString("InputArray", "ParticlePropagator/stableParticles"));
-  fItInputArray = fInputArray->MakeIterator();
-
-  fOutputArray = ExportArray(GetString("OutputArray", "stableParticles"));
-
-  file = TFile::Open("histograms.root");
+  fPositionHistName = GetString("PositionHistName", "position_histogram");
+  fEnergyHistName = GetString("EnergyHistName", "energy_histogram");
   
-  fEHistogram = (TH1D*) file->Get("EHistogram");
+  fileName = GetString("FileName", "file");
 
-  fPositionHistogram = (TH2D*) file->Get("PositionHistogram");
+  fInputArray = ImportArray(GetString("InputArray", "Delphes/allParticles"));
+  fStableInputArray = ImportArray(GetString("StableInputArray", "Delphes/stableParticles"));
+  fItInputArray = fInputArray->MakeIterator();
+  fItStableInputArray = fStableInputArray->MakeIterator();
+
+  fOutputArray = ExportArray(GetString("OutputArray", "allParticles"));
+  fStableOutputArray = ExportArray(GetString("StableOutputArray", "stableParticles"));
+
+  file = TFile::Open(fileName);
+  
+  fEnergyHist = (TH1D*) file->Get(fEnergyHistName);
+
+  fPosistionHist = (TH2D*) file->Get(fPositionHistName);
 }
 
 void BIBModule::Finish()
 {
   if(fItInputArray) delete fItInputArray; 
+  if(fItStableInputArray) delete fItStableInputArray; 
 }
 
 void Process()
@@ -84,10 +91,11 @@ void Process()
   Candidate *original, *bib;
   Double_t pt, energy, eta, phi, m;
 
-  if (!fEHistogram) return;
-  if (!fPositionHistogram) return;
+  if (!fEnergyHist) return;
+  if (!fPositionHist) return;
 
   fItInputArray->Reset();
+  fItStableInputArray->Reset();
 
   while((original = static_cast<Candidate *>(fItInputArray->Next())))
   {
@@ -95,10 +103,17 @@ void Process()
     fOutputArray->Add(original);
   }
 
+
+  while((original = static_cast<Candidate *>(fItStableInputArray->Next())))
+  {
+    original = static_cast<Candidate *>(original->Clone());
+    fStableOutputArray->Add(original);
+  }
+
   for (UInt i = 0; i < fNumParticles; i++)
   {
-    fEHistogram->GetRandom(energy);
-    fPositionHistogram->GetRandom2(eta,phi);
+    fEnergyHist->GetRandom(energy);
+    fPositionHist->GetRandom2(eta,phi);
     
     if(energy <= 0.0) continue;
     pt = TMath::Sqrt(energy*energy - m*m)/TMath::CosH(eta);
@@ -107,5 +122,6 @@ void Process()
     bib->PdgCode = ?;
 
     fOutputArray->Add(bib);
+    fStableOutputArray->Add(bib);
   }
 }

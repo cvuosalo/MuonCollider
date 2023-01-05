@@ -1,111 +1,51 @@
+#ifndef BIBModule_h
+#define BIBModule_h
+
 /** \class BIBModule
- 
  * 
- 
  *  Psudo-simulation of BIB effect with given distribution of energy and position.
- 
  * 
- 
  *  \author H. Jia - UW-Madison
- 
  *
- 
  */
 
-#include "classes/DelphesClasses.h"
-#include "classes/DelphesFactory.h"
-#include "classes/DelphesFormula.h"
+#include "classes/DelphesModule.h"
 
-#include "ExRootAnalysis/ExRootClassifier.h"
-#include "ExRootAnalysis/ExRootFilter.h"
-#include "ExRootAnalysis/ExRootResult.h"
+class TIterator;
+class TObjArray;
+class DelphesFormula;
 
-#include "TRandom.h"
-#include "TRandom2.h"
-#include "TRandom3.h"
-#include "TH1.h"
-#include "TH2.h"
-#include "TObjArray.h"
-#include "TString.h"
-#include "TClonesArray.h"
-#include "modules/Delphes.h"
-#include "TDatabasePDG.h"
-
-#include "TLorentzVector.h"
-#include "TMath.h"
-
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-
-using namespace std;
-
-//------------------------------------------------------------------------------
-
-BIBModule::BIBModule() :
-  fItInputArray(0)
+class BIBModule: public DelphesModule
 {
-}
+public:
+  BIBModule();
+  ~BIBModule();
 
-//------------------------------------------------------------------------------
+  void Init();
+  void Process();
+  void Finish();
 
-BIBModule::~BIBModule() 
-{
-}
+private:
 
-//------------------------------------------------------------------------------
+  TIterator *fItInputArray; //!
+  TIterator *fItStableInputArray; //!
 
-void BIBModule::Init()
-{
-  fNumParticles = GetInt("NumParticles", 100);
+  const TObjArray *fInputArray; //!
+  const TObjArray *fStableInputArray; //!
 
-  fHistogramName = GetString("HistogramName", "energy_histogram");
+  TObjArray *fOutputArray; //!
+  TObjArray *fStableOutputArray; //!
 
-  fInputArray = ImportArray(GetString("InputArray", "ParticlePropagator/stableParticles"));
-  fItInputArray = fInputArray->MakeIterator();
+  TH1D *fEnergyHist; //!
 
-  fOutputArray = ExportArray(GetString("OutputArray", "stableParticles"));
+  TH2D *fPositionHist; //!
 
-  file = TFile::Open("histograms.root");
-  
-  fEHistogram = (TH1D*) file->Get("EHistogram");
+  TFile *file; //!
 
-  fPositionHistogram = (TH2D*) file->Get("PositionHistogram");
-}
+  Int_t *fNumParticles; //!
 
-void BIBModule::Finish()
-{
-  if(fItInputArray) delete fItInputArray; 
-}
+  ClassDef(BIBModule, 1)
+						  
+};
 
-void Process()
-{
-  Candidate *original, *bib;
-  Double_t pt, energy, eta, phi, m;
-
-  if (!fEHistogram) return;
-  if (!fPositionHistogram) return;
-
-  fItInputArray->Reset();
-
-  while((original = static_cast<Candidate *>(fItInputArray->Next())))
-  {
-    original = static_cast<Candidate *>(original->Clone());
-    fOutputArray->Add(original);
-  }
-
-  for (UInt i = 0; i < fNumParticles; i++)
-  {
-    fEHistogram->GetRandom(energy);
-    fPositionHistogram->GetRandom2(eta,phi);
-    
-    if(energy <= 0.0) continue;
-    pt = TMath::Sqrt(energy*energy - m*m)/TMath::CosH(eta);
-    bib->Momentum.SetPtEtaPhiE(pt, eta, phi, energy);
-    bib->Charge = ?;
-    bib->PdgCode = ?;
-
-    fOutputArray->Add(bib);
-  }
-}
+#endif
