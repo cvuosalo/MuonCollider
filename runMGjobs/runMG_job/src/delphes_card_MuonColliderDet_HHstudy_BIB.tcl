@@ -161,13 +161,15 @@ module BIBModule BIBModule {
     set OutArray allParticles
     set StableOutArray stableParticles
 
-    set NumParticles 30000000 
-    set FileName histograms_MCPar_muComb_files1To8_Allevts.root
-    set PositionHistName xyz
-    set AngPosHistName etaphi
-    set EnergyHistName energy 
-    set MomentumHistName pxpypz
-    set PdgIDHistName pdgid
+    set NumParticles 75518100 
+
+    set FileName $mg5dir/Delphes/cards/MuonCollider/histograms_MCPar_muComb_files1To8_Allevts.root
+    set xHistName x
+    set PositionHistName z_r
+    set PhiHistName phi
+    set ThetaHistName theta
+    set MomentumHistName px_py_pz
+    set PdgEnergyHistName pdgid_energy 
     
 }
 #################################

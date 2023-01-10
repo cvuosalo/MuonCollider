@@ -36,13 +36,14 @@ private:
   TObjArray *fOutputArray; //!
   TObjArray *fStableOutputArray; //!
 
-  TH3F *fPositionHist; //!
-  TH2F *fAngPosHist; //!
-  TH1F *fEnergyHist; //!
-  TH3F *fMomentumHist; //!
-  TH1F *fPdgIDHist; //!
+  String_t xHistName; //!
+  String_t PositionHistName; //!
+  String_t PhiHistName; //!
+  String_t ThetaHistName; //!
+  String_t MomentumHistName; //!
+  String_t PdgEnergyHistName; //!
 
-  TFile *file; //!
+  String_t FileName; //!
 
   Int_t *fNumParticles; //!
 
