@@ -12,6 +12,8 @@
  
  */
 
+#include "modules/BIBModule.h"
+
 #include "classes/DelphesClasses.h"
 #include "classes/DelphesFactory.h"
 #include "classes/DelphesFormula.h"
@@ -30,6 +32,7 @@
 #include "TClonesArray.h"
 #include "modules/Delphes.h"
 #include "TDatabasePDG.h"
+#include "TMath.h"
 
 #include "TLorentzVector.h"
 #include "TMath.h"
@@ -76,15 +79,16 @@ void BIBModule::Init()
 
   fOutputArray = ExportArray(GetString("OutputArray", "allParticles"));
   fStableOutputArray = ExportArray(GetString("StableOutputArray", "stableParticles"));
-
-  file = TFile::Open(fileName);
+/*
+  TFile* file = TFile::Open(fileName);
   
-  fxHist = (TH1F*) file->Get(fxHistName);
-  fPosistionHist = (TH2F*) file->Get(fPositionHistName);
-  fPhiHist = (TH1F*) file->Get(fPhiHistName);
-  fThetaHist = (TH1F*) file->Get(fThetaHistName);
-  fPdgEnergyHist = (TH2F*) file->Get(fPdgEnergyHistName);
-  fMomentumHist = (TH3F*) file->Get(fMomentumHistName);
+  TH1D* fxHist = (TH1D*) file->Get(fxHistName);
+  TH2D* fPositionHist = (TH2D*) file->Get(fPositionHistName);
+  TH1D* fPhiHist = (TH1D*) file->Get(fPhiHistName);
+  TH1D* fThetaHist = (TH1D*) file->Get(fThetaHistName);
+  TH2D* fPdgEnergyHist = (TH2D*) file->Get(fPdgEnergyHistName);
+  TH3D* fMomentumHist = (TH3D*) file->Get(fMomentumHistName);
+*/
 }
 
 void BIBModule::Finish()
@@ -93,17 +97,28 @@ void BIBModule::Finish()
   if(fItStableInputArray) delete fItStableInputArray; 
 }
 
-void Process()
+void BIBModule::Process()
 {
-  GenParticle *original, *bib;
-  Float_t px, py, pz, energy, theta, eta, phi, m, charge, pdgid, x, y, z, r;
 
-  if (!fxHist) return;
-  if (!fPositionHist) return;
-  if (!fPhiHist) return;
-  if (!fThetaHist) return;
-  if (!fMomentumHist) return;
-  if (!fPdgEnergyHist) return;
+  TFile* file = TFile::Open(fileName);
+  
+  fxHist = (TH1D*) file->Get(fxHistName);
+  fPositionHist = (TH2D*) file->Get(fPositionHistName);
+  fPhiHist = (TH1D*) file->Get(fPhiHistName);
+  fThetaHist = (TH1D*) file->Get(fThetaHistName);
+  fPdgEnergyHist = (TH2D*) file->Get(fPdgEnergyHistName);
+  fMomentumHist = (TH3D*) file->Get(fMomentumHistName);
+
+  GenParticle *original;
+  GenParticle *bib = new GenParticle;
+  Double_t px, py, pz, energy, theta, eta, phi, mass, charge, pdgid, x, y, z, r;
+
+  if (!fxHistName) return;
+  if (!fPositionHistName) return;
+  if (!fPhiHistName) return;
+  if (!fThetaHistName) return;
+  if (!fMomentumHistName) return;
+  if (!fPdgEnergyHistName) return;
 
   fItInputArray->Reset();
   fItStableInputArray->Reset();
@@ -121,30 +136,30 @@ void Process()
     fStableOutputArray->Add(original);
   }
 
-  for (UInt i = 0; i < fNumParticles; i++)
+  for (Int_t i = 0; i < fNumParticles; i++)
   {
-    fPhiHist -> GetRandom(phi);
-    fThetaHist -> GetRandom(theta);
-    fxHist -> GetRandom(x);
+    phi = fPhiHist -> GetRandom();
+    theta = fThetaHist -> GetRandom();
+    x = fxHist -> GetRandom();
     fPositionHist -> GetRandom2(z, r);
     fMomentumHist -> GetRandom3(px, py, pz);
     fPdgEnergyHist -> GetRandom2(pdgid, energy);
     
     if(energy <= 0.0) continue;
     
-    bib.X = x;
+    bib -> X = x;
     y = TMath::Sqrt(r * r - x * x);
-    bib.Y = y;
-    bib.Z = z;
+    bib -> Y = y;
+    bib -> Z = z;
     eta = - TMath::Log(TMath::Tan(theta/2));
-    bib.Eta = eta;
-    bib.Phi = phi;
-    bib.E = energy;
-    bib.Px = px;
-    bib.Py = py;
-    bib.Pz = pz;
+    bib -> Eta = eta;
+    bib -> Phi = phi;
+    bib -> E = energy;
+    bib -> Px = px;
+    bib -> Py = py;
+    bib -> Pz = pz;
 
-    bib.PID = pdgid; 
+    bib -> PID = pdgid; 
 
     //assign mass and charge by pdgID here
 
@@ -155,9 +170,9 @@ void Process()
 	} else {
 	    charge = +1;
 	}
-	bib.Charge = charge;
+	bib -> Charge = charge;
 	mass = 0.00051099895;
-	bib.Mass = mass;
+	bib -> Mass = mass;
     } else if (TMath::Abs(pdgid) == 13) {
         //muon
 	if (pdgid > 0) {
@@ -166,21 +181,21 @@ void Process()
 	    charge = +1;
 	}
 	charge = -1;
-	bib.Charge = charge;
+	bib -> Charge = charge;
 	mass = 0.1056583755;
-	bib.Mass = mass;
+	bib -> Mass = mass;
     } else if (TMath::Abs(pdgid) == 22) {
 	//photon
 	charge = 0;
-	bib.Charge = charge;
+	bib -> Charge = charge;
 	mass = 0;
-	bib.Mass = mass;
+	bib -> Mass = mass;
     } else if (TMath::Abs(pdgid) == 111) {
         //neutral pion
 	charge = 0;
-	bib.Charge = charge;
+	bib -> Charge = charge;
 	mass = 0.1349768;
-	bib.Mass = mass;
+	bib -> Mass = mass;
     } else if (TMath::Abs(pdgid) == 211) {
         //pion+
 	if (pdgid > 0) {
@@ -188,9 +203,9 @@ void Process()
 	} else {
 	    charge = -1;
 	}
-	bib.Charge = charge;
+	bib -> Charge = charge;
 	mass = 0.13957039;
-	bib.Mass = mass;
+	bib -> Mass = mass;
     } else if (TMath::Abs(pdgid) == 2212) {
         //proton
 	if (pdgid > 0) {
@@ -198,15 +213,15 @@ void Process()
 	} else {
 	    charge = -1;
 	}
-	bib.Charge = charge;
+	bib -> Charge = charge;
 	mass = 0.93827208816;
-	bib.Mass = mass;
+	bib -> Mass = mass;
     } else if (TMath::Abs(pdgid) == 2112) {
         //neutron
 	charge = 0;
-	bib.Charge = charge;
-	mass = 0.93956542052;.
-	bib.Mass = mass;
+	bib -> Charge = charge;
+	mass = 0.93956542052;
+	bib -> Mass = mass;
     } else {
 	continue;
     }

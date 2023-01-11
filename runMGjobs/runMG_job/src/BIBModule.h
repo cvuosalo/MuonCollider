@@ -10,10 +10,17 @@
  */
 
 #include "classes/DelphesModule.h"
+#include "TH1.h"
+#include "TH2.h"
+#include "TH3.h"
+#include "TString.h"
+#include "TFile.h"
+#include "TIterator.h"
+#include "TObjArray.h"
 
 class TIterator;
 class TObjArray;
-class DelphesFormula;
+class TLorentzVector;
 
 class BIBModule: public DelphesModule
 {
@@ -36,16 +43,24 @@ private:
   TObjArray *fOutputArray; //!
   TObjArray *fStableOutputArray; //!
 
-  String_t xHistName; //!
-  String_t PositionHistName; //!
-  String_t PhiHistName; //!
-  String_t ThetaHistName; //!
-  String_t MomentumHistName; //!
-  String_t PdgEnergyHistName; //!
+  TString fxHistName; //!
+  TString fPositionHistName; //!
+  TString fPhiHistName; //!
+  TString fThetaHistName; //!
+  TString fMomentumHistName; //!
+  TString fPdgEnergyHistName; //!
 
-  String_t FileName; //!
+  TH1D* fxHist; //!
+  TH2D* fPositionHist; //!
+  TH1D* fPhiHist; //!
+  TH1D* fThetaHist; //!
+  TH3D* fMomentumHist; //!
+  TH2D* fPdgEnergyHist; //!
 
-  Int_t *fNumParticles; //!
+  TString fileName; //!
+  TFile* file; //!
+   
+  Int_t fNumParticles; //!
 
   ClassDef(BIBModule, 1)
 						  

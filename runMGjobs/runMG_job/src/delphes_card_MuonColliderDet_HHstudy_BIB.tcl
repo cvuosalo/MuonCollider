@@ -163,7 +163,7 @@ module BIBModule BIBModule {
 
     set NumParticles 75518100 
 
-    set FileName $mg5dir/Delphes/cards/MuonCollider/histograms_MCPar_muComb_files1To8_Allevts.root
+    set FileName cards/MuonCollider/histograms_MCPar_muComb_files1To8_Allevts.root
     set xHistName x
     set PositionHistName z_r
     set PhiHistName phi
