@@ -92,9 +92,7 @@ set ExecutionPath {
     NeutrinoFilter
     BIBNeutrinoFilter
     GenJetFinder
-    BIBGenJetFinder
     GenR02JetFinder
-    BIBGenR02JetFinder
 
     FastJetFinderAKt
     BIBFastJetFinderAKt
@@ -161,13 +159,13 @@ module BIBModule BIBModule {
     set OutArray allParticles
     set StableOutArray stableParticles
 
-    set NumParticles 75518100 
+    set NumParticles 37759050 
 
-    set FileName cards/MuonCollider/histograms_MCPar_muComb_files1To8_Allevts.root
+    set FileName /nfs_scratch/hjia38/MG5_aMC_v3_3_2/Delphes/cards/MuonCollider/histograms_MCPar_muComb_files1To8_Allevts.root
     set xHistName x
     set PositionHistName z_r
-    set PhiHistName phi
-    set ThetaHistName theta
+    #set PhiHistName phi
+    #set ThetaHistName theta
     set MomentumHistName px_py_pz
     set PdgEnergyHistName pdgid_energy 
     
@@ -2552,29 +2550,6 @@ module FastJetFinder GenR02JetFinder {
     set JetPTMin 20.0
 }
 
-module FastJetFinder BIBGenJetFinder {
-    set InputArray BIBNeutrinoFilter/filteredParticles
-
-    set OutputArray jets
-
-    # algorithm: 1 CDFJetClu, 2 MidPoint, 3 SIScone, 4 kt, 5 Cambridge/Aachen, 6 antikt, 7 anti-kt with winner-take-all axis (for N-subjettiness), 8 N-jettiness, 9 Valencia
-    set JetAlgorithm 6
-    set ParameterR 0.5
-
-    set JetPTMin 20.0
-}
-
-module FastJetFinder BIBGenR02JetFinder {
-    set InputArray BIBNeutrinoFilter/filteredParticles
-
-    set OutputArray R02jets
-
-    # algorithm: 1 CDFJetClu, 2 MidPoint, 3 SIScone, 4 kt, 5 Cambridge/Aachen, 6 antikt, 7 anti-kt with winner-take-all axis (for N-subjettiness), 8 N-jettiness, 9 Valencia
-    set JetAlgorithm 6
-    set ParameterR 0.2
-
-    set JetPTMin 20.0
-}
 #########################
 # Gen Missing ET merger
 ########################
@@ -2973,12 +2948,12 @@ module TauTagging BIBAKT_TauTagging_R02_inclusive {
 module TreeWriter TreeWriter {
     # add Branch InputArray BranchName BranchClass
     add Branch Delphes/allParticles Particle GenParticle
-    add Branch BIBModule/allParticles BIBParticle GenParticle
+    #add Branch BIBModule/allParticles BIBParticle GenParticle
 
     add Branch GenJetFinder/jets GenJet Jet
-    add Branch BIBGenJetFinder/jets BIBGenJet Jet
+    #add Branch BIBGenJetFinder/jets BIBGenJet Jet
     add Branch GenR02JetFinder/R02jets GenR02Jet Jet
-    add Branch BIBGenR02JetFinder/R02jets BIBGenR02Jet Jet
+    #add Branch BIBGenR02JetFinder/R02jets BIBGenR02Jet Jet
 
     add Branch FastJetFinderAKt/AKTjets AKTjet Jet
     add Branch BIBFastJetFinderAKt/AKTjets BIBAKTjet Jet
@@ -2990,17 +2965,17 @@ module TreeWriter TreeWriter {
     add Branch GenMissingET/momentum GenMissingET MissingET
     add Branch BIBGenMissingET/momentum BIBGenMissingET MissingET
 
-    add Branch TrackMerger/tracks Track Track
-    add Branch BIBTrackMerger/tracks BIBTrack Track
-    add Branch Calorimeter/towers Tower Tower
-    add Branch BIBCalorimeter/towers BIBTower Tower
+    #add Branch TrackMerger/tracks Track Track
+    #add Branch BIBTrackMerger/tracks BIBTrack Track
+    #add Branch Calorimeter/towers Tower Tower
+    #add Branch BIBCalorimeter/towers BIBTower Tower
 
-    add Branch HCal/eflowTracks EFlowTrack Track
-    add Branch BIBHCal/eflowTracks BIBEFlowTrack Track
-    add Branch ECal/eflowPhotons EFlowPhoton Tower
-    add Branch BIBECal/eflowPhotons BIBEFlowPhoton Tower
-    add Branch HCal/eflowNeutralHadrons EFlowNeutralHadron Tower
-    add Branch BIBHCal/eflowNeutralHadrons BIBEFlowNeutralHadron Tower
+    #add Branch HCal/eflowTracks EFlowTrack Track
+    #add Branch BIBHCal/eflowTracks BIBEFlowTrack Track
+    #add Branch ECal/eflowPhotons EFlowPhoton Tower
+    #add Branch BIBECal/eflowPhotons BIBEFlowPhoton Tower
+    #add Branch HCal/eflowNeutralHadrons EFlowNeutralHadron Tower
+    #add Branch BIBHCal/eflowNeutralHadrons BIBEFlowNeutralHadron Tower
 
     add Branch UniqueObjectFinder/photons Photon Photon
     add Branch BIBUniqueObjectFinder/photons BIBPhoton Photon
@@ -3009,7 +2984,7 @@ module TreeWriter TreeWriter {
     add Branch UniqueObjectFinder/muons Muon Muon
     add Branch BIBUniqueObjectFinder/muons BIBMuon Muon
     add Branch ForwardMuonMomentumSmearing/muons ForwardMuon Muon
-    add Branch BIBForwardMuonMomentumSmearing/muons BIBForwardMuon Muon
+    #add Branch BIBForwardMuonMomentumSmearing/muons BIBForwardMuon Muon
 
     add Branch MissingET/momentum MissingET MissingET
     add Branch BIBMissingET/momentum BIBMissingET MissingET

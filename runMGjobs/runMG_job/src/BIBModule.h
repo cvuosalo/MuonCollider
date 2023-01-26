@@ -10,6 +10,7 @@
  */
 
 #include "classes/DelphesModule.h"
+#include "classes/DelphesClasses.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
@@ -45,22 +46,28 @@ private:
 
   TString fxHistName; //!
   TString fPositionHistName; //!
-  TString fPhiHistName; //!
-  TString fThetaHistName; //!
+  //TString fPhiHistName; //!
+  //TString fThetaHistName; //!
   TString fMomentumHistName; //!
   TString fPdgEnergyHistName; //!
-
+/*
   TH1D* fxHist; //!
   TH2D* fPositionHist; //!
-  TH1D* fPhiHist; //!
-  TH1D* fThetaHist; //!
+  //TH1D* fPhiHist; //!
+  //TH1D* fThetaHist; //!
   TH3D* fMomentumHist; //!
   TH2D* fPdgEnergyHist; //!
-
+*/
   TString fileName; //!
-  TFile* file; //!
+  //TFile* file; //!
+  //Candidate* bib; //!
    
   Int_t fNumParticles; //!
+
+  //DelphesFactory *factory; //!
+  TLorentzVector bibPosition, bibMomentum; //!
+  Double_t px, py, pz, energy, mass, charge, pdgid, x, y, z, r;
+  
 
   ClassDef(BIBModule, 1)
 						  
