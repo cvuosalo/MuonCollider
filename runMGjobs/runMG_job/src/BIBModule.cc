@@ -136,16 +136,12 @@ void BIBModule::Process() {
     }
 
     
-    Int_t pdglist[7] = {11,13, 22, 111, 211, 2112, 2212};
-    Int_t best = 0;
-  
-
-    Candidate *bib;
-    DelphesFactory *factory = GetFactory();
+    
     
     for (int i = 0; i < fNumParticles; i++) {
+	Candidate *bib;
+	DelphesFactory *factory = GetFactory();
 	Double_t px, py, pz, energy, mass, charge, pdgid, x, y, z, r;
- 
 	TLorentzVector bibPosition;
 	TLorentzVector bibMomentum;
     
@@ -156,23 +152,28 @@ void BIBModule::Process() {
     	fPositionHist -> GetRandom2(z, r);
 	fMomentumHist -> GetRandom3(px, py, pz);
 	fPdgEnergyHist -> GetRandom2(pdgid, energy);
-   
+ 
+        if (energy <= 0) {
+	    continue;
+        }
+  
 	//eta = - TMath::Log(TMath::Tan(theta/2));
 	//pt = TMath::Sqrt(px*px + py*py);
+	
+	Int_t pdglist[7] = {11,13, 22, 111, 211, 2112, 2212};
+	Int_t best = 0;
+
 	for (int i=1; i < 7; i++) {
       	    if (abs(abs(pdgid)-pdglist[i]) < abs(abs(pdgid)-pdglist[best])) {
         	best = i;
 	    } 
 	}
+
         if (pdgid > 0) {
 	    pdgid = pdglist[best];
 	} else {
             pdgid = -pdglist[best];
 	}
-
-        if (energy <= 0) {
-	    continue;
-        }
 
         y = TMath::Sqrt(r * r - x * x);
 	bibPosition.SetXYZT(x, y, z, 0);
@@ -235,10 +236,6 @@ void BIBModule::Process() {
         if (bibMomentum.E() <= 0) {
 	    continue;
         }
-
-	//bib = NULL;
-	//delete bib;
-	
     }
    
     //cout << endl << "counting" << allcounter << "all particles";
@@ -255,6 +252,4 @@ void BIBModule::Process() {
 
     file -> Close();
     if (file) delete file;
-    //bib = NULL;
-    //delete bib;
 }
