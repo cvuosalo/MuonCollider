@@ -107,7 +107,6 @@ void BIBModule::Process() {
     
 
     Candidate *original;
-    Candidate *bib = new Candidate;
     //std::unique_ptr<Candidate> bib(new Candidate());
     
     //TLorentzVector bibPosition, bibMomentum;
@@ -140,72 +139,47 @@ void BIBModule::Process() {
     Int_t pdglist[7] = {11,13, 22, 111, 211, 2112, 2212};
     Int_t best = 0;
   
-    TLorentzVector *bibPosition;
-    TLorentzVector *bibMomentum;
 
-    Double_t  *px;
-    Double_t  *py;
-    Double_t  *pz;
-    Double_t  *x;
-    Double_t  *y;
-    Double_t  *z;
-    Double_t  *mass;
-    Double_t  *charge;
-    Double_t  *pdgid;
-    Double_t  *energy;
-    Double_t  *r;
-
-    DelphesFactory *factory;
-  
-    for (int i = 0; i < fNumParticles; i++) {
-	//*py, *pz, *energy, *mass, *charge, *pdgid, *x, *y, *z, *r;
- 
-	bibPosition = new TLorentzVector;
-	bibMomentum = new TLorentzVector;
-        px = new Double_t;
-        py = new Double_t;
-        pz = new Double_t;
-        x = new Double_t;
-        y = new Double_t;
-        z = new Double_t;
-        mass = new Double_t;
-        charge = new Double_t;
-        pdgid = new Double_t;
-        energy = new Double_t;
-        r = new Double_t;
+    Candidate *bib;
+    DelphesFactory *factory = GetFactory();
     
-	/*DelphesFactory **/factory = GetFactory();
+    for (int i = 0; i < fNumParticles; i++) {
+	Double_t px, py, pz, energy, mass, charge, pdgid, x, y, z, r;
+ 
+	TLorentzVector bibPosition;
+	TLorentzVector bibMomentum;
+    
 	bib = factory -> NewCandidate();
 	//phi = fPhiHist -> GetRandom();
 	//theta = fThetaHist -> GetRandom();
-	*x = fxHist -> GetRandom();
-    	fPositionHist -> GetRandom2(*z, *r);
-	fMomentumHist -> GetRandom3(*px, *py, *pz);
-	fPdgEnergyHist -> GetRandom2(*pdgid, *energy);
+	x = fxHist -> GetRandom();
+    	fPositionHist -> GetRandom2(z, r);
+	fMomentumHist -> GetRandom3(px, py, pz);
+	fPdgEnergyHist -> GetRandom2(pdgid, energy);
    
 	//eta = - TMath::Log(TMath::Tan(theta/2));
 	//pt = TMath::Sqrt(px*px + py*py);
-	    	for (int i=1; i < 7; i++) {
-      	    if (abs(abs(*pdgid)-pdglist[i]) < abs(abs(*pdgid)-pdglist[best])) {
+	for (int i=1; i < 7; i++) {
+      	    if (abs(abs(pdgid)-pdglist[i]) < abs(abs(pdgid)-pdglist[best])) {
         	best = i;
 	    } 
 	}
-        if (*pdgid > 0) {
-	    *pdgid = pdglist[best];
+        if (pdgid > 0) {
+	    pdgid = pdglist[best];
 	} else {
-            *pdgid = -pdglist[best];
+            pdgid = -pdglist[best];
 	}
 
-        if (*energy <= 0) {
+        if (energy <= 0) {
 	    continue;
         }
 
-        *y = TMath::Sqrt(*r * *r - *x * *x);
-	bibPosition -> SetXYZT(*x, *y, *z, 0);
-	bibMomentum -> SetPxPyPzE(*px, *py, *pz, *energy);
+        y = TMath::Sqrt(r * r - x * x);
+	bibPosition.SetXYZT(x, y, z, 0);
+	bibMomentum.SetPxPyPzE(px, py, pz, energy);
 	//bibMomentum.SetPtEtaPhiE(pt, eta, phi, energy);
     
-	bib -> PID = *pdgid; 
+	bib -> PID = pdgid; 
 	bib -> D1 = -1;
 	bib -> D2 = -1;
 	bib -> M1 = -1;
@@ -213,38 +187,38 @@ void BIBModule::Process() {
 	bib -> Status = 1; 
 	bib -> IsPU = 0;
 
-	bib -> Position = *bibPosition;
-	bib -> Momentum = *bibMomentum;
+	bib -> Position = bibPosition;
+	bib -> Momentum = bibMomentum;
 	
 	//assign mass and charge by pdgID here
-	switch((Int_t) TMath::Abs(*pdgid)) {
+	switch((Int_t) TMath::Abs(pdgid)) {
 	    case 11:
-		*mass = 0.00051099895;
-		*charge = (*pdgid > 0) ? -1 : 1;
+		mass = 0.00051099895;
+		charge = (pdgid > 0) ? -1 : 1;
 		break;
 	    case 13:
-		*mass = 0.1056583755;
-		*charge = (*pdgid > 0) ? -1 : 1;
+		mass = 0.1056583755;
+		charge = (pdgid > 0) ? -1 : 1;
 		break;
 	    case 22:
-		*mass = 0;
-		*charge = 0;
+		mass = 0;
+		charge = 0;
 		break;
 	    case 111:
-		*mass = 0.1349768;
-		*charge = 0;
+		mass = 0.1349768;
+		charge = 0;
 		break;
 	    case 211:
-		*mass = 0.13957039;
-		*charge = (*pdgid > 0) ? -1 : 1;
+		mass = 0.13957039;
+		charge = (pdgid > 0) ? -1 : 1;
 		break;
 	    case 2212:
-		*mass = 0.93827208816;
-		*charge = (*pdgid > 0) ? -1 : 1;
+		mass = 0.93827208816;
+		charge = (pdgid > 0) ? -1 : 1;
 		break;
 	    case 2112:
-		*mass = 0.93956542052;
-		*charge = 0;
+		mass = 0.93956542052;
+		charge = 0;
 		break;
 	    default:
 		cout << "Error: Not a valid PDG ID!" << endl;
@@ -252,46 +226,19 @@ void BIBModule::Process() {
 		break;
 	} 
  
-	bib -> Charge = *charge;
-	bib -> Mass = *mass;
+	bib -> Charge = charge;
+	bib -> Mass = mass;
     
 	fOutputArray -> Add(bib);
 	fStableOutputArray -> Add(bib);
 
-        if (bibMomentum -> E() <= 0) {
+        if (bibMomentum.E() <= 0) {
 	    continue;
         }
 
-	bib = NULL;
-	delete bib;
-	px = NULL;
-	delete px;
-	py = NULL;
-	delete py;
-	pz = NULL;
-	delete pz;
-	x = NULL;
-	delete x;
-	y = NULL;
-	delete y;
-	z = NULL;
-	delete z;
-	r = NULL;
-	delete r;
-	energy = NULL;
-	delete energy;
-	charge = NULL;
-	delete charge;
-	mass = NULL;
-	delete mass;
-	bibMomentum = NULL;
-	delete bibMomentum;
-	bibPosition = NULL;
-	delete bibPosition;
-	pdgid = NULL;
-	delete pdgid;
-	factory = NULL;
-	delete factory;
+	//bib = NULL;
+	//delete bib;
+	
     }
    
     //cout << endl << "counting" << allcounter << "all particles";
