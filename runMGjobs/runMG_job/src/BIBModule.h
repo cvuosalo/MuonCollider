@@ -65,9 +65,8 @@ private:
   Int_t fNumParticles; //!
 
   //DelphesFactory *factory; //!
-  TLorentzVector bibPosition, bibMomentum; //!
-  Double_t px, py, pz, energy, mass, charge, pdgid, x, y, z, r;
-  
+  //TLorentzVector bibPosition, bibMomentum; //!
+  //Double_t px, py, pz, energy, mass, charge, pdgid, x, y, z, r;
 
   ClassDef(BIBModule, 1)
 						  

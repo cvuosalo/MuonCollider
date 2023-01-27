@@ -159,7 +159,8 @@ module BIBModule BIBModule {
     set OutArray allParticles
     set StableOutArray stableParticles
 
-    set NumParticles 37759050 
+    set NumParticles 9000000 
+    #37759050 
 
     set FileName /nfs_scratch/hjia38/MG5_aMC_v3_3_2/Delphes/cards/MuonCollider/histograms_MCPar_muComb_files1To8_Allevts.root
     set xHistName x
@@ -170,6 +171,7 @@ module BIBModule BIBModule {
     set PdgEnergyHistName pdgid_energy 
     
 }
+
 #################################
 # Propagate particles in cylinder
 #################################

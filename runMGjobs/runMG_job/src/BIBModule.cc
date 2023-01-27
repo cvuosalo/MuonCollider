@@ -1,15 +1,9 @@
 /** \class BIBModule
- 
  * 
- 
  *  Psudo-simulation of BIB effect with given distribution of energy and position.
- 
  * 
- 
  *  \author H. Jia - UW-Madison
- 
  *
- 
  */
 
 #include "modules/BIBModule.h"
@@ -44,17 +38,6 @@
 #include <stdexcept>
 
 using namespace std;
-//------------------------------------------------------------------------------
-/*
-template <class T>
-class SmartPtr {
-    T* bib;
-public:
-    explicit SmartPtr(T* p = NULL) { bib = p; }
-    ~SmartPtr() { delete (bib); }
-    T& operator*() { return *bib; }
-    T* operator->() { return bib; }
-};*/
 
 //------------------------------------------------------------------------------
 
@@ -113,8 +96,6 @@ void BIBModule::Finish() {
 
 void BIBModule::Process() {
 
-
-    DelphesFactory *factory = GetFactory();
     TFile* file = TFile::Open(fileName);
   
     TH1D* fxHist = (TH1D*) file -> Get(fxHistName);
@@ -127,12 +108,11 @@ void BIBModule::Process() {
 
     Candidate *original;
     Candidate *bib = new Candidate;
- 
     //std::unique_ptr<Candidate> bib(new Candidate());
-    /*
-    TLorentzVector bibPosition, bibMomentum;
-    Double_t  pt, px, py, pz, energy, theta, eta, phi, mass, charge, pdgid, x, y, z, r;
-
+    
+    //TLorentzVector bibPosition, bibMomentum;
+    //Double_t  px, py, pz, energy, mass, charge, pdgid, x, y, z, r;
+/*
     Int_t allcounter, stablecounter, BIBcounter;*/
     //allcounter = 0;
     //stablecounter = 0;
@@ -156,39 +136,76 @@ void BIBModule::Process() {
       //stablecounter++;
     }
 
-    bib = factory -> NewCandidate();
+    
+    Int_t pdglist[7] = {11,13, 22, 111, 211, 2112, 2212};
+    Int_t best = 0;
+  
+    TLorentzVector *bibPosition;
+    TLorentzVector *bibMomentum;
+
+    Double_t  *px;
+    Double_t  *py;
+    Double_t  *pz;
+    Double_t  *x;
+    Double_t  *y;
+    Double_t  *z;
+    Double_t  *mass;
+    Double_t  *charge;
+    Double_t  *pdgid;
+    Double_t  *energy;
+    Double_t  *r;
+
+    DelphesFactory *factory;
+  
     for (int i = 0; i < fNumParticles; i++) {
+	//*py, *pz, *energy, *mass, *charge, *pdgid, *x, *y, *z, *r;
+ 
+	bibPosition = new TLorentzVector;
+	bibMomentum = new TLorentzVector;
+        px = new Double_t;
+        py = new Double_t;
+        pz = new Double_t;
+        x = new Double_t;
+        y = new Double_t;
+        z = new Double_t;
+        mass = new Double_t;
+        charge = new Double_t;
+        pdgid = new Double_t;
+        energy = new Double_t;
+        r = new Double_t;
+    
+	/*DelphesFactory **/factory = GetFactory();
+	bib = factory -> NewCandidate();
 	//phi = fPhiHist -> GetRandom();
 	//theta = fThetaHist -> GetRandom();
-	x = fxHist -> GetRandom();
-    	fPositionHist -> GetRandom2(z, r);
-	fMomentumHist -> GetRandom3(px, py, pz);
-	fPdgEnergyHist -> GetRandom2(pdgid, energy);
+	*x = fxHist -> GetRandom();
+    	fPositionHist -> GetRandom2(*z, *r);
+	fMomentumHist -> GetRandom3(*px, *py, *pz);
+	fPdgEnergyHist -> GetRandom2(*pdgid, *energy);
    
 	//eta = - TMath::Log(TMath::Tan(theta/2));
 	//pt = TMath::Sqrt(px*px + py*py);
-	Int_t pdglist[7] = {11,13, 22, 111, 211, 2112, 2212};
-    	Int_t best = 0;
-    	for (int i=1; i < 7; i++) {
-      	    if (abs(abs(pdgid)-pdglist[i]) < abs(abs(pdgid)-pdglist[best])) {
+	    	for (int i=1; i < 7; i++) {
+      	    if (abs(abs(*pdgid)-pdglist[i]) < abs(abs(*pdgid)-pdglist[best])) {
         	best = i;
 	    } 
 	}
-        if (pdgid > 0) {
-	    pdgid = pdglist[best];
+        if (*pdgid > 0) {
+	    *pdgid = pdglist[best];
 	} else {
-            pdgid = -pdglist[best];
+            *pdgid = -pdglist[best];
 	}
-        if (energy <= 0) {
-  	    //cout << "warning: randomly generated energy less then zero"<< endl;
+
+        if (*energy <= 0) {
 	    continue;
         }
-        y = TMath::Sqrt(r * r - x * x);
-	bibPosition.SetXYZT(x, y, z, 0);
-	bibMomentum.SetPxPyPzE(px, py, pz, energy);
+
+        *y = TMath::Sqrt(*r * *r - *x * *x);
+	bibPosition -> SetXYZT(*x, *y, *z, 0);
+	bibMomentum -> SetPxPyPzE(*px, *py, *pz, *energy);
 	//bibMomentum.SetPtEtaPhiE(pt, eta, phi, energy);
     
-	bib -> PID = pdgid; 
+	bib -> PID = *pdgid; 
 	bib -> D1 = -1;
 	bib -> D2 = -1;
 	bib -> M1 = -1;
@@ -196,38 +213,38 @@ void BIBModule::Process() {
 	bib -> Status = 1; 
 	bib -> IsPU = 0;
 
-	bib -> Position = bibPosition;
-	bib -> Momentum = bibMomentum;
+	bib -> Position = *bibPosition;
+	bib -> Momentum = *bibMomentum;
 	
 	//assign mass and charge by pdgID here
-	switch((Int_t) TMath::Abs(pdgid)) {
+	switch((Int_t) TMath::Abs(*pdgid)) {
 	    case 11:
-		mass = 0.00051099895;
-		charge = (pdgid > 0) ? -1 : 1;
+		*mass = 0.00051099895;
+		*charge = (*pdgid > 0) ? -1 : 1;
 		break;
 	    case 13:
-		mass = 0.1056583755;
-		charge = (pdgid > 0) ? -1 : 1;
+		*mass = 0.1056583755;
+		*charge = (*pdgid > 0) ? -1 : 1;
 		break;
 	    case 22:
-		mass = 0;
-		charge = 0;
+		*mass = 0;
+		*charge = 0;
 		break;
 	    case 111:
-		mass = 0.1349768;
-		charge = 0;
+		*mass = 0.1349768;
+		*charge = 0;
 		break;
 	    case 211:
-		mass = 0.13957039;
-		charge = (pdgid > 0) ? -1 : 1;
+		*mass = 0.13957039;
+		*charge = (*pdgid > 0) ? -1 : 1;
 		break;
 	    case 2212:
-		mass = 0.93827208816;
-		charge = (pdgid > 0) ? -1 : 1;
+		*mass = 0.93827208816;
+		*charge = (*pdgid > 0) ? -1 : 1;
 		break;
 	    case 2112:
-		mass = 0.93956542052;
-		charge = 0;
+		*mass = 0.93956542052;
+		*charge = 0;
 		break;
 	    default:
 		cout << "Error: Not a valid PDG ID!" << endl;
@@ -235,26 +252,52 @@ void BIBModule::Process() {
 		break;
 	} 
  
-	bib -> Charge = charge;
-	bib -> Mass = mass;
+	bib -> Charge = *charge;
+	bib -> Mass = *mass;
     
 	fOutputArray -> Add(bib);
 	fStableOutputArray -> Add(bib);
-        if (bibMomentum.E() > 0) {
-	    //cout << endl << "bib has" << bib -> E;
-	    //BIBcounter++;
-	} else {
-	    //cout << endl << "error: no energy! this time" << endl;
+
+        if (bibMomentum -> E() <= 0) {
 	    continue;
         }
+
+	bib = NULL;
+	delete bib;
+	px = NULL;
+	delete px;
+	py = NULL;
+	delete py;
+	pz = NULL;
+	delete pz;
+	x = NULL;
+	delete x;
+	y = NULL;
+	delete y;
+	z = NULL;
+	delete z;
+	r = NULL;
+	delete r;
+	energy = NULL;
+	delete energy;
+	charge = NULL;
+	delete charge;
+	mass = NULL;
+	delete mass;
+	bibMomentum = NULL;
+	delete bibMomentum;
+	bibPosition = NULL;
+	delete bibPosition;
+	pdgid = NULL;
+	delete pdgid;
+	factory = NULL;
+	delete factory;
     }
    
     //cout << endl << "counting" << allcounter << "all particles";
     //cout << endl << "counting" << stablecounter << "stable particles" ;
     //cout << endl << "counting" << BIBcounter << "BIB particles added" << endl;
 
-    factory = NULL;
-    delete factory;
     delete original;
     //if(bib) delete bib;
     delete fxHist;
@@ -265,6 +308,6 @@ void BIBModule::Process() {
 
     file -> Close();
     if (file) delete file;
-    bib = NULL;
-    delete bib;
+    //bib = NULL;
+    //delete bib;
 }
