@@ -15,7 +15,7 @@ SrcSuf = cc
 PcmSuf = _rdict.pcm
 
 CXXFLAGS += $(ROOTCFLAGS) -Wno-write-strings -D_FILE_OFFSET_BITS=64 -DDROP_CGAL -I. -Iexternal -Iexternal/tcl
-DELPHES_LIBS = $(shell $(RC) --libs) -lEG $(SYSLIBS) -Wl,-rpath,/cvmfs/sft.cern.ch/lcg/releases/ROOT/6.24.06-3455f/x86_64-centos7-gcc11-opt/lib/
+DELPHES_LIBS = $(shell $(RC) --libs) -lEG $(SYSLIBS)
 DISPLAY_LIBS = $(shell $(RC) --evelibs) -lGuiHtml $(SYSLIBS)
 
 ifneq ($(CMSSW_FWLITE_INCLUDE_PATH),)
@@ -231,6 +231,7 @@ tmp/readers/DelphesHepMC3.$(ObjSuf): \
 	readers/DelphesHepMC3.cpp \
 	classes/DelphesClasses.h \
 	classes/DelphesFactory.h \
+	classes/DelphesHepMC3Reader.h \
 	modules/Delphes.h \
 	external/ExRootAnalysis/ExRootProgressBar.h \
 	external/ExRootAnalysis/ExRootTreeBranch.h \
@@ -462,7 +463,8 @@ tmp/modules/ModulesDict.$(SrcSuf): \
 	modules/DecayFilter.h \
 	modules/ParticleDensity.h \
 	modules/TruthVertexFinder.h \
-	modules/ExampleModule.h
+	modules/ExampleModule.h \
+	modules/BIBModule.h
 tmp/modules/ModulesDict$(PcmSuf): \
 	tmp/modules/ModulesDict.$(SrcSuf)
 ModulesDict$(PcmSuf): \
@@ -693,6 +695,16 @@ tmp/modules/AngularSmearing.$(ObjSuf): \
 	external/ExRootAnalysis/ExRootClassifier.h \
 	external/ExRootAnalysis/ExRootFilter.h \
 	external/ExRootAnalysis/ExRootResult.h
+tmp/modules/BIBModule.$(ObjSuf): \
+	modules/BIBModule.$(SrcSuf) \
+	modules/BIBModule.h \
+	classes/DelphesClasses.h \
+	classes/DelphesFactory.h \
+	classes/DelphesFormula.h \
+	external/ExRootAnalysis/ExRootClassifier.h \
+	external/ExRootAnalysis/ExRootFilter.h \
+	external/ExRootAnalysis/ExRootResult.h \
+	modules/Delphes.h
 tmp/modules/BTagging.$(ObjSuf): \
 	modules/BTagging.$(SrcSuf) \
 	modules/BTagging.h \
@@ -1219,6 +1231,7 @@ DELPHES_OBJ +=  \
 	tmp/external/TrackCovariance/TrkUtil.$(ObjSuf) \
 	tmp/external/TrackCovariance/VertexFit.$(ObjSuf) \
 	tmp/modules/AngularSmearing.$(ObjSuf) \
+	tmp/modules/BIBModule.$(ObjSuf) \
 	tmp/modules/BTagging.$(ObjSuf) \
 	tmp/modules/BeamSpotFilter.$(ObjSuf) \
 	tmp/modules/Calorimeter.$(ObjSuf) \
@@ -2005,6 +2018,11 @@ external/fastjet/internal/Dnn2piCylinder.hh: \
 external/fastjet/Selector.hh: \
 	external/fastjet/PseudoJet.hh \
 	external/fastjet/RangeDefinition.hh
+	@touch $@
+
+modules/BIBModule.h: \
+	classes/DelphesModule.h \
+	classes/DelphesClasses.h
 	@touch $@
 
 modules/JetPileUpSubtractor.h: \

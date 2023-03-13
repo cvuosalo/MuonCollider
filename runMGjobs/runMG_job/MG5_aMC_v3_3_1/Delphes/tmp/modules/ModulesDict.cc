@@ -78,6 +78,7 @@
 #include "modules/ParticleDensity.h"
 #include "modules/TruthVertexFinder.h"
 #include "modules/ExampleModule.h"
+#include "modules/BIBModule.h"
 
 #ifdef __CINT__
 
@@ -138,6 +139,7 @@
 #pragma link C++ class ParticleDensity+;
 #pragma link C++ class TruthVertexFinder+;
 #pragma link C++ class ExampleModule+;
+#pragma link C++ class BIBModule+;
 
 #endif
 // Do NOT change. Changes will be lost next time file is generated
@@ -229,6 +231,7 @@
 #include "modules/ParticleDensity.h"
 #include "modules/TruthVertexFinder.h"
 #include "modules/ExampleModule.h"
+#include "modules/BIBModule.h"
 
 // Header files passed via #pragma extra_include
 
@@ -1897,6 +1900,38 @@ namespace ROOT {
    }
    // Static variable to force the class initialization
    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::ExampleModule*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+} // end of namespace ROOT
+
+namespace ROOT {
+   static void *new_BIBModule(void *p = 0);
+   static void *newArray_BIBModule(Long_t size, void *p);
+   static void delete_BIBModule(void *p);
+   static void deleteArray_BIBModule(void *p);
+   static void destruct_BIBModule(void *p);
+
+   // Function generating the singleton type initializer
+   static TGenericClassInfo *GenerateInitInstanceLocal(const ::BIBModule*)
+   {
+      ::BIBModule *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::BIBModule >(0);
+      static ::ROOT::TGenericClassInfo 
+         instance("BIBModule", ::BIBModule::Class_Version(), "modules/BIBModule.h", 26,
+                  typeid(::BIBModule), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  &::BIBModule::Dictionary, isa_proxy, 4,
+                  sizeof(::BIBModule) );
+      instance.SetNew(&new_BIBModule);
+      instance.SetNewArray(&newArray_BIBModule);
+      instance.SetDelete(&delete_BIBModule);
+      instance.SetDeleteArray(&deleteArray_BIBModule);
+      instance.SetDestructor(&destruct_BIBModule);
+      return &instance;
+   }
+   TGenericClassInfo *GenerateInitInstance(const ::BIBModule*)
+   {
+      return GenerateInitInstanceLocal((::BIBModule*)0);
+   }
+   // Static variable to force the class initialization
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BIBModule*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
 } // end of namespace ROOT
 
 //______________________________________________________________________________
@@ -3720,6 +3755,41 @@ TClass *ExampleModule::Class()
 }
 
 //______________________________________________________________________________
+atomic_TClass_ptr BIBModule::fgIsA(0);  // static to hold class pointer
+
+//______________________________________________________________________________
+const char *BIBModule::Class_Name()
+{
+   return "BIBModule";
+}
+
+//______________________________________________________________________________
+const char *BIBModule::ImplFileName()
+{
+   return ::ROOT::GenerateInitInstanceLocal((const ::BIBModule*)0x0)->GetImplFileName();
+}
+
+//______________________________________________________________________________
+int BIBModule::ImplFileLine()
+{
+   return ::ROOT::GenerateInitInstanceLocal((const ::BIBModule*)0x0)->GetImplFileLine();
+}
+
+//______________________________________________________________________________
+TClass *BIBModule::Dictionary()
+{
+   fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::BIBModule*)0x0)->GetClass();
+   return fgIsA;
+}
+
+//______________________________________________________________________________
+TClass *BIBModule::Class()
+{
+   if (!fgIsA.load()) { R__LOCKGUARD(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::BIBModule*)0x0)->GetClass(); }
+   return fgIsA;
+}
+
+//______________________________________________________________________________
 void Delphes::Streamer(TBuffer &R__b)
 {
    // Stream an object of class Delphes.
@@ -5435,6 +5505,39 @@ namespace ROOT {
    }
 } // end of namespace ROOT for class ::ExampleModule
 
+//______________________________________________________________________________
+void BIBModule::Streamer(TBuffer &R__b)
+{
+   // Stream an object of class BIBModule.
+
+   if (R__b.IsReading()) {
+      R__b.ReadClassBuffer(BIBModule::Class(),this);
+   } else {
+      R__b.WriteClassBuffer(BIBModule::Class(),this);
+   }
+}
+
+namespace ROOT {
+   // Wrappers around operator new
+   static void *new_BIBModule(void *p) {
+      return  p ? new(p) ::BIBModule : new ::BIBModule;
+   }
+   static void *newArray_BIBModule(Long_t nElements, void *p) {
+      return p ? new(p) ::BIBModule[nElements] : new ::BIBModule[nElements];
+   }
+   // Wrapper around operator delete
+   static void delete_BIBModule(void *p) {
+      delete ((::BIBModule*)p);
+   }
+   static void deleteArray_BIBModule(void *p) {
+      delete [] ((::BIBModule*)p);
+   }
+   static void destruct_BIBModule(void *p) {
+      typedef ::BIBModule current_t;
+      ((current_t*)p)->~current_t();
+   }
+} // end of namespace ROOT for class ::BIBModule
+
 namespace ROOT {
    static TClass *vectorlEvectorlEdoublegRmUgR_Dictionary();
    static void vectorlEvectorlEdoublegRmUgR_TClassManip(TClass*);
@@ -6284,6 +6387,7 @@ class __attribute__((annotate("$clingAutoload$modules/DecayFilter.h")))  DecayFi
 class __attribute__((annotate("$clingAutoload$modules/ParticleDensity.h")))  ParticleDensity;
 class __attribute__((annotate("$clingAutoload$modules/TruthVertexFinder.h")))  TruthVertexFinder;
 class __attribute__((annotate("$clingAutoload$modules/ExampleModule.h")))  ExampleModule;
+class __attribute__((annotate("$clingAutoload$modules/BIBModule.h")))  BIBModule;
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
 #line 1 "ModulesDict dictionary payload"
@@ -6371,6 +6475,7 @@ class __attribute__((annotate("$clingAutoload$modules/ExampleModule.h")))  Examp
 #include "modules/ParticleDensity.h"
 #include "modules/TruthVertexFinder.h"
 #include "modules/ExampleModule.h"
+#include "modules/BIBModule.h"
 
 #ifdef __CINT__
 
@@ -6431,6 +6536,7 @@ class __attribute__((annotate("$clingAutoload$modules/ExampleModule.h")))  Examp
 #pragma link C++ class ParticleDensity+;
 #pragma link C++ class TruthVertexFinder+;
 #pragma link C++ class ExampleModule+;
+#pragma link C++ class BIBModule+;
 
 #endif
 
@@ -6438,6 +6544,7 @@ class __attribute__((annotate("$clingAutoload$modules/ExampleModule.h")))  Examp
 )DICTPAYLOAD";
     static const char* classesHeaders[] = {
 "AngularSmearing", payloadCode, "@",
+"BIBModule", payloadCode, "@",
 "BTagging", payloadCode, "@",
 "BeamSpotFilter", payloadCode, "@",
 "Calorimeter", payloadCode, "@",

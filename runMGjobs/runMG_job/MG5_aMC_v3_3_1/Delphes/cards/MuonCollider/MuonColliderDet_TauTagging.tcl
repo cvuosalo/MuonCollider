@@ -1,8 +1,6 @@
- 
-################################
-# Tau-Tagging module for anti-kT
-################################
-
+#############################################################################################
+# Anti-KT jets Tau-Tagging Module
+#############################################################################################
 module TauTagging AKT_TauTagging_R05_inclusive {
  set ParticleInputArray Delphes/allParticles
  set PartonInputArray Delphes/partons
@@ -10,7 +8,37 @@ module TauTagging AKT_TauTagging_R05_inclusive {
  set DeltaR 0.5
  set TauPTMin 1.0
  set TauEtaMax 2.5
- add EfficiencyFormula {0} {0.02}
+ add EfficiencyFormula {0} {0}
+ add EfficiencyFormula {11} {0.001}
+ add EfficiencyFormula {15} {
+ (pt < 10) * (0.0) +
+ (pt >=10) * (0.80)
+ }
+ }
+module TauTagging AKT_TauTagging_R01_inclusive {
+ set ParticleInputArray Delphes/allParticles
+ set PartonInputArray Delphes/partons
+ set JetInputArray FastJetFinderAKtR01/AKTR01jets
+ set DeltaR 0.5
+ set TauPTMin 1.0
+ set TauEtaMax 2.5
+ add EfficiencyFormula {0} {0}
+ add EfficiencyFormula {11} {0.001}
+ add EfficiencyFormula {15} {
+ (pt < 10) * (0.0) +
+ (pt >=10) * (0.80)
+ }
+ }
+
+
+module TauTagging AKT_TauTagging_R02_inclusive {
+ set ParticleInputArray Delphes/allParticles
+ set PartonInputArray Delphes/partons
+ set JetInputArray FastJetFinderAKtR02/AKTR02jets
+ set DeltaR 0.5
+ set TauPTMin 1.0
+ set TauEtaMax 2.5
+ add EfficiencyFormula {0} {0}
  add EfficiencyFormula {11} {0.001}
  add EfficiencyFormula {15} {
  (pt < 10) * (0.0) +
@@ -22,21 +50,18 @@ module TauTagging AKT_TauTagging_R05_inclusive {
 module TauTagging TauTagging_R02N2 {
  set ParticleInputArray Delphes/allParticles
  set PartonInputArray Delphes/partons
-    set JetInputArray JetMomentumSmearing_VLCR02N2/JER_VLCjetsR02N2
+ set JetInputArray JetMomentumSmearing_VLCR02N2/JER_VLCjetsR02N2
  set DeltaR 0.5
  set TauPTMin 1.0
  set TauEtaMax 2.5
-    # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
-    # default efficiency formula (misidentification rate)
-    add EfficiencyFormula {0} {0.02}
-    add EfficiencyFormula {11} {0.001}
-    # efficiency formula for tau-jets
+ add EfficiencyFormula {0} {0.02}
+ add EfficiencyFormula {11} {0.001}
+ add EfficiencyFormula {15} {
+ (pt < 10) * (0.0) +
+ (pt >=10) * (0.80)
+ }
+ }
 
-    add EfficiencyFormula {15} {
-	(pt < 5) * (0.0) +
-	(pt >=5) * (0.80)
-    }
-}
 
 module TauTagging TauTagging_R02N3 {
  set ParticleInputArray Delphes/allParticles
