@@ -1,0 +1,19 @@
+Please read RunningJobsOnCluster for general instructions about running jobs on the cluster.
+
+If your program specifically needs the EL7 operating system and doesn't run successfully on EL8 nodes,
+use the container.sh script. With the container, your program will be run under EL7 on any node, regardless
+of the operating system version that the node has.
+
+Here's an example of how to call RunWiscJobs.py with container.sh to call a program called myscript.sh:
+
+python /usr/local/bin/runWiscJobs.py \
+  --WorkFlow trymucol1 \
+  --Executable=container.sh \
+  --Arguments=myscript.sh \
+  --nJobs=2 \
+  --TransferInputFiles=myscript.sh \
+  --HDFSProdDir None \
+  --Experiment mucol \
+  --MemoryRequirements 2048
+
+Note that your script must be listed both for Argument and for TransferInputFiles.
