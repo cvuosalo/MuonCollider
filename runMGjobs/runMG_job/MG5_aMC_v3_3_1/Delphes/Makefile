@@ -464,7 +464,9 @@ tmp/modules/ModulesDict.$(SrcSuf): \
 	modules/ParticleDensity.h \
 	modules/TruthVertexFinder.h \
 	modules/ExampleModule.h \
-	modules/BIBModule.h
+	modules/BIBModule.h \
+	modules/BIBECal.h \
+	modules/BIBNeutralHadrons.h
 tmp/modules/ModulesDict$(PcmSuf): \
 	tmp/modules/ModulesDict.$(SrcSuf)
 ModulesDict$(PcmSuf): \
@@ -695,9 +697,29 @@ tmp/modules/AngularSmearing.$(ObjSuf): \
 	external/ExRootAnalysis/ExRootClassifier.h \
 	external/ExRootAnalysis/ExRootFilter.h \
 	external/ExRootAnalysis/ExRootResult.h
+tmp/modules/BIBECal.$(ObjSuf): \
+	modules/BIBECal.$(SrcSuf) \
+	modules/BIBECal.h \
+	classes/DelphesClasses.h \
+	classes/DelphesFactory.h \
+	classes/DelphesFormula.h \
+	external/ExRootAnalysis/ExRootClassifier.h \
+	external/ExRootAnalysis/ExRootFilter.h \
+	external/ExRootAnalysis/ExRootResult.h \
+	modules/Delphes.h
 tmp/modules/BIBModule.$(ObjSuf): \
 	modules/BIBModule.$(SrcSuf) \
 	modules/BIBModule.h \
+	classes/DelphesClasses.h \
+	classes/DelphesFactory.h \
+	classes/DelphesFormula.h \
+	external/ExRootAnalysis/ExRootClassifier.h \
+	external/ExRootAnalysis/ExRootFilter.h \
+	external/ExRootAnalysis/ExRootResult.h \
+	modules/Delphes.h
+tmp/modules/BIBNeutralHadrons.$(ObjSuf): \
+	modules/BIBNeutralHadrons.$(SrcSuf) \
+	modules/BIBNeutralHadrons.h \
 	classes/DelphesClasses.h \
 	classes/DelphesFactory.h \
 	classes/DelphesFormula.h \
@@ -1231,7 +1253,9 @@ DELPHES_OBJ +=  \
 	tmp/external/TrackCovariance/TrkUtil.$(ObjSuf) \
 	tmp/external/TrackCovariance/VertexFit.$(ObjSuf) \
 	tmp/modules/AngularSmearing.$(ObjSuf) \
+	tmp/modules/BIBECal.$(ObjSuf) \
 	tmp/modules/BIBModule.$(ObjSuf) \
+	tmp/modules/BIBNeutralHadrons.$(ObjSuf) \
 	tmp/modules/BTagging.$(ObjSuf) \
 	tmp/modules/BeamSpotFilter.$(ObjSuf) \
 	tmp/modules/Calorimeter.$(ObjSuf) \
@@ -1973,6 +1997,11 @@ modules/ConstituentFilter.h: \
 	classes/DelphesModule.h
 	@touch $@
 
+modules/BIBNeutralHadrons.h: \
+	classes/DelphesModule.h \
+	classes/DelphesClasses.h
+	@touch $@
+
 modules/Calorimeter.h: \
 	classes/DelphesModule.h
 	@touch $@
@@ -2126,6 +2155,11 @@ external/fastjet/contribs/Nsubjettiness/ExtraRecombiners.hh: \
 
 display/DelphesBranchElement.h: \
 	display/DelphesCaloData.h
+	@touch $@
+
+modules/BIBECal.h: \
+	classes/DelphesModule.h \
+	classes/DelphesClasses.h
 	@touch $@
 
 modules/TimeOfFlight.h: \

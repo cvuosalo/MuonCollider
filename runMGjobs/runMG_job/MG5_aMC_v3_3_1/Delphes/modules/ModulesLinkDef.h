@@ -79,6 +79,8 @@
 #include "modules/TruthVertexFinder.h"
 #include "modules/ExampleModule.h"
 #include "modules/BIBModule.h"
+#include "modules/BIBECal.h"
+#include "modules/BIBNeutralHadrons.h"
 
 #ifdef __CINT__
 
@@ -140,5 +142,7 @@
 #pragma link C++ class TruthVertexFinder+;
 #pragma link C++ class ExampleModule+;
 #pragma link C++ class BIBModule+;
+#pragma link C++ class BIBECal+;
+#pragma link C++ class BIBNeutralHadrons+;
 
 #endif

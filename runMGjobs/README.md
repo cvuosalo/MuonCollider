@@ -113,8 +113,10 @@ to:
 for file in `grep '<your installation address>' $mg5dir -Ilr`; do
     cat $file | sed 's|<your installation address>|'$PWD'|g' > $file
 ```
+## BIB Simulation in Delphes
+For BIB Simulation in Delphes see "runMG_job/BIBsimulation".
 
 ## Debugging and other Issues
-The scripts are written specifically for Muon Collider simulation, other detectors (ATLAS/CMS/C3) compatibilities are added later without any test. Please feel free to contact Kenny through email: hjia38@wisc.edu or haoyi.jia@cern.ch. I would be happy to help with the debugging process!
+The scripts are written specifically for Muon Collider simulation, other detectors (ATLAS/CMS/C3) compatibilities are added later without any test. Please feel free to contact Kenny Jia through email: hjia38@wisc.edu, hjia625@stanford.edu, or haoyi.jia@cern.ch. I would be happy to help with the debugging process or questions!
 
 

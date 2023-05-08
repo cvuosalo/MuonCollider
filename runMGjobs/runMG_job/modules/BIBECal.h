@@ -1,5 +1,5 @@
-#ifndef BIBModule_h
-#define BIBModule_h
+#ifndef BIBECal_h
+#define BIBECal_h
 
 /** \class BIBModule
  * 
@@ -38,6 +38,9 @@ private:
   TIterator *fItPhotonsInputArray; //!
   TIterator *fItTracksInputArray; //!
 
+  TIterator *fItPhotonsOutputArray; //!
+  TIterator *fItTracksOutputArray; //!
+
   const TObjArray *fPhotonsInputArray; //!
   const TObjArray *fTracksInputArray; //!
 
@@ -63,9 +66,11 @@ private:
   //TFile* file; //!
   //Candidate* bib; //!
    
-  Int_t fNumParticles; //!
-  Double_t fPhotonsDeltaR; //!
-  Double_t fTracksDeltaR; //!
+  Int_t fNumParticles; 
+
+  Double_t fPhotonsDeltaR;
+  Double_t fTracksDeltaR;
+  Double_t fBz;
 
   //DelphesFactory *factory; //!
   //TLorentzVector bibPosition, bibMomentum; //!

@@ -14,12 +14,14 @@ if [[ $1 == cms-*  ]]; then
     jobfilename2="$(echo ${jobfilename#c*-})"
     jobname="$(echo ${jobfilename2%.*t})"
 elif [[ $1 == mc-*  ]]; then
-    cp $PWD/delphes_card_MuonColliderDet_HHstudy.tcl $mg5dir/Template/Common/Cards/delphes_card_default.dat
-    cp $PWD/delphes_card_MuonColliderDet_HHstudy.tcl $mg5dir/Template/LO/Cards/delphes_card_default.dat
-    cp $PWD/MuonCollider/* $mg5dir/Template/Common/Cards/MuonCollider/
-    cp $PWD/MuonCollider/* $mg5dir/Template/LO/Cards/MuonCollider/
+    cp $PWD/delphes_card_MuonColliderDet_HHstudy_BIB.tcl $mg5dir/Template/Common/Cards/delphes_card_default.dat
+    cp $PWD/delphes_card_MuonColliderDet_HHstudy_BIB.tcl $mg5dir/Template/LO/Cards/delphes_card_default.dat
     cp -r $PWD/MuonCollider $mg5dir/Template/Common/Cards/
     cp -r $PWD/MuonCollider $mg5dir/Template/LO/Cards/
+    cp $PWD/modules/* $mg5dir/Delphes/modules/
+    cp $PWD/MuonCollider/* $mg5dir/Delphes/cards/MuonCollider/
+    echo "Tranfer Muon Collider files..."
+    
     jobfilename2="$(echo ${jobfilename#m*-})"
     jobname="$(echo ${jobfilename2%.*t})"
 elif [[ $1 == c3-*  ]]; then

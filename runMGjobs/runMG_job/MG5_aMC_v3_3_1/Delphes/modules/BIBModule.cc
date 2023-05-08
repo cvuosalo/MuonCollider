@@ -1,6 +1,7 @@
 /** \class BIBModule
  * 
- *  Psudo-simulation of Beam-Induced-Backgorund effect in multi-TeV Muon Collider with given distribution of momentum, position and particle type. Due to Delphes's modular structure, memory use of Delphes involving BIB simulation is proportional to the number of BIB particles required. DO NOT RUN WITH MORE THAN 10^5 PARICLES WITH LESS THAN 10GB RAM!!!
+ *  Pseudo-simulation of Beam-Induced-Backgorund effect in multi-TeV Muon Collider with given distribution of momentum, position and particle type.
+ *  THIS VERSION IS NOT RECOMMENDED!!! Due to Delphes's modular structure, memory use of Delphes involving BIB simulation for multi-TeV Muon Collider is considerable. DO NOT RUN WITH MORE THAN 10^5 PARICLES WITH LESS THAN 10GB RAM!!! See BIBECal and BIBNeutralHadrons for new version of BIB pseudo-simulatioon.
  * 
  *  \author H. Jia - UW-Madison
  *

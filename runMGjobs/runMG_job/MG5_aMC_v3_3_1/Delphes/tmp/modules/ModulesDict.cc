@@ -79,6 +79,8 @@
 #include "modules/TruthVertexFinder.h"
 #include "modules/ExampleModule.h"
 #include "modules/BIBModule.h"
+#include "modules/BIBECal.h"
+#include "modules/BIBNeutralHadrons.h"
 
 #ifdef __CINT__
 
@@ -140,6 +142,8 @@
 #pragma link C++ class TruthVertexFinder+;
 #pragma link C++ class ExampleModule+;
 #pragma link C++ class BIBModule+;
+#pragma link C++ class BIBECal+;
+#pragma link C++ class BIBNeutralHadrons+;
 
 #endif
 // Do NOT change. Changes will be lost next time file is generated
@@ -232,6 +236,8 @@
 #include "modules/TruthVertexFinder.h"
 #include "modules/ExampleModule.h"
 #include "modules/BIBModule.h"
+#include "modules/BIBECal.h"
+#include "modules/BIBNeutralHadrons.h"
 
 // Header files passed via #pragma extra_include
 
@@ -1915,7 +1921,7 @@ namespace ROOT {
       ::BIBModule *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::BIBModule >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("BIBModule", ::BIBModule::Class_Version(), "modules/BIBModule.h", 26,
+         instance("BIBModule", ::BIBModule::Class_Version(), "modules/BIBModule.h", 27,
                   typeid(::BIBModule), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::BIBModule::Dictionary, isa_proxy, 4,
                   sizeof(::BIBModule) );
@@ -1932,6 +1938,70 @@ namespace ROOT {
    }
    // Static variable to force the class initialization
    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BIBModule*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+} // end of namespace ROOT
+
+namespace ROOT {
+   static void *new_BIBECal(void *p = 0);
+   static void *newArray_BIBECal(Long_t size, void *p);
+   static void delete_BIBECal(void *p);
+   static void deleteArray_BIBECal(void *p);
+   static void destruct_BIBECal(void *p);
+
+   // Function generating the singleton type initializer
+   static TGenericClassInfo *GenerateInitInstanceLocal(const ::BIBECal*)
+   {
+      ::BIBECal *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::BIBECal >(0);
+      static ::ROOT::TGenericClassInfo 
+         instance("BIBECal", ::BIBECal::Class_Version(), "modules/BIBECal.h", 26,
+                  typeid(::BIBECal), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  &::BIBECal::Dictionary, isa_proxy, 4,
+                  sizeof(::BIBECal) );
+      instance.SetNew(&new_BIBECal);
+      instance.SetNewArray(&newArray_BIBECal);
+      instance.SetDelete(&delete_BIBECal);
+      instance.SetDeleteArray(&deleteArray_BIBECal);
+      instance.SetDestructor(&destruct_BIBECal);
+      return &instance;
+   }
+   TGenericClassInfo *GenerateInitInstance(const ::BIBECal*)
+   {
+      return GenerateInitInstanceLocal((::BIBECal*)0);
+   }
+   // Static variable to force the class initialization
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BIBECal*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+} // end of namespace ROOT
+
+namespace ROOT {
+   static void *new_BIBNeutralHadrons(void *p = 0);
+   static void *newArray_BIBNeutralHadrons(Long_t size, void *p);
+   static void delete_BIBNeutralHadrons(void *p);
+   static void deleteArray_BIBNeutralHadrons(void *p);
+   static void destruct_BIBNeutralHadrons(void *p);
+
+   // Function generating the singleton type initializer
+   static TGenericClassInfo *GenerateInitInstanceLocal(const ::BIBNeutralHadrons*)
+   {
+      ::BIBNeutralHadrons *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::BIBNeutralHadrons >(0);
+      static ::ROOT::TGenericClassInfo 
+         instance("BIBNeutralHadrons", ::BIBNeutralHadrons::Class_Version(), "modules/BIBNeutralHadrons.h", 26,
+                  typeid(::BIBNeutralHadrons), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  &::BIBNeutralHadrons::Dictionary, isa_proxy, 4,
+                  sizeof(::BIBNeutralHadrons) );
+      instance.SetNew(&new_BIBNeutralHadrons);
+      instance.SetNewArray(&newArray_BIBNeutralHadrons);
+      instance.SetDelete(&delete_BIBNeutralHadrons);
+      instance.SetDeleteArray(&deleteArray_BIBNeutralHadrons);
+      instance.SetDestructor(&destruct_BIBNeutralHadrons);
+      return &instance;
+   }
+   TGenericClassInfo *GenerateInitInstance(const ::BIBNeutralHadrons*)
+   {
+      return GenerateInitInstanceLocal((::BIBNeutralHadrons*)0);
+   }
+   // Static variable to force the class initialization
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BIBNeutralHadrons*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
 } // end of namespace ROOT
 
 //______________________________________________________________________________
@@ -3790,6 +3860,76 @@ TClass *BIBModule::Class()
 }
 
 //______________________________________________________________________________
+atomic_TClass_ptr BIBECal::fgIsA(0);  // static to hold class pointer
+
+//______________________________________________________________________________
+const char *BIBECal::Class_Name()
+{
+   return "BIBECal";
+}
+
+//______________________________________________________________________________
+const char *BIBECal::ImplFileName()
+{
+   return ::ROOT::GenerateInitInstanceLocal((const ::BIBECal*)0x0)->GetImplFileName();
+}
+
+//______________________________________________________________________________
+int BIBECal::ImplFileLine()
+{
+   return ::ROOT::GenerateInitInstanceLocal((const ::BIBECal*)0x0)->GetImplFileLine();
+}
+
+//______________________________________________________________________________
+TClass *BIBECal::Dictionary()
+{
+   fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::BIBECal*)0x0)->GetClass();
+   return fgIsA;
+}
+
+//______________________________________________________________________________
+TClass *BIBECal::Class()
+{
+   if (!fgIsA.load()) { R__LOCKGUARD(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::BIBECal*)0x0)->GetClass(); }
+   return fgIsA;
+}
+
+//______________________________________________________________________________
+atomic_TClass_ptr BIBNeutralHadrons::fgIsA(0);  // static to hold class pointer
+
+//______________________________________________________________________________
+const char *BIBNeutralHadrons::Class_Name()
+{
+   return "BIBNeutralHadrons";
+}
+
+//______________________________________________________________________________
+const char *BIBNeutralHadrons::ImplFileName()
+{
+   return ::ROOT::GenerateInitInstanceLocal((const ::BIBNeutralHadrons*)0x0)->GetImplFileName();
+}
+
+//______________________________________________________________________________
+int BIBNeutralHadrons::ImplFileLine()
+{
+   return ::ROOT::GenerateInitInstanceLocal((const ::BIBNeutralHadrons*)0x0)->GetImplFileLine();
+}
+
+//______________________________________________________________________________
+TClass *BIBNeutralHadrons::Dictionary()
+{
+   fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::BIBNeutralHadrons*)0x0)->GetClass();
+   return fgIsA;
+}
+
+//______________________________________________________________________________
+TClass *BIBNeutralHadrons::Class()
+{
+   if (!fgIsA.load()) { R__LOCKGUARD(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::BIBNeutralHadrons*)0x0)->GetClass(); }
+   return fgIsA;
+}
+
+//______________________________________________________________________________
 void Delphes::Streamer(TBuffer &R__b)
 {
    // Stream an object of class Delphes.
@@ -5538,6 +5678,72 @@ namespace ROOT {
    }
 } // end of namespace ROOT for class ::BIBModule
 
+//______________________________________________________________________________
+void BIBECal::Streamer(TBuffer &R__b)
+{
+   // Stream an object of class BIBECal.
+
+   if (R__b.IsReading()) {
+      R__b.ReadClassBuffer(BIBECal::Class(),this);
+   } else {
+      R__b.WriteClassBuffer(BIBECal::Class(),this);
+   }
+}
+
+namespace ROOT {
+   // Wrappers around operator new
+   static void *new_BIBECal(void *p) {
+      return  p ? new(p) ::BIBECal : new ::BIBECal;
+   }
+   static void *newArray_BIBECal(Long_t nElements, void *p) {
+      return p ? new(p) ::BIBECal[nElements] : new ::BIBECal[nElements];
+   }
+   // Wrapper around operator delete
+   static void delete_BIBECal(void *p) {
+      delete ((::BIBECal*)p);
+   }
+   static void deleteArray_BIBECal(void *p) {
+      delete [] ((::BIBECal*)p);
+   }
+   static void destruct_BIBECal(void *p) {
+      typedef ::BIBECal current_t;
+      ((current_t*)p)->~current_t();
+   }
+} // end of namespace ROOT for class ::BIBECal
+
+//______________________________________________________________________________
+void BIBNeutralHadrons::Streamer(TBuffer &R__b)
+{
+   // Stream an object of class BIBNeutralHadrons.
+
+   if (R__b.IsReading()) {
+      R__b.ReadClassBuffer(BIBNeutralHadrons::Class(),this);
+   } else {
+      R__b.WriteClassBuffer(BIBNeutralHadrons::Class(),this);
+   }
+}
+
+namespace ROOT {
+   // Wrappers around operator new
+   static void *new_BIBNeutralHadrons(void *p) {
+      return  p ? new(p) ::BIBNeutralHadrons : new ::BIBNeutralHadrons;
+   }
+   static void *newArray_BIBNeutralHadrons(Long_t nElements, void *p) {
+      return p ? new(p) ::BIBNeutralHadrons[nElements] : new ::BIBNeutralHadrons[nElements];
+   }
+   // Wrapper around operator delete
+   static void delete_BIBNeutralHadrons(void *p) {
+      delete ((::BIBNeutralHadrons*)p);
+   }
+   static void deleteArray_BIBNeutralHadrons(void *p) {
+      delete [] ((::BIBNeutralHadrons*)p);
+   }
+   static void destruct_BIBNeutralHadrons(void *p) {
+      typedef ::BIBNeutralHadrons current_t;
+      ((current_t*)p)->~current_t();
+   }
+} // end of namespace ROOT for class ::BIBNeutralHadrons
+
 namespace ROOT {
    static TClass *vectorlEvectorlEdoublegRmUgR_Dictionary();
    static void vectorlEvectorlEdoublegRmUgR_TClassManip(TClass*);
@@ -6388,6 +6594,8 @@ class __attribute__((annotate("$clingAutoload$modules/ParticleDensity.h")))  Par
 class __attribute__((annotate("$clingAutoload$modules/TruthVertexFinder.h")))  TruthVertexFinder;
 class __attribute__((annotate("$clingAutoload$modules/ExampleModule.h")))  ExampleModule;
 class __attribute__((annotate("$clingAutoload$modules/BIBModule.h")))  BIBModule;
+class __attribute__((annotate("$clingAutoload$modules/BIBECal.h")))  BIBECal;
+class __attribute__((annotate("$clingAutoload$modules/BIBNeutralHadrons.h")))  BIBNeutralHadrons;
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
 #line 1 "ModulesDict dictionary payload"
@@ -6476,6 +6684,8 @@ class __attribute__((annotate("$clingAutoload$modules/BIBModule.h")))  BIBModule
 #include "modules/TruthVertexFinder.h"
 #include "modules/ExampleModule.h"
 #include "modules/BIBModule.h"
+#include "modules/BIBECal.h"
+#include "modules/BIBNeutralHadrons.h"
 
 #ifdef __CINT__
 
@@ -6537,6 +6747,8 @@ class __attribute__((annotate("$clingAutoload$modules/BIBModule.h")))  BIBModule
 #pragma link C++ class TruthVertexFinder+;
 #pragma link C++ class ExampleModule+;
 #pragma link C++ class BIBModule+;
+#pragma link C++ class BIBECal+;
+#pragma link C++ class BIBNeutralHadrons+;
 
 #endif
 
@@ -6544,7 +6756,9 @@ class __attribute__((annotate("$clingAutoload$modules/BIBModule.h")))  BIBModule
 )DICTPAYLOAD";
     static const char* classesHeaders[] = {
 "AngularSmearing", payloadCode, "@",
+"BIBECal", payloadCode, "@",
 "BIBModule", payloadCode, "@",
+"BIBNeutralHadrons", payloadCode, "@",
 "BTagging", payloadCode, "@",
 "BeamSpotFilter", payloadCode, "@",
 "Calorimeter", payloadCode, "@",
