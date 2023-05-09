@@ -57,28 +57,25 @@ BIBECal::~BIBECal()
 
 void BIBECal::Init()
 {
+    //Aquire input parameters
     fNumParticles = GetInt("NumParticles", 1000000);
     fPhotonsDeltaR = GetDouble("PhotonsDeltaR", 0.5);
     fTracksDeltaR = GetDouble("TracksDeltaR", 0.5);
 
     fBz = GetDouble("Bz", 0.0);
 
-    //fNumParticles = 1000;
-    //fPhotonsDeltaR = 0.5;
-    //fTracksDeltaR = 0.5;
-    cout << endl << "Generating " << fNumParticles << " BIB particles ";
+    //cout << endl << "Generating " << fNumParticles << " BIB particles ";
     fxHistName = GetString("xHistName", "x");
     fPositionHistName = GetString("PositionHistName", "z_r");
     fThetaHistName = GetString("ThetaHistName", "theta");
     fPhiHistName = GetString("PhiHistName", "phi");
     fPdgIDHistName = GetString("PdgIDHistName", "pdgid");
-    //fPdgEnergyHistName = GetString("PdgEnergyHistName", "pdgid_energy");
     fMomentumHistName = GetString("MomentumHistName", "px_py_pz");
  
     const char* mg5dir = std::getenv("mg5dir"); 
     fileName = GetString("FileName", "file");
     fileName = fileName.Insert(0, mg5dir);
-    cout << "according to histograms from file " << fileName << "..." << endl;
+    //cout << "according to histograms from file " << fileName << "..." << endl;
 
     fPhotonsInputArray = ImportArray(GetString("PhotonsInputArray", ""));
     fTracksInputArray = ImportArray(GetString("TracksInputArray", ""));
@@ -91,10 +88,11 @@ void BIBECal::Init()
     fItPhotonsOutputArray = fPhotonsOutputArray->MakeIterator();
     fItTracksOutputArray = fTracksOutputArray->MakeIterator();
 
-    cout << endl << "Completing BIB Module initialization." << endl;
+    //cout << endl << "Completing BIB Module initialization." << endl;
 }
 
 void BIBECal::Finish() {
+    //Clean up memory use
     if (fItPhotonsInputArray) delete fItPhotonsInputArray; 
     if (fItTracksInputArray) delete fItTracksInputArray; 
     if (fItPhotonsOutputArray) delete fItPhotonsOutputArray; 
@@ -103,23 +101,17 @@ void BIBECal::Finish() {
 
 
 void BIBECal::Process() {
-
+    //Get Full Simulation distribution from given root file
     TFile* file = TFile::Open(fileName);
   
     TH1D* fxHist = (TH1D*) file -> Get(fxHistName);
     TH2D* fPositionHist = (TH2D*) file -> Get(fPositionHistName);
     TH3D* fMomentumHist = (TH3D*) file -> Get(fMomentumHistName);
-    //TH2D* fPdgEnergyHist = (TH2D*) file -> Get(fPdgEnergyHistName);
     TH1D* fThetaHist = (TH1D*) file -> Get(fThetaHistName);
     TH1D* fPhiHist = (TH1D*) file -> Get(fPhiHistName);
     TH1D* fPdgIDHist = (TH1D*) file -> Get(fPdgIDHistName);
-   /* 
-    fxHist->SetBins(100,-600,600);
-    fThetaHist->SetBins(100,-1.58,1.58);
-    fPhiHist->SetBins(100,-1.58,1.58);
-    fPdgIDHist->SetBins(100,0,2500);
-*/
-
+    
+    //Copy original array
     Candidate *original;
     
     if (!fxHistName || !fPositionHistName || !fPhiHistName || !fThetaHistName || !fMomentumHistName || !fPdgIDHistName) return;
@@ -138,7 +130,7 @@ void BIBECal::Process() {
       fTracksOutputArray -> Add(original);
     }
 
-    //cout << endl << "Completing original particle array copying." << endl;
+    // Generate randomize particles according the distribution
     Double_t pt, theta, eta, phi, px, py, pz, mass, charge, pdgid, x, y, z, r;
     TLorentzVector bibMomentum;
     Double_t gammam, e, omega, r_helix;
@@ -154,15 +146,6 @@ void BIBECal::Process() {
 
     gRandom->SetSeed(0);
 
-    /*
-    Int_t EMcnt =0;
-    Int_t Hadcnt =0;
-
-    Int_t HADaddtime =0;
-    Int_t HADadd =0;
-    Int_t EMaddtime =0;
-    Int_t EMadd =0;
-    */
     for (int i = 0; i < fNumParticles; ++i) {
 	EMFlag = false;
 	HadFlag = false;
@@ -182,6 +165,7 @@ void BIBECal::Process() {
             pdgid = -pdglist[best];
 	}
 
+	//Check if PdgID is correct and gives corresponding charge and mass
 	switch((Int_t) TMath::Abs(pdgid)) {
 	    case 11:
 		mass = 0.00051099895;
@@ -202,7 +186,6 @@ void BIBECal::Process() {
 		break;
 	    case 111:
 		continue;
-		//HadFlag = true;
 		mass = 0.1349768;
 		charge = 0;
 		break;
@@ -220,7 +203,6 @@ void BIBECal::Process() {
 		break;
 	    case 2112:
 		continue;
-		//HadFlag = true;
 		mass = 0.93956542052;
 		charge = 0;
 		break;
@@ -229,7 +211,6 @@ void BIBECal::Process() {
 		continue;
 		break;
 	}
-        //bib = factory -> NewCandidate();
 	
 	x = fxHist -> GetRandom();
     	fPositionHist -> GetRandom2(z, r);
@@ -239,7 +220,6 @@ void BIBECal::Process() {
 	y = TMath::Sqrt(r * r - x * x);
 	
 	fMomentumHist -> GetRandom3(px, py, pz);
-	//fPdgEnergyHist -> GetRandom2(pdgid, energy);
 	theta = fThetaHist -> GetRandom();
 	while (abs(theta) > 1.570796) {
 	    theta = fThetaHist -> GetRandom();
@@ -250,22 +230,12 @@ void BIBECal::Process() {
 	theta += 1.57079632;
 	phi = (fPhiHist -> GetRandom())*2;
 	
-	//cout <<  energy << endl ;
-/* 
-        if (energy <= 0) {
-	    continue;
-        }
-  */
 	eta = - TMath::Log(TMath::Tan(abs(theta) * 0.5));
 
-	//if (abs(eta) > 10000) {
-	  //  continue;
-	//}
-	//eta = (rnd.Rndm()) * 4 - 2;
-	//pt = (rnd.Rndm()) * 10000; 
 	pt = TMath::Sqrt(px*px + py*py);
 	bibMomentum.SetPtEtaPhiM(pt, eta, phi, mass);
-//Particle Propagation
+
+	//Particle Propagation for Charge Particles
 
 	if (propaFlag) {
 	    // initial transverse momentum p_{T0}: Part->pt
@@ -299,13 +269,7 @@ void BIBECal::Process() {
 
 	    // momentum at closest approach
 	    bibMomentum.SetPtEtaPhiM(pt, eta, phid, mass);
-	    //cout << "For charge particle, propagation shift the phi by " << phid-phi << endl;
 	}
-
-	//bibMomentum.SetPxPyPzE(px, py, pz, energy);
-
-	//bib -> Position = bibPosition;
-	//bib -> Momentum = bibMomentum;
 
 	if (fItPhotonsOutputArray) delete fItPhotonsOutputArray; 
         if (fItTracksOutputArray) delete fItTracksOutputArray; 
@@ -320,44 +284,26 @@ void BIBECal::Process() {
 	//bool EMaddornot = false;
 	//bool HADaddornot = false;
 	if (EMFlag) {
-	    //EMcnt++;
 	    TLorentzVector originalMomentum;
-	    //cout << "original output array entries" << fPhotonsOutputArray -> GetEntries() << endl;
 	    while((original = static_cast<Candidate *>(fItPhotonsOutputArray -> Next()))) {
 		originalMomentum = original -> Momentum;
 		if (originalMomentum.DeltaR(bibMomentum) < fPhotonsDeltaR){
 		    originalMomentum = originalMomentum + bibMomentum;
 		    original -> Momentum = originalMomentum;
-		    //EMaddornot = true;
-		    //EMaddtime++;
-		    //EMcnt++;
-		    //cout << "detect EM" << endl;
-		} else {
-		   //cout << "original eflowphoton is " << originalMomentum.DeltaR(bibMomentum) << " away from bib" << endl;
 		} 
             }
-	    //if (EMaddornot) EMadd++;
-	    //if (EMentries != fPhotonsOutputArray -> GetEntries()) cout << "Not matching! EM" << endl;
 	}
 	
 
 	if (HadFlag) {
-	    //Hadcnt++;
-	    //Int_t Hadentries = 0;
 	    TLorentzVector originalMomentum;
 	    while((original = static_cast<Candidate *>(fItTracksOutputArray -> Next()))) {
 		originalMomentum = original -> Momentum;
 		if (originalMomentum.DeltaR(bibMomentum) < fTracksDeltaR){
 		    originalMomentum = originalMomentum + bibMomentum;
 		    original -> Momentum = originalMomentum;
-		    //HADaddornot = true;
-		    //HADaddtime++;
-		} else {
-		   //cout << "original eflowtrack is " << originalMomentum.DeltaR(bibMomentum) << " away from bib" << endl;
 		} 
             }
-	    //if (HADaddornot) HADadd++;
-	    //if (Hadentries != fTracksOutputArray -> GetEntries()) cout << "Not matching! had" << endl;
 	}
 	
 
@@ -370,6 +316,7 @@ void BIBECal::Process() {
 	fItPhotonsInputArray -> Reset();
 	fItTracksInputArray -> Reset();
 
+	//Calculate ratio of pT after adding BIB 
 	Int_t ph=0;
 	Int_t tr=0;
 	Double_t Photons[fPhotonsInputArray -> GetEntries()]; 
@@ -412,23 +359,8 @@ void BIBECal::Process() {
 	    tr++;
 	}
 
-	//cout << endl << "Not crashing in " << i <<"th BIB module loops." << endl;
     }
-    //cout << "add " << EMcnt << "EM bibs."<< endl;
-    //cout << "add " << Hadcnt << "Had bibs."<< endl;
-   
-    //cout << endl << "counting" << allcounter << "all particles";
-    //cout << endl << "counting" << stablecounter << "stable particles" ;
-    //cout << endl << "counting" << BIBcounter << "BIB particles added" << endl;
-
-    //cout << "Total of " << EMcnt << " EM particles produced." << endl;
-    //cout << EMadd << "of them are near at least one bib." << endl;
-    //cout << "EM adding time: " << EMaddtime << endl;
-
-    //cout << "Total of " << Hadcnt << " Had particles produced." << endl;
-    //cout << HADadd << "of them are near at least one bib." << endl;
-    //cout << "HAD adding time: " << HADaddtime << endl;
-
+    
     delete original;
     delete fxHist;
     delete fPositionHist;
@@ -439,5 +371,4 @@ void BIBECal::Process() {
 
     file -> Close();
     if (file) delete file;
-    //cout << endl << "BIB particles successfully adding to event." << endl;
 }
