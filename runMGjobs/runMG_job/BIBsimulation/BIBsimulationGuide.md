@@ -1,7 +1,7 @@
 # Guide of BIB simulation in Delphes
-This is two version of BIB simulation in Delphes, this guide shows how to use them and how they work.
+There are two versions of BIB simulation in Delphes, this guide shows how to use them and how they work.
 ## Direct BIB simultion
-One of the most direct way to simulate BIB in Delphes is to directly generate randomized BIB particles according to given distribution in a root file and add them at the very begining. In this way you need to have very large memory space for large number of BIB particle.
+One of the most direct way to simulate BIB in Delphes is to directly generate randomized BIB particles according to given distribution in a root file and add them at the very begining. In this way you need to have VERY LARGE memory space for large number of BIB particles.
 The module have following syntax:
 ```
 module BIBModule BIBModule {
@@ -23,6 +23,7 @@ module BIBModule BIBModule {
 }
 ```
 An exmaple script is delphes_card_MuonColliderDet_HHstudy_BIB.tcl.
+
 ## BIB simulation in proximity
 In order to avoid very large memory useage, we could only considered BIB particles in proximity of the original particles. We have design a way such that the BIB particles is adding in calorimeter in two step: ECal and HCal. The modules have following syntax:
 ```
