@@ -10,7 +10,6 @@ tar xvf MG5_aMC_v2.7.2.tar.gz
 cd MG5_aMC_v2_7_2
 ./bin/mg5_aMC
 ```
-Do not recommend to upgrade here when it ask you to do so, as old version is less buggy.
 ```MG5
 install pythia8
 exit
@@ -39,7 +38,7 @@ set nevents 1000
 set iseed 1823211
 ```
 The process is expected to take about 5-60 min. 
-After generate the evetns, don't forget to gunzip the .hepmc.tar.gz for preparation for delphes simulation:
+After generate the events, don't forget to gunzip the .hepmc.tar.gz for preparation for delphes simulation:
 ```bash 
 cd <your output directory>/Events/run_01/
 gunzip tag_1_pythia8_events.hepmc.gz
